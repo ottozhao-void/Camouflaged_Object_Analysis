@@ -2,15 +2,24 @@ from Camouflage_Dataset import CamouflageDataset
 from torch.utils.data import DataLoader
 from utility import count_trainImg_stats
 import torchvision.transforms as t
+import argparse
+import wandb
 
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--img_size", type=int, default=(512, 512))
+
+    args = parser.parse_args()
+
+    return args
 
 if __name__ == "__main__":
+
+    args = parse_args()
+
     transform = t.Compose([
-        t.Resize((512, 512)),
-        t.ToTensor()
+        t.Resize(args.img_size),
+        t.ToTensor(),
     ])
-    # mean = [0.0228, 0.0218, 0.0172], std = [0.0098, 0.0095, 0.0089]
-    count_trainImg_stats(
-        dataset_dir="/data1/zhaofanghan/Advanced_ML_Coursework/dataset",
-        transform=transform
-    )

@@ -4,6 +4,9 @@ from tqdm import tqdm
 import torch
 from pathlib import Path
 
+datset_stats = {
+    "rgb512": [[0.4562, 0.4361, 0.3434], [0.1963, 0.1894, 0.1788]]
+}
 
 def count_trainImg_stats(dataset_dir, transform, split="train", bsz=128):
 
