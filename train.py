@@ -18,8 +18,3 @@ def parse_args():
 if __name__ == "__main__":
 
     args = parse_args()
-
-    transform = t.Compose([
-        t.Resize(args.img_size),
-        t.ToTensor(),
-    ])
