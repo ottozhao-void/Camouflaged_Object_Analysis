@@ -2,3 +2,10 @@
 __pycache__/
 *.pyc
 /report/
+
+*.pth
+*.pth.tar
+*.caffemodel
+*.npy
+*.prototxt
+*.zip

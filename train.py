@@ -1,4 +1,4 @@
-from Camouflage_Dataset import CamouflageDataset
+from libs.datasets.camouflage import CamouflageDataset
 from torch.utils.data import DataLoader
 from utility import count_trainImg_stats
 import torchvision.transforms as t
