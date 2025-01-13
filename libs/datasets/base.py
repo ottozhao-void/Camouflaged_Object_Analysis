@@ -106,12 +106,9 @@ class _BaseDataset(data.Dataset):
         image, label = self._load_data(index)
         if self.augment:
             image, label = self._augmentation(image, label)
-        # Data Normalization
-        image /= 255.0
-        label /= 255
         # HWC -> CHW
         image = image.transpose(2, 0, 1)
-        return image.astype(np.float32), label.astype(np.int64)
+        return image.astype(np.float32) / 255.0, label.astype(np.int64) / 255
 
     def __len__(self):
         return len(self.image_list)

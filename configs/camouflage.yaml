@@ -12,9 +12,13 @@ DATASET:
   SPLIT:
     TRAIN: train
     TEST: test
+  SEED: 42
+  PORTION:
+    VAL: 0.5
+    TEST: 0.5
 
 DATALOADER:
-  NUM_WORKERS: 8
+  NUM_WORKERS: 0
 
 IMAGE:
   MEAN: # Not used
@@ -34,11 +38,13 @@ MODEL:
 
 SOLVER:
   BATCH_SIZE:
-    TRAIN: 5
+    TRAIN: 8
+    VAL: 1
     TEST: 1
-  ITER_MAX: 20000
+  EPOCH: 100
+  ITER_MAX: 2000
   ITER_SIZE: 2
-  ITER_SAVE: 5000
+  ITER_SAVE: 500
   ITER_TB: 100
   LR_DECAY: 10
   LR: 2.5e-4

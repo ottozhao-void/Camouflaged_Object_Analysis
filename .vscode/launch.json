@@ -12,7 +12,7 @@
                 "--config-path",
                 "/data1/zhaofanghan/Advanced_ML_Coursework/configs/camouflage.yaml"
             ],
-            "justMyCode": false
+            "justMyCode": true
         }
     ]
 }

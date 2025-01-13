@@ -14,12 +14,9 @@ import os
 import click
 import joblib
 import numpy as np
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
+
 from omegaconf import OmegaConf
 from PIL import Image
-from torch.utils.tensorboard import SummaryWriter
 from torchnet.meter import MovingAverageValueMeter
 from tqdm import tqdm
 
@@ -28,29 +25,20 @@ from libs.models import DeepLabV2_ResNet101_MSC
 from libs.utils import DenseCRF, PolynomialLR, scores
 
 import wandb
+from argparse import ArgumentParser
 
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
 import torch.distributed as dist
 import torch.multiprocessing as mp
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data.distributed import DistributedSampler
-
+from torch.utils.data import DataLoader
 
 def makedirs(dirs):
     if not os.path.exists(dirs):
         os.makedirs(dirs)
-
-
-def get_device(cuda):
-    cuda = cuda and torch.cuda.is_available()
-    local_rank = int(os.environ.get("LOCAL_RANK", 0))  # 
-    device = torch.device(f"cuda:{local_rank}" if cuda else "cpu")
-    if cuda:
-        print("Device:")
-        for i in range(torch.cuda.device_count()):
-            print("    {}:".format(i), torch.cuda.get_device_name(i))
-    else:
-        print("Device: CPU")
-    return device
 
 
 def get_params(model, key):
@@ -91,132 +79,17 @@ def resize_labels(labels, size):
     return new_labels
 
 
-@click.group()
-@click.pass_context
+
 def main(ctx):
     """
     Training and evaluation
     """
-    print("Mode:", ctx.invoked_subcommand)
-
-
-@main.command()
-@click.option(
-     "-c",
-     "--config-path",
-     type=click.File(),
-     required=True,
-     help="Dataset configuration file in YAML",
- )
-@click.option(
-     "--cuda/--cpu", default=True, help="Enable CUDA if available [default: --cuda]"
- )
-@click.option(
-    "--local_rank",
-    default=0,
-    type=int,
-    help="local_rank for distributed training"
-)
-def train(config_path, cuda, local_rank):
-
-    """
-    Training DeepLab by v2 protocol
-    """
-
-    # Configuration
-    CONFIG = OmegaConf.load(config_path)
-    
-    dist.init_process_group(backend="nccl", init_method="env://")
-    
-    device = get_device(cuda)
+    args = parse_args()
+    CONFIG = OmegaConf.load(args.config_path)
+    run = wandb.init(project="Camouflaged_Object_Analysis", config=OmegaConf.to_container(CONFIG, resolve=True))
+    device = get_device(args.cuda)
     torch.backends.cudnn.benchmark = True
-    print(f"[Process {os.getpid()}] Using device: {device}")
-
-    # Dataset
-    dataset = get_dataset(CONFIG.DATASET.NAME)(
-        root=CONFIG.DATASET.ROOT,
-        split=CONFIG.DATASET.SPLIT.TRAIN,
-        ignore_label=CONFIG.DATASET.IGNORE_LABEL,
-        augment=True,
-        base_size=CONFIG.IMAGE.SIZE.BASE,
-        crop_size=CONFIG.IMAGE.SIZE.TRAIN,
-        scales=CONFIG.DATASET.SCALES,
-        flip=True,
-    )
-    print(dataset)
-    train_sampler = DistributedSampler(dataset)
-
-    # DataLoader
-    loader = torch.utils.data.DataLoader(
-        dataset=dataset,
-        batch_size=CONFIG.SOLVER.BATCH_SIZE.TRAIN,
-        num_workers=CONFIG.DATALOADER.NUM_WORKERS,
-        shuffle=False,
-        sampler=train_sampler
-    )
-    loader_iter = iter(loader)
-
-    # Model check
-    print("Model:", CONFIG.MODEL.NAME)
-    assert (
-        CONFIG.MODEL.NAME == "DeepLabV2_ResNet101_MSC"
-    ), 'Currently support only "DeepLabV2_ResNet101_MSC"'
-
-    # Model setup
-    model = DeepLabV2_ResNet101_MSC(n_classes=CONFIG.DATASET.N_CLASSES)
-    state_dict = torch.load(CONFIG.MODEL.INIT_MODEL)
-    print("    Init:", CONFIG.MODEL.INIT_MODEL)
-    for m in model.base.state_dict().keys():
-        if m not in state_dict.keys():
-            print("    Skip init:", m)
-    model.base.load_state_dict(state_dict, strict=False)  # to skip ASPP
-    # model = nn.DataParallel(model)
-    # model = torch.nn.parallel.DistributedDataParallel(
-    #     model,
-    #     device_ids=[local_rank],
-    #     output_device=local_rank,
-    #     find_unused_parameters=True
-    # )
-    model.to(device)
-
-    # Loss definition
-    criterion = nn.CrossEntropyLoss(ignore_index=CONFIG.DATASET.IGNORE_LABEL)
-    criterion.to(device)
-
-    # Optimizer
-    optimizer = torch.optim.SGD(
-        # cf lr_mult and decay_mult in train.prototxt
-        params=[
-            {
-                "params": get_params(model, key="1x"),
-                "lr": CONFIG.SOLVER.LR,
-                "weight_decay": CONFIG.SOLVER.WEIGHT_DECAY,
-            },
-            {
-                "params": get_params(model, key="10x"),
-                "lr": 10 * CONFIG.SOLVER.LR,
-                "weight_decay": CONFIG.SOLVER.WEIGHT_DECAY,
-            },
-            {
-                "params": get_params(model, key="20x"),
-                "lr": 20 * CONFIG.SOLVER.LR,
-                "weight_decay": 0.0,
-            },
-        ],
-        momentum=CONFIG.SOLVER.MOMENTUM,
-    )
-
-    # Learning rate scheduler
-    scheduler = PolynomialLR(
-        optimizer=optimizer,
-        step_size=CONFIG.SOLVER.LR_DECAY,
-        iter_max=CONFIG.SOLVER.ITER_MAX,
-        power=CONFIG.SOLVER.POLY_POWER,
-    )
-
-    # Setup loss logger
-    writer = SummaryWriter(os.path.join(CONFIG.EXP.OUTPUT_DIR, "logs", CONFIG.EXP.ID))
-    average_loss = MovingAverageValueMeter(CONFIG.SOLVER.AVERAGE_LOSS)
+    
 
     # Path to save models
     checkpoint_dir = os.path.join(
@@ -232,6 +105,42 @@ def train(config_path, cuda, local_rank):
     # Freeze the batch norm pre-trained on COCO
     model.train()
     model.base.freeze_bn()
+    
+    for epoch in tqdm(
+        range(CONFIG.SOLVER.EPOCH),
+        total=CONFIG.SOLVER.EPOCH,
+        dynamic_ncols=True,
+    ):
+        for imgs, labels in train_loader:
+            imgs = imgs.to(device)
+            
+            logits = model(imgs)
+            
+
+            
+            _loss.backward()
+            loss += float(_loss)
+            
+            optimizer.zero_grad()
+            optimizer.step()
+            
+        scheduler.step(epoch=epoch)
+            
+            
+@main.command()
+@click.option(
+    "-c",
+    "--config-path",
+    type=click.File(),
+    required=True,
+    help="Dataset configuration file in YAML",
+)
+@click.option(
+    "--cuda/--cpu", default=True, help="Enable CUDA if available [default: --cuda]"
+)
+def train(config_path, cuda):
+
+
 
     for iteration in tqdm(
         range(1, CONFIG.SOLVER.ITER_MAX + 1),
@@ -287,15 +196,25 @@ def train(config_path, cuda, local_rank):
                     iteration,
                 )
 
+            if False:
+                for name, param in model.module.base.named_parameters():
+                    name = name.replace(".", "/")
+                    # Weight/gradient distribution
+                    writer.add_histogram(name, param, iteration, bins="auto")
+                    if param.requires_grad:
+                        writer.add_histogram(
+                            name + "/grad", param.grad, iteration, bins="auto"
+                        )
+
         # Save a model
         if iteration % CONFIG.SOLVER.ITER_SAVE == 0:
             torch.save(
-                model.state_dict(),
+                model.module.state_dict(),
                 os.path.join(checkpoint_dir, "checkpoint_{}.pth".format(iteration)),
             )
 
     torch.save(
-        model.state_dict(), os.path.join(checkpoint_dir, "checkpoint_final.pth")
+        model.module.state_dict(), os.path.join(checkpoint_dir, "checkpoint_final.pth")
     )
 
 
@@ -511,6 +430,150 @@ def crf(config_path, n_jobs):
     with open(save_path, "w") as f:
         json.dump(score, f, indent=4, sort_keys=True)
 
+def parse_args():
+    parser = ArgumentParser()
+    
+    parser.add_argument("--cuda", action="store_true", help="Enable CUDA if available")
+    parser.add_argument("--config-path", type=str, required=True, help="Path to the configuration file")
+    
+    return parser.parse_args()
 
 if __name__ == "__main__":
-    main()
+    
+    local_rank = int(os.environ["LOCAL_RANK"])
+    world_size = dist.get_world_size()
+    
+    dist.init_process_group(backend="nccl",  init_method="env://", rank=local_rank, world_size=world_size)
+    
+    torch.cuda.set_device(local_rank)
+    device = torch.cuda.current_device()
+    
+    args = parse_args()
+    CONFIG = OmegaConf.load(args.config_path)
+    
+    # Dataset Setup
+    train_dataset = get_dataset(CONFIG.DATASET.NAME)(
+        root=CONFIG.DATASET.ROOT,
+        split=CONFIG.DATASET.SPLIT.TRAIN,
+        ignore_label=CONFIG.DATASET.IGNORE_LABEL,
+        augment=True,
+        base_size=CONFIG.IMAGE.SIZE.BASE,
+        crop_size=CONFIG.IMAGE.SIZE.TRAIN,
+        scales=CONFIG.DATASET.SCALES,
+        flip=True,
+    )
+    dsp_sampler = DistributedSampler(
+        dataset=train_dataset,
+        num_replicas=world_size,
+        rank=local_rank
+    )
+    train_loader = DataLoader(
+        dataset=train_dataset,
+        batch_size=CONFIG.SOLVER.BATCH_SIZE.TRAIN,
+        sampler=dsp_sampler
+    )
+    
+    ## MODEL SETUP
+    print(f"Model: {CONFIG.MODEL.NAME} on {torch.cuda.get_device_name()} {local_rank}🚀")
+    
+    model = DeepLabV2_ResNet101_MSC(n_classes=CONFIG.DATASET.N_CLASSES)
+    state_dict = torch.load(CONFIG.MODEL.INIT_MODEL, map_location={f'cuda:{0}': f'cuda:{local_rank}'})
+    
+    if local_rank==0:
+        print("    Init:", CONFIG.MODEL.INIT_MODEL)    
+        for m in model.base.state_dict().keys():
+            if m not in state_dict.keys():
+                print("    Skip init:", m)
+    
+    model.base.load_state_dict(state_dict, strict=False)  # to skip ASPP
+    model = DDP(model,device_ids=[local_rank]).to(device)
+    
+    # Loss
+    criterion = nn.CrossEntropyLoss(ignore_index=CONFIG.DATASET.IGNORE_LABEL).to(device)
+
+    # Optimizer
+    optimizer = torch.optim.SGD(
+        # cf lr_mult and decay_mult in train.prototxt
+        params=[
+            {
+                "params": get_params(model, key="1x"),
+                "lr": CONFIG.SOLVER.LR,
+                "weight_decay": CONFIG.SOLVER.WEIGHT_DECAY,
+            },
+            {
+                "params": get_params(model, key="10x"),
+                "lr": 10 * CONFIG.SOLVER.LR,
+                "weight_decay": CONFIG.SOLVER.WEIGHT_DECAY,
+            },
+            {
+                "params": get_params(model, key="20x"),
+                "lr": 20 * CONFIG.SOLVER.LR,
+                "weight_decay": 0.0,
+            },
+        ],
+        momentum=CONFIG.SOLVER.MOMENTUM,
+    )
+
+    # Learning rate scheduler
+    scheduler = PolynomialLR(
+        optimizer=optimizer,
+        step_size=CONFIG.SOLVER.LR_DECAY,
+        iter_max=CONFIG.SOLVER.ITER_MAX,
+        power=CONFIG.SOLVER.POLY_POWER,
+    )
+    
+    # Wandb Writter
+    if local_rank==0:
+        run = wandb.init(
+            project="Camouflaged_Object_Analysis",
+            config=CONFIG
+        )
+    
+    model.train()
+    #TODO: Divide `world_size`?
+    num_batches = len(train_loader) 
+    for epoch in tqdm(range(CONFIG.SOLVER.EPOCH)):
+        dsp_sampler.set_epoch(epoch)
+        
+        epoch_loss = 0
+        for images, labels in train_loader:
+            images = images.to(device)
+            labels = labels.to(device)
+            
+            logits = model(images)
+            
+            _loss = 0
+            for logit in logits:
+                # Resize labels for {100%, 75%, 50%, Max} logits
+                _, _, H, W = logit.shape
+                labels_ = resize_labels(labels, size=(H, W))
+                _loss += criterion(logit, labels_)
+            
+            epoch_loss += _loss
+            
+            _loss.backward()
+            
+            optimizer.step()
+            optimizer.zero_grad()
+            
+        scheduler.step()
+        
+        # Inter-Epoch Logging
+        if local_rank==0:
+            #TODO: averge the loss across process group 
+            wandb.log({"train/loss": epoch_loss/num_batches})
+            
+        # Inter-Epoch Validation
+        # only validate on master process
+        
+        
+def validate(model, val_loader):
+    """
+    在验证逻辑中，进行如下步骤
+    1. 度量模型`model`在验证集上的性能指标
+    2. 使用`wandb`追踪并可视化这些指标
+    3. 根据性能指标决定是否保存断点
+    
+    要度量的性能指标如下:
+    1. 
+    """
