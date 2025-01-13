@@ -575,5 +575,16 @@ def validate(model, val_loader):
     3. 根据性能指标决定是否保存断点
     
     要度量的性能指标如下:
-    1. 
+    1. S-Measure: “Structure-measure: A New Way to Evaluate Foreground Maps” 论文中提出
+    2. Mean Absolute Error(MAE)
     """
+    
+    device = next(model.parameters()).device
+    
+    for images, labels in val_loader:
+        images = images.to(device)
+        labels = labels.to(device)
+        
+        logits = model(images)
+        
+        
