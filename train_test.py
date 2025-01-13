@@ -8,16 +8,11 @@
 from __future__ import absolute_import, division, print_function
 
 import json
-import multiprocessing
 import os
-
-import click
 import joblib
 import numpy as np
-
 from omegaconf import OmegaConf
 from PIL import Image
-from torchnet.meter import MovingAverageValueMeter
 from tqdm import tqdm
 
 from libs.datasets import get_dataset
@@ -212,19 +207,19 @@ def test(model, val_loader, metric, task):
 
 def get_val_test_loader(config):
     test_dataset = get_dataset(config.DATASET.NAME)(
-        root=CONFIG.DATASET.ROOT,
-        split=CONFIG.DATASET.SPLIT.TEST,
-        ignore_label=CONFIG.DATASET.IGNORE_LABEL,
+        root=config.DATASET.ROOT,
+        split=config.DATASET.SPLIT.TEST,
+        ignore_label=config.DATASET.IGNORE_LABEL,
         augment=False,
-        base_size=CONFIG.IMAGE.SIZE.BASE,
-        crop_size=CONFIG.IMAGE.SIZE.TEST
+        base_size=config.IMAGE.SIZE.BASE,
+        crop_size=config.IMAGE.SIZE.TEST
     )
 
     indices = list(range(len(test_dataset)-2))
-    np.random.seed(CONFIG.DATASET.SEED)
+    np.random.seed(config.DATASET.SEED)
     np.random.shuffle(indices)
 
-    val_portion = int(CONFIG.DATASET.PORTION.VAL*len(test_dataset))
+    val_portion = int(config.DATASET.PORTION.VAL*len(test_dataset))
     val_indices, test_indices = indices[:val_portion], indices[val_portion:]
 
     val_sampler = SubsetRandomSampler(val_indices)
@@ -232,18 +227,18 @@ def get_val_test_loader(config):
 
     val_loader = DataLoader(
         test_dataset,
-        batch_size=CONFIG.SOLVER.BATCH_SIZE.VAL,
+        batch_size=config.SOLVER.BATCH_SIZE.VAL,
         sampler=val_sampler
     )
     test_loader = DataLoader(
         test_dataset,
-        batch_size=CONFIG.SOLVER.BATCH_SIZE.TEST,
+        batch_size=config.SOLVER.BATCH_SIZE.TEST,
         sampler=test_sampler
     )
     
     return val_loader, test_loader
-        
-if __name__ == "__main__":
+
+def main():
     
     local_rank = int(os.environ["LOCAL_RANK"])
     world_size = dist.get_world_size()
@@ -382,3 +377,7 @@ if __name__ == "__main__":
             })
             
             metric.reset()
+
+if __name__ == "__main__":
+    main()
+  
