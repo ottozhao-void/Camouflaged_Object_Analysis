@@ -108,6 +108,7 @@ class _BaseDataset(data.Dataset):
             image, label = self._augmentation(image, label)
         # HWC -> CHW
         image = image.transpose(2, 0, 1)
+        #TODO: verify the shape of label to be (H, W), and value of label to be either 0 or 1
         return image.astype(np.float32) / 255.0, label.astype(np.int64) / 255
 
     def __len__(self):

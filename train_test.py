@@ -34,7 +34,9 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data.distributed import DistributedSampler
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, SubsetRandomSampler
+
+from libs.utils.metric import Metric
 
 def makedirs(dirs):
     if not os.path.exists(dirs):
@@ -78,272 +80,6 @@ def resize_labels(labels, size):
     new_labels = torch.LongTensor(new_labels)
     return new_labels
 
-
-
-def main(ctx):
-    """
-    Training and evaluation
-    """
-    args = parse_args()
-    CONFIG = OmegaConf.load(args.config_path)
-    run = wandb.init(project="Camouflaged_Object_Analysis", config=OmegaConf.to_container(CONFIG, resolve=True))
-    device = get_device(args.cuda)
-    torch.backends.cudnn.benchmark = True
-    
-
-    # Path to save models
-    checkpoint_dir = os.path.join(
-        CONFIG.EXP.OUTPUT_DIR,
-        "models",
-        CONFIG.EXP.ID,
-        CONFIG.MODEL.NAME.lower(),
-        CONFIG.DATASET.SPLIT.TRAIN,
-    )
-    makedirs(checkpoint_dir)
-    print("Checkpoint dst:", checkpoint_dir)
-
-    # Freeze the batch norm pre-trained on COCO
-    model.train()
-    model.base.freeze_bn()
-    
-    for epoch in tqdm(
-        range(CONFIG.SOLVER.EPOCH),
-        total=CONFIG.SOLVER.EPOCH,
-        dynamic_ncols=True,
-    ):
-        for imgs, labels in train_loader:
-            imgs = imgs.to(device)
-            
-            logits = model(imgs)
-            
-
-            
-            _loss.backward()
-            loss += float(_loss)
-            
-            optimizer.zero_grad()
-            optimizer.step()
-            
-        scheduler.step(epoch=epoch)
-            
-            
-@main.command()
-@click.option(
-    "-c",
-    "--config-path",
-    type=click.File(),
-    required=True,
-    help="Dataset configuration file in YAML",
-)
-@click.option(
-    "--cuda/--cpu", default=True, help="Enable CUDA if available [default: --cuda]"
-)
-def train(config_path, cuda):
-
-
-
-    for iteration in tqdm(
-        range(1, CONFIG.SOLVER.ITER_MAX + 1),
-        total=CONFIG.SOLVER.ITER_MAX,
-        dynamic_ncols=True,
-    ):
-
-        # Clear gradients (ready to accumulate)
-        optimizer.zero_grad()
-
-        loss = 0
-        for _ in range(CONFIG.SOLVER.ITER_SIZE):
-            try:
-                images, labels = next(loader_iter)
-            except:
-                loader_iter = iter(loader)
-                images, labels = next(loader_iter)
-
-            # Propagate forward
-            logits = model(images.to(device))
-
-            # Loss
-            iter_loss = 0
-            for logit in logits:
-                # Resize labels for {100%, 75%, 50%, Max} logits
-                _, _, H, W = logit.shape
-                labels_ = resize_labels(labels, size=(H, W))
-                iter_loss += criterion(logit, labels_.to(device))
-
-            # Propagate backward (just compute gradients)
-            iter_loss /= CONFIG.SOLVER.ITER_SIZE
-            iter_loss.backward()
-
-            loss += float(iter_loss)
-
-        average_loss.add(loss)
-
-        # Update weights with accumulated gradients
-        optimizer.step()
-
-        # Update learning rate
-        scheduler.step(epoch=iteration)
-
-        # TensorBoard
-        if iteration % CONFIG.SOLVER.ITER_TB == 0:
-            writer.add_scalar("loss/train", average_loss.value()[0], iteration)
-            for i, o in enumerate(optimizer.param_groups):
-                writer.add_scalar("lr/group_{}".format(i), o["lr"], iteration)
-            for i in range(torch.cuda.device_count()):
-                writer.add_scalar(
-                    "gpu/device_{}/memory_cached".format(i),
-                    torch.cuda.memory_cached(i) / 1024 ** 3,
-                    iteration,
-                )
-
-            if False:
-                for name, param in model.module.base.named_parameters():
-                    name = name.replace(".", "/")
-                    # Weight/gradient distribution
-                    writer.add_histogram(name, param, iteration, bins="auto")
-                    if param.requires_grad:
-                        writer.add_histogram(
-                            name + "/grad", param.grad, iteration, bins="auto"
-                        )
-
-        # Save a model
-        if iteration % CONFIG.SOLVER.ITER_SAVE == 0:
-            torch.save(
-                model.module.state_dict(),
-                os.path.join(checkpoint_dir, "checkpoint_{}.pth".format(iteration)),
-            )
-
-    torch.save(
-        model.module.state_dict(), os.path.join(checkpoint_dir, "checkpoint_final.pth")
-    )
-
-
-@main.command()
-@click.option(
-    "-c",
-    "--config-path",
-    type=click.File(),
-    required=True,
-    help="Dataset configuration file in YAML",
-)
-@click.option(
-    "-m",
-    "--model-path",
-    type=click.Path(exists=True),
-    required=True,
-    help="PyTorch model to be loaded",
-)
-@click.option(
-    "--cuda/--cpu", default=True, help="Enable CUDA if available [default: --cuda]"
-)
-def test(config_path, model_path, cuda):
-    """
-    Evaluation on validation set
-    """
-
-    # Configuration
-    CONFIG = OmegaConf.load(config_path)
-    device = get_device(cuda)
-    torch.set_grad_enabled(False)
-
-    # Dataset
-    dataset = get_dataset(CONFIG.DATASET.NAME)(
-        root=CONFIG.DATASET.ROOT,
-        split=CONFIG.DATASET.SPLIT.TEST,
-        ignore_label=CONFIG.DATASET.IGNORE_LABEL,
-        augment=False,
-    )
-    print(dataset)
-
-    # DataLoader
-    loader = torch.utils.data.DataLoader(
-        dataset=dataset,
-        batch_size=CONFIG.SOLVER.BATCH_SIZE.TEST,
-        num_workers=CONFIG.DATALOADER.NUM_WORKERS,
-        shuffle=False,
-    )
-
-    # Model
-    model = eval(CONFIG.MODEL.NAME)(n_classes=CONFIG.DATASET.N_CLASSES)
-    state_dict = torch.load(model_path, map_location=lambda storage, loc: storage)
-    model.load_state_dict(state_dict)
-    model = nn.DataParallel(model)
-    model.eval()
-    model.to(device)
-
-    # Path to save logits
-    logit_dir = os.path.join(
-        CONFIG.EXP.OUTPUT_DIR,
-        "features",
-        CONFIG.EXP.ID,
-        CONFIG.MODEL.NAME.lower(),
-        CONFIG.DATASET.SPLIT.TEST,
-        "logit",
-    )
-    makedirs(logit_dir)
-    print("Logit dst:", logit_dir)
-
-    # Path to save scores
-    save_dir = os.path.join(
-        CONFIG.EXP.OUTPUT_DIR,
-        "scores",
-        CONFIG.EXP.ID,
-        CONFIG.MODEL.NAME.lower(),
-        CONFIG.DATASET.SPLIT.TEST,
-    )
-    makedirs(save_dir)
-    save_path = os.path.join(save_dir, "scores.json")
-    print("Score dst:", save_path)
-
-    preds, gts = [], []
-    for image_ids, images, gt_labels in tqdm(
-        loader, total=len(loader), dynamic_ncols=True
-    ):
-        # Image
-        images = images.to(device)
-
-        # Forward propagation
-        logits = model(images)
-
-        # Save on disk for CRF post-processing
-        for image_id, logit in zip(image_ids, logits):
-            filename = os.path.join(logit_dir, image_id + ".npy")
-            np.save(filename, logit.cpu().numpy())
-
-        # Pixel-wise labeling
-        _, H, W = gt_labels.shape
-        logits = F.interpolate(
-            logits, size=(H, W), mode="bilinear", align_corners=False
-        )
-        probs = F.softmax(logits, dim=1)
-        labels = torch.argmax(probs, dim=1)
-
-        preds += list(labels.cpu().numpy())
-        gts += list(gt_labels.numpy())
-
-    # Pixel Accuracy, Mean Accuracy, Class IoU, Mean IoU, Freq Weighted IoU
-    score = scores(gts, preds, n_class=CONFIG.DATASET.N_CLASSES)
-
-    with open(save_path, "w") as f:
-        json.dump(score, f, indent=4, sort_keys=True)
-
-
-@main.command()
-@click.option(
-    "-c",
-    "--config-path",
-    type=click.File(),
-    required=True,
-    help="Dataset configuration file in YAML",
-)
-@click.option(
-    "-j",
-    "--n-jobs",
-    type=int,
-    default=multiprocessing.cpu_count(),
-    show_default=True,
-    help="Number of parallel jobs",
-)
 def crf(config_path, n_jobs):
     """
     CRF post-processing on pre-computed logits
@@ -437,7 +173,76 @@ def parse_args():
     parser.add_argument("--config-path", type=str, required=True, help="Path to the configuration file")
     
     return parser.parse_args()
+        
+def test(model, val_loader, metric, task):
+    """
+    在验证逻辑中，进行如下步骤
+    1. 度量模型`model`在验证集上的性能指标
+    2. 使用`wandb`追踪并可视化这些指标
+    3. 根据性能指标决定是否保存断点
+    
+    要度量的性能指标如下:
+    1. S-Measure: “Structure-measure: A New Way to Evaluate Foreground Maps” 论文中提出
+    2. Mean Absolute Error(MAE)
+    """
+    
+    device = next(model.parameters()).device
+    assert task in ["val", "test"], f"任务只能是'val'或者'test'，但是得到了{task}"
+    
+    model.eval()
+    with torch.no_grad():
+        for images, labels in val_loader:
+            images = images.to(device)
+            labels = labels.to(device)
+            
+            logits = model(images)
+            
+            _, _, H, W = labels.shape
+            logits = F.interpolate(
+                logits,
+                size = (H, W),
+                mode="bilinear",
+                align_corners=False
+            )
+            
+            prob = torch.softmax(logits, dim=1)
+            pred_labels = torch.argmax(prob, dim=2).squeeze(0)
 
+            metric.add(pred_labels, labels)
+
+def get_val_test_loader(config):
+    test_dataset = get_dataset(config.DATASET.NAME)(
+        root=CONFIG.DATASET.ROOT,
+        split=CONFIG.DATASET.SPLIT.TEST,
+        ignore_label=CONFIG.DATASET.IGNORE_LABEL,
+        augment=False,
+        base_size=CONFIG.IMAGE.SIZE.BASE,
+        crop_size=CONFIG.IMAGE.SIZE.TEST
+    )
+
+    indices = list(range(len(test_dataset)-2))
+    np.random.seed(CONFIG.DATASET.SEED)
+    np.random.shuffle(indices)
+
+    val_portion = int(CONFIG.DATASET.PORTION.VAL*len(test_dataset))
+    val_indices, test_indices = indices[:val_portion], indices[val_portion:]
+
+    val_sampler = SubsetRandomSampler(val_indices)
+    test_sampler = SubsetRandomSampler(test_indices)
+
+    val_loader = DataLoader(
+        test_dataset,
+        batch_size=CONFIG.SOLVER.BATCH_SIZE.VAL,
+        sampler=val_sampler
+    )
+    test_loader = DataLoader(
+        test_dataset,
+        batch_size=CONFIG.SOLVER.BATCH_SIZE.TEST,
+        sampler=test_sampler
+    )
+    
+    return val_loader, test_loader
+        
 if __name__ == "__main__":
     
     local_rank = int(os.environ["LOCAL_RANK"])
@@ -473,6 +278,9 @@ if __name__ == "__main__":
         sampler=dsp_sampler
     )
     
+    if local_rank==0:
+        val_loader, test_loader = get_val_test_loader(CONFIG)
+        
     ## MODEL SETUP
     print(f"Model: {CONFIG.MODEL.NAME} on {torch.cuda.get_device_name()} {local_rank}🚀")
     
@@ -530,8 +338,11 @@ if __name__ == "__main__":
         )
     
     model.train()
-    #TODO: Divide `world_size`?
-    num_batches = len(train_loader) 
+    num_batches = len(train_loader) // world_size
+    
+    if local_rank==0:
+        metric = Metric(device)
+        
     for epoch in tqdm(range(CONFIG.SOLVER.EPOCH)):
         dsp_sampler.set_epoch(epoch)
         
@@ -558,33 +369,16 @@ if __name__ == "__main__":
             
         scheduler.step()
         
-        # Inter-Epoch Logging
+        # Inter-Epoch Logic
         if local_rank==0:
             #TODO: averge the loss across process group 
-            wandb.log({"train/loss": epoch_loss/num_batches})
             
-        # Inter-Epoch Validation
-        # only validate on master process
-        
-        
-def validate(model, val_loader):
-    """
-    在验证逻辑中，进行如下步骤
-    1. 度量模型`model`在验证集上的性能指标
-    2. 使用`wandb`追踪并可视化这些指标
-    3. 根据性能指标决定是否保存断点
-    
-    要度量的性能指标如下:
-    1. S-Measure: “Structure-measure: A New Way to Evaluate Foreground Maps” 论文中提出
-    2. Mean Absolute Error(MAE)
-    """
-    
-    device = next(model.parameters()).device
-    
-    for images, labels in val_loader:
-        images = images.to(device)
-        labels = labels.to(device)
-        
-        logits = model(images)
-        
-        
+            test(model, val_loader, metric, task="val")
+            wandb.log({
+                "epoch": epoch,
+                "loss": epoch_loss/num_batches,
+                "s-measure": metric.get_smeasure(),
+                "mae": metric.get_mae()
+            })
+            
+            metric.reset()
