@@ -54,7 +54,7 @@ class SegmentationMetric:
         return torch.abs(pred - gt).mean()
         
     @staticmethod
-    def calculate_smeasure(pred, gt, device, alpha=0.5):
+    def calculate_smeasure(pred, gt, alpha=0.5):
         assert gt.shape[1:] == pred.shape[1:], "预测图像与真值图像的尺寸必须一致"
         
         if pred.ndim == 3:
@@ -74,7 +74,7 @@ class SegmentationMetric:
         else:
             gt[gt>=0.5] = 1
             gt[gt<0.5] = 0
-            Q = alpha * SegmentationMetric._S_object(pred, gt) + (1-alpha) * SegmentationMetric._S_region(pred, gt, device)
+            Q = alpha * SegmentationMetric._S_object(pred, gt) + (1-alpha) * SegmentationMetric._S_region(pred, gt)
             if Q.item() < 0:
                 Q = torch.FloatTensor([0.0])
         
@@ -99,8 +99,8 @@ class SegmentationMetric:
         return score
 
     @staticmethod
-    def _S_region(pred, gt, device):
-        X, Y = SegmentationMetric._centroid(gt, device)
+    def _S_region(pred, gt):
+        X, Y = SegmentationMetric._centroid(gt)
         gt1, gt2, gt3, gt4, w1, w2, w3, w4 = SegmentationMetric._divideGT(gt, X, Y)
         p1, p2, p3, p4 = SegmentationMetric._dividePrediction(pred, X, Y)
         Q1 = SegmentationMetric._ssim(p1, gt1)
@@ -111,7 +111,7 @@ class SegmentationMetric:
         return Q
     
     @staticmethod
-    def _centroid(gt, device):
+    def _centroid(gt):
         rows, cols = gt.size()[-2:]
         gt = gt.view(rows, cols)
         if gt.sum() == 0:

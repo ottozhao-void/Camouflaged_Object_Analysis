@@ -175,8 +175,12 @@ def test(model, val_loader, task):
     model.eval()
     mae = 0
     sm = 0
+    if dist.get_rank()==0:
+        val_pbar = tqdm(val_loader, desc=f"{task}", total=len(val_loader))
+    else:
+        val_pbar = val_loader
     with torch.no_grad():
-        for images, labels in tqdm(val_loader, desc=f"{task}", total=len(val_loader)):
+        for images, labels in val_pbar:
             images = images.to(device)
             labels = labels.to(torch.float32)
             
@@ -196,7 +200,9 @@ def test(model, val_loader, task):
             for pred_label, gt_label in zip(pred_labels, labels):
                 mae += SegmentationMetric.calculate_mae(pred_label, gt_label)
                 sm += SegmentationMetric.calculate_smeasure(pred_label, gt_label)
-                
+        
+        mae = mae.to(device)
+        sm = sm.to(device)  
         dist.reduce(tensor=mae, dst=0, op=dist.ReduceOp.SUM)
         dist.reduce(tensor=sm, dst=0, op=dist.ReduceOp.SUM)
             
@@ -204,6 +210,11 @@ def test(model, val_loader, task):
             num_samples = len(val_loader.dataset)
             mae /= num_samples
             sm /= num_samples
+            
+            print("\n=====================================")
+            print(f"{task} MAE: {mae:.4f}")
+            print(f"{task} S-Measure: {sm:.4f}")
+            print("=====================================")
 
 def get_val_test_dataset(config, seed=42):
     test_dataset = get_dataset(config.DATASET.NAME)(
@@ -238,9 +249,10 @@ def main():
     CONFIG = OmegaConf.load(args.config_path)
     
     # Dataset Setup
-    num_batches = len(train_loader)
+
     train_loader, val_loader, train_ddp_sampler, test_dataset = setup_data_loaders(local_rank, world_size, CONFIG)
-        
+    num_batches = len(train_loader)
+    
     ## MODEL SETUP
     print(f"Model: {CONFIG.MODEL.NAME} on {torch.cuda.get_device_name()} {local_rank}🚀")
     
@@ -298,7 +310,6 @@ def main():
             config=OmegaConf.to_container(CONFIG)
         )
     
-    model.train()
 
     if local_rank==0:
         epoch_pbar = tqdm(range(CONFIG.SOLVER.EPOCH))
@@ -306,9 +317,11 @@ def main():
         epoch_pbar = range(CONFIG.SOLVER.EPOCH)
         
     for epoch in epoch_pbar:
-        train_ddp_sampler.set_epoch(epoch)
         
+        model.train()
+        train_ddp_sampler.set_epoch(epoch)
         epoch_loss = 0
+        
         if local_rank==0:
             train_pbar = tqdm(train_loader, desc=f"Epoch {epoch}", total=num_batches)
         else:
@@ -318,7 +331,7 @@ def main():
             images = images.to(device)
             
             logits = model(images)
-            
+
             _loss = 0
             for logit in logits:
                 # Resize labels for {100%, 75%, 50%, Max} logits
@@ -345,7 +358,9 @@ def main():
         # Inter-Epoch Logic
         if local_rank==0:
             
-            print(f"/nEpoch {epoch+1} Loss: {epoch_loss}/n")
+            print(f"Epoch {epoch+1} Loss: {epoch_loss}")
+            print(f"Epoch {epoch+1} Learning Rate: {scheduler.get_lr()}")
+            print("=====================================")
             # track learning rate)
             # wandb.log({
             #     "epoch": epoch,
