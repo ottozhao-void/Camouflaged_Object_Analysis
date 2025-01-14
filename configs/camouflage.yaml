@@ -4,8 +4,8 @@ EXP:
 
 DATASET:
   NAME: camouflage
-  ROOT: /data1/zhaofanghan/Advanced_ML_Coursework/dataset
-  LABELS: /data1/zhaofanghan/Advanced_ML_Coursework/dataset/labels.txt
+  ROOT: /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/dataset
+  LABELS: /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/dataset/labels.txt
   N_CLASSES: 2
   IGNORE_LABEL: 255
   SCALES: [0.5, 0.75, 1.0, 1.25, 1.5]
@@ -38,7 +38,7 @@ MODEL:
 
 SOLVER:
   BATCH_SIZE:
-    TRAIN: 8
+    TRAIN: 16
     VAL: 1
     TEST: 1
   EPOCH: 100

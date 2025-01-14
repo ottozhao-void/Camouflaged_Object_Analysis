@@ -5,6 +5,10 @@ import numpy as np
 class Metric():
     """
     Metric类用来跟踪MAE与S-Measure指标
+    
+    要度量的性能指标如下:
+    1. S-Measure: “Structure-measure: A New Way to Evaluate Foreground Maps” 论文中提出
+    2. Mean Absolute Error(MAE)
     """
     def __init__(self, device):
         
@@ -12,6 +16,8 @@ class Metric():
         
         self.mae_list = []
         self.smeasure_list = []
+        
+        self.best_smeasure = 0.0
     
     def get_mae(self, reduce="avg"):
         """
@@ -53,17 +59,29 @@ class Metric():
         
     
     def calculate_mae(self, pred, gt):
+                
+        if pred.ndim == 3:
+            assert pred.shape[0] == 1, "只能是单张图像"
+            pred = pred.squeeze(0)
+        if gt.ndim == 3:
+            assert gt.shape[0] == 1, "只能是单张图像"
+            gt = gt.squeeze(0)
+        assert gt.shape == pred.shape, "预测图像与真值图像的尺寸必须一致"
         
-        assert gt.ndim == 2, "真值图像的尺寸必须是(H, W)"
-        assert pred.ndim == 2, "预测图象的尺寸必须是(H, W)"
         
         return torch.abs(pred - gt).mean()
         
 
     def calculate_smeasure(self, pred, gt, alpha=0.5):
         
-        assert gt.ndim == 2, "真值图像的尺寸必须是(H, W)"
-        assert pred.ndim == 2, "预测图象的尺寸必须是(H, W)"
+        assert gt.shape[1:] == pred.shape[1:], "预测图像与真值图像的尺寸必须一致"
+        
+        if pred.ndim == 3:
+            assert pred.shape[0] == 1, "只能是单张图像"
+            pred = pred.squeeze(0)
+        if gt.ndim == 3:
+            assert gt.shape[0] == 1, "只能是单张图像"
+            gt = gt.squeeze(0)
             
         y = gt.mean()
         if y == 0:
@@ -82,6 +100,9 @@ class Metric():
         return Q
     
     def reset(self):
+        """
+        在开始新的validation或者test之前，需要重置MAE与S-Measure列表
+        """
         self.mae_list = []
         self.smeasure_list = []
 

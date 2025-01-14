@@ -1,12 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-#
-# Author: Kazuto Nakashima
-# URL:    https://kazuto1011.github.io
-# Date:   07 January 2019
-
-from __future__ import absolute_import, division, print_function
-
 import json
 import os
 import joblib
@@ -17,7 +8,7 @@ from tqdm import tqdm
 
 from libs.datasets import get_dataset
 from libs.models import DeepLabV2_ResNet101_MSC
-from libs.utils import DenseCRF, PolynomialLR, scores
+from libs.utils import DenseCRF, PolynomialLR
 
 import wandb
 from argparse import ArgumentParser
@@ -71,8 +62,8 @@ def resize_labels(labels, size):
     for label in labels:
         label = label.float().numpy()
         label = Image.fromarray(label).resize(size, resample=Image.NEAREST)
-        new_labels.append(np.asarray(label))
-    new_labels = torch.LongTensor(new_labels)
+        new_labels.append(torch.from_numpy(np.array(label)))
+    new_labels = torch.stack(new_labels, 0)
     return new_labels
 
 def crf(config_path, n_jobs):
@@ -176,15 +167,13 @@ def test(model, val_loader, metric, task):
     2. 使用`wandb`追踪并可视化这些指标
     3. 根据性能指标决定是否保存断点
     
-    要度量的性能指标如下:
-    1. S-Measure: “Structure-measure: A New Way to Evaluate Foreground Maps” 论文中提出
-    2. Mean Absolute Error(MAE)
     """
     
     device = next(model.parameters()).device
     assert task in ["val", "test"], f"任务只能是'val'或者'test'，但是得到了{task}"
     
     model.eval()
+    metric.reset()
     with torch.no_grad():
         for images, labels in val_loader:
             images = images.to(device)
@@ -192,7 +181,7 @@ def test(model, val_loader, metric, task):
             
             logits = model(images)
             
-            _, _, H, W = labels.shape
+            _, H, W = labels.shape
             logits = F.interpolate(
                 logits,
                 size = (H, W),
@@ -201,9 +190,10 @@ def test(model, val_loader, metric, task):
             )
             
             prob = torch.softmax(logits, dim=1)
-            pred_labels = torch.argmax(prob, dim=2).squeeze(0)
+            pred_labels = torch.argmax(prob, dim=1)
 
-            metric.add(pred_labels, labels)
+            for pred_label, gt_label in zip(pred_labels, labels):
+                metric.add(pred_label, gt_label)
 
 def get_val_test_loader(config):
     test_dataset = get_dataset(config.DATASET.NAME)(
@@ -241,9 +231,9 @@ def get_val_test_loader(config):
 def main():
     
     local_rank = int(os.environ["LOCAL_RANK"])
-    world_size = dist.get_world_size()
+    dist.init_process_group(backend="nccl",  init_method="env://", rank=local_rank)
     
-    dist.init_process_group(backend="nccl",  init_method="env://", rank=local_rank, world_size=world_size)
+    world_size = dist.get_world_size()
     
     torch.cuda.set_device(local_rank)
     device = torch.cuda.current_device()
@@ -252,9 +242,10 @@ def main():
     CONFIG = OmegaConf.load(args.config_path)
     
     # Dataset Setup
+    #TODO: Change Split to train
     train_dataset = get_dataset(CONFIG.DATASET.NAME)(
         root=CONFIG.DATASET.ROOT,
-        split=CONFIG.DATASET.SPLIT.TRAIN,
+        split=CONFIG.DATASET.SPLIT.TEST,
         ignore_label=CONFIG.DATASET.IGNORE_LABEL,
         augment=True,
         base_size=CONFIG.IMAGE.SIZE.BASE,
@@ -289,7 +280,8 @@ def main():
                 print("    Skip init:", m)
     
     model.base.load_state_dict(state_dict, strict=False)  # to skip ASPP
-    model = DDP(model,device_ids=[local_rank]).to(device)
+    model.to(device)
+    model = DDP(model,device_ids=[local_rank])
     
     # Loss
     criterion = nn.CrossEntropyLoss(ignore_index=CONFIG.DATASET.IGNORE_LABEL).to(device)
@@ -329,7 +321,7 @@ def main():
     if local_rank==0:
         run = wandb.init(
             project="Camouflaged_Object_Analysis",
-            config=CONFIG
+            config=OmegaConf.to_container(CONFIG)
         )
     
     model.train()
@@ -342,9 +334,8 @@ def main():
         dsp_sampler.set_epoch(epoch)
         
         epoch_loss = 0
-        for images, labels in train_loader:
+        for images, labels in tqdm(train_loader, desc=f"Epoch {epoch}", total=num_batches):
             images = images.to(device)
-            labels = labels.to(device)
             
             logits = model(images)
             
@@ -353,7 +344,7 @@ def main():
                 # Resize labels for {100%, 75%, 50%, Max} logits
                 _, _, H, W = logit.shape
                 labels_ = resize_labels(labels, size=(H, W))
-                _loss += criterion(logit, labels_)
+                _loss += criterion(logit, labels_.to(dtype=torch.long, device=device))
             
             epoch_loss += _loss
             
@@ -364,20 +355,34 @@ def main():
             
         scheduler.step()
         
+        # Averge the loss across process group 
+        epoch_loss /= num_batches
+        dist.reduce(tensor=epoch_loss, dst=0, op=dist.ReduceOp.SUM)
+        epoch_loss /= world_size
+        
         # Inter-Epoch Logic
         if local_rank==0:
-            #TODO: averge the loss across process group 
             
             test(model, val_loader, metric, task="val")
             wandb.log({
                 "epoch": epoch,
-                "loss": epoch_loss/num_batches,
+                "loss": epoch_loss,
                 "s-measure": metric.get_smeasure(),
                 "mae": metric.get_mae()
             })
             
-            metric.reset()
+            # Save checkpoint at every `CONFIG.SOLVER.CHECKPOINT` epoch
+            if epoch%CONFIG.SOLVER.CHECKPOINT==0:
+                torch.save(model.state_dict(), f"checkpoint_{epoch}.pth")
+            
+            # Save the model with the best s-measure
+            if metric.get_smeasure() > metric.best_smeasure:
+                metric.best_smeasure = metric.get_smeasure()
+                torch.save(model.state_dict(), "best_smeasure.pth")
+        
+        dist.barrier()
 
 if __name__ == "__main__":
     main()
+    dist.destroy_process_group()
   

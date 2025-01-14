@@ -5,13 +5,19 @@
             "name": "Train",
             "type": "debugpy",
             "request": "launch",
-            "program": "/data1/zhaofanghan/Advanced_ML_Coursework/main.py",
+            "program": "/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/train_test.py",
             "console": "integratedTerminal",
             "args": [
-                "train",
                 "--config-path",
-                "/data1/zhaofanghan/Advanced_ML_Coursework/configs/camouflage.yaml"
+                "/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml"
             ],
+            "env": {
+                "LOCAL_RANK": "0",
+                "WORLD_SIZE": "1",
+                "MASTER_ADDR": "localhost",
+                "MASTER_PORT": "12355",
+                "RANK": "0"
+            },
             "justMyCode": true
         }
     ]

@@ -6,7 +6,7 @@ import torchvision.transforms as t
 import torch
 import tqdm
 from torch.utils.data import DataLoader
-from base import _BaseDataset
+from libs.datasets.base import _BaseDataset
 import numpy as np
 
 class CamouflageDataset(_BaseDataset):
