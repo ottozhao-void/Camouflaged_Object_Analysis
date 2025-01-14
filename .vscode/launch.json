@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Train",
+            "name": "DDP Debug - One Process",
             "type": "debugpy",
             "request": "launch",
             "program": "/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/train_test.py",
@@ -18,6 +18,21 @@
                 "MASTER_PORT": "12355",
                 "RANK": "0"
             },
+            "justMyCode": true
+        },
+        {
+            "name": "DDP Debug - Multiple Processes",
+            "type": "debugpy",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "torch.distributed.launch",
+            "args": [
+                "--nproc_per_node",
+                "4",
+                "/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/train_test.py",
+                "--config-path",
+                "/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml"
+            ],
             "justMyCode": true
         }
     ]

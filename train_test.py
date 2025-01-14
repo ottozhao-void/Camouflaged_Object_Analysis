@@ -20,9 +20,9 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data.distributed import DistributedSampler
-from torch.utils.data import DataLoader, SubsetRandomSampler
+from torch.utils.data import DataLoader, SubsetRandomSampler, random_split
 
-from libs.utils.metric import Metric
+from libs.utils.metric import SegmentationMetric
 
 def makedirs(dirs):
     if not os.path.exists(dirs):
@@ -156,14 +156,14 @@ def parse_args():
     parser = ArgumentParser()
     
     parser.add_argument("--cuda", action="store_true", help="Enable CUDA if available")
-    parser.add_argument("--config-path", type=str, required=True, help="Path to the configuration file")
-    
+    parser.add_argument("--config-path", type=str, required=True, default="/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml", help="Path to the configuration file")
+    parser.add_argument("--local-rank", type=int, default=0, help="Rank of the process")
     return parser.parse_args()
         
-def test(model, val_loader, metric, task):
+def test(model, val_loader, task):
     """
     在验证逻辑中，进行如下步骤
-    1. 度量模型`model`在验证集上的性能指标
+    1. 使用多进程同时对验证集进行性能度量
     2. 使用`wandb`追踪并可视化这些指标
     3. 根据性能指标决定是否保存断点
     
@@ -173,11 +173,12 @@ def test(model, val_loader, metric, task):
     assert task in ["val", "test"], f"任务只能是'val'或者'test'，但是得到了{task}"
     
     model.eval()
-    metric.reset()
+    mae = 0
+    sm = 0
     with torch.no_grad():
-        for images, labels in val_loader:
+        for images, labels in tqdm(val_loader, desc=f"{task}", total=len(val_loader)):
             images = images.to(device)
-            labels = labels.to(device)
+            labels = labels.to(torch.float32)
             
             logits = model(images)
             
@@ -190,12 +191,21 @@ def test(model, val_loader, metric, task):
             )
             
             prob = torch.softmax(logits, dim=1)
-            pred_labels = torch.argmax(prob, dim=1)
+            pred_labels = torch.argmax(prob, dim=1).to(torch.float32).cpu()
 
             for pred_label, gt_label in zip(pred_labels, labels):
-                metric.add(pred_label.to(torch.float32), gt_label.to(torch.float32))
+                mae += SegmentationMetric.calculate_mae(pred_label, gt_label)
+                sm += SegmentationMetric.calculate_smeasure(pred_label, gt_label)
+                
+        dist.reduce(tensor=mae, dst=0, op=dist.ReduceOp.SUM)
+        dist.reduce(tensor=sm, dst=0, op=dist.ReduceOp.SUM)
+            
+        if dist.get_rank()==0:
+            num_samples = len(val_loader.dataset)
+            mae /= num_samples
+            sm /= num_samples
 
-def get_val_test_loader(config):
+def get_val_test_dataset(config, seed=42):
     test_dataset = get_dataset(config.DATASET.NAME)(
         root=config.DATASET.ROOT,
         split=config.DATASET.SPLIT.TEST,
@@ -204,29 +214,15 @@ def get_val_test_loader(config):
         base_size=config.IMAGE.SIZE.BASE,
         crop_size=config.IMAGE.SIZE.TEST
     )
-
-    indices = list(range(len(test_dataset)-2))
-    np.random.seed(config.DATASET.SEED)
-    np.random.shuffle(indices)
-
-    val_portion = int(config.DATASET.PORTION.VAL*len(test_dataset))
-    val_indices, test_indices = indices[:val_portion], indices[val_portion:]
-
-    val_sampler = SubsetRandomSampler(val_indices)
-    test_sampler = SubsetRandomSampler(test_indices)
-
-    val_loader = DataLoader(
+    
+    # Split the test dataset into validation and test set
+    val_dataset, test_dataset = random_split(
         test_dataset,
-        batch_size=config.SOLVER.BATCH_SIZE.VAL,
-        sampler=val_sampler
-    )
-    test_loader = DataLoader(
-        test_dataset,
-        batch_size=config.SOLVER.BATCH_SIZE.TEST,
-        sampler=test_sampler
+        [config.DATASET.VAL_SIZE, 1-config.DATASET.VAL_SIZE],
+        generator=torch.Generator().manual_seed(seed)
     )
     
-    return val_loader, test_loader
+    return val_dataset, test_dataset
 
 def main():
     
@@ -242,30 +238,8 @@ def main():
     CONFIG = OmegaConf.load(args.config_path)
     
     # Dataset Setup
-    #TODO: Change Split to train
-    train_dataset = get_dataset(CONFIG.DATASET.NAME)(
-        root=CONFIG.DATASET.ROOT,
-        split=CONFIG.DATASET.SPLIT.TEST,
-        ignore_label=CONFIG.DATASET.IGNORE_LABEL,
-        augment=True,
-        base_size=CONFIG.IMAGE.SIZE.BASE,
-        crop_size=CONFIG.IMAGE.SIZE.TRAIN,
-        scales=CONFIG.DATASET.SCALES,
-        flip=True,
-    )
-    dsp_sampler = DistributedSampler(
-        dataset=train_dataset,
-        num_replicas=world_size,
-        rank=local_rank
-    )
-    train_loader = DataLoader(
-        dataset=train_dataset,
-        batch_size=CONFIG.SOLVER.BATCH_SIZE.TRAIN,
-        sampler=dsp_sampler
-    )
-    
-    if local_rank==0:
-        val_loader, test_loader = get_val_test_loader(CONFIG)
+    num_batches = len(train_loader)
+    train_loader, val_loader, train_ddp_sampler, test_dataset = setup_data_loaders(local_rank, world_size, CONFIG)
         
     ## MODEL SETUP
     print(f"Model: {CONFIG.MODEL.NAME} on {torch.cuda.get_device_name()} {local_rank}🚀")
@@ -325,16 +299,22 @@ def main():
         )
     
     model.train()
-    num_batches = len(train_loader) // world_size
-    
+
     if local_rank==0:
-        metric = Metric(device)
+        epoch_pbar = tqdm(range(CONFIG.SOLVER.EPOCH))
+    else:
+        epoch_pbar = range(CONFIG.SOLVER.EPOCH)
         
-    for epoch in tqdm(range(CONFIG.SOLVER.EPOCH)):
-        dsp_sampler.set_epoch(epoch)
+    for epoch in epoch_pbar:
+        train_ddp_sampler.set_epoch(epoch)
         
         epoch_loss = 0
-        for images, labels in tqdm(train_loader, desc=f"Epoch {epoch}", total=num_batches):
+        if local_rank==0:
+            train_pbar = tqdm(train_loader, desc=f"Epoch {epoch}", total=num_batches)
+        else:
+            train_pbar = train_loader
+            
+        for images, labels in train_pbar:
             images = images.to(device)
             
             logits = model(images)
@@ -342,7 +322,7 @@ def main():
             _loss = 0
             for logit in logits:
                 # Resize labels for {100%, 75%, 50%, Max} logits
-                _, _, H, W = logit.shape
+                H, W = logit.shape[-2:]
                 labels_ = resize_labels(labels, size=(H, W))
                 _loss += criterion(logit, labels_.to(dtype=torch.long).to(device))
             
@@ -360,27 +340,70 @@ def main():
         dist.reduce(tensor=epoch_loss, dst=0, op=dist.ReduceOp.SUM)
         epoch_loss /= world_size
         
+        test(model, val_loader, task="val")
+        
         # Inter-Epoch Logic
         if local_rank==0:
             
-            test(model, val_loader, metric, task="val")
-            wandb.log({
-                "epoch": epoch,
-                "loss": epoch_loss,
-                "s-measure": metric.get_smeasure(),
-                "mae": metric.get_mae()
-            })
+            print(f"/nEpoch {epoch+1} Loss: {epoch_loss}/n")
+            # track learning rate)
+            # wandb.log({
+            #     "epoch": epoch,
+            #     "loss": epoch_loss,
+            #     "s-measure": metric.get_smeasure(),
+            #     "mae": metric.get_mae(),
+            #     "lr": scheduler.get_lr()
+            # })
             
-            # Save checkpoint at every `CONFIG.SOLVER.CHECKPOINT` epoch
-            if epoch%CONFIG.SOLVER.CHECKPOINT==0:
-                torch.save(model.state_dict(), f"checkpoint_{epoch}.pth")
+            # # Save checkpoint at every `CONFIG.SOLVER.CHECKPOINT` epoch
+            # if epoch%CONFIG.SOLVER.CHECKPOINT==0:
+            #     torch.save(model.state_dict(), f"checkpoint_{epoch}.pth")
             
-            # Save the model with the best s-measure
-            if metric.get_smeasure() > metric.best_smeasure:
-                metric.best_smeasure = metric.get_smeasure()
-                torch.save(model.state_dict(), "best_smeasure.pth")
+            # # Save the model with the best s-measure
+            # if metric.get_smeasure() > metric.best_smeasure:
+            #     metric.best_smeasure = metric.get_smeasure()
+            #     torch.save(model.state_dict(), "best_smeasure.pth")
         
         dist.barrier()
+
+def setup_data_loaders(local_rank, world_size, CONFIG):
+    
+    train_dataset = get_dataset(CONFIG.DATASET.NAME)(
+        root=CONFIG.DATASET.ROOT,
+        split=CONFIG.DATASET.SPLIT.TRAIN,
+        ignore_label=CONFIG.DATASET.IGNORE_LABEL,
+        augment=True,
+        base_size=CONFIG.IMAGE.SIZE.BASE,
+        crop_size=CONFIG.IMAGE.SIZE.TRAIN,
+        scales=CONFIG.DATASET.SCALES,
+        flip=True,
+    )
+    train_ddp_sampler = DistributedSampler(
+        dataset=train_dataset,
+        num_replicas=world_size,
+        rank=local_rank
+    )
+    train_loader = DataLoader(
+        dataset=train_dataset,
+        batch_size=CONFIG.SOLVER.BATCH_SIZE.TRAIN,
+        sampler=train_ddp_sampler
+    )
+    
+    val_dataset, test_dataset = get_val_test_dataset(CONFIG)
+    
+    val_ddp_sampler = DistributedSampler(
+        dataset=val_dataset,
+        num_replicas=world_size,
+        rank=local_rank
+    )
+    
+    val_loader = DataLoader(
+        dataset=val_dataset,
+        batch_size=CONFIG.SOLVER.BATCH_SIZE.VAL,
+        sampler=val_ddp_sampler
+    )
+    
+    return train_loader, val_loader, train_ddp_sampler, test_dataset
 
 if __name__ == "__main__":
     main()
