@@ -7,19 +7,20 @@ from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data import DataLoader, SubsetRandomSampler, random_split
 
+import numpy as np
 import tqdm
+import wandb
+
 from libs.utils.metric import SegmentationMetric
 from libs.datasets import get_dataset
 from libs.utils import DenseCRF
 
-import numpy as np
-import wandb
 
 def setup_vt_dataloader(dataset, config, distributed=False):
     """
-    设置验证/测试数据加载器
+    1) 配置用于验证/测试阶段的数据加载器
+    2) 如果分布式，则需要使用 DistributedSampler 以确保各进程拿到不同的子集
     """
-        
     if distributed and dist.is_available() and dist.is_initialized():
         sampler = DistributedSampler(
             dataset,
@@ -29,9 +30,13 @@ def setup_vt_dataloader(dataset, config, distributed=False):
         )
     else:
         sampler = None
-    
-    bsize = config.SOLVER.BATCH_SIZE.TEST if dataset.task == "test" else config.SOLVER.BATCH_SIZE.VAL
-    
+
+    # 根据是 test 还是 val，使用不同的 batch size
+    if dataset.task == "test":
+        bsize = config.SOLVER.BATCH_SIZE.TEST
+    else:
+        bsize = config.SOLVER.BATCH_SIZE.VAL
+
     data_loader = DataLoader(
         dataset,
         batch_size=bsize,
@@ -39,166 +44,206 @@ def setup_vt_dataloader(dataset, config, distributed=False):
         num_workers=config.DATALOADER.NUM_WORKERS,
         pin_memory=True
     )
-    
     return data_loader
 
-def crf_refine(image, prob, config):
-    image = image.cpu().numpy().squeeze(0).transpose(1,2,0).astype(np.uint8)
-    prob = prob.squeeze(0).cpu().numpy().astype(np.float32)
-    
-    postprocessor = DenseCRF(
-        iter_max=config.CRF.ITER_MAX,
-        pos_xy_std=config.CRF.POS_XY_STD,
-        pos_w=config.CRF.POS_W,
-        bi_xy_std=config.CRF.BI_XY_STD,
-        bi_rgb_std=config.CRF.BI_RGB_STD,
-        bi_w=config.CRF.BI_W,
+
+def crf_refine(image_batch, prob_batch, config):
+    """
+    在推理时对分割概率图做 CRF 后处理 (batch-wise).
+    假设:
+        image_batch: (N, 3, H, W)
+        prob_batch: (N, C, H, W)
+    返回: refined_prob_batch (N, C, H, W)
+    """
+    refined_list = []
+
+    # Iterate each sample in the batch
+    for img, prob in zip(image_batch, prob_batch):
+        # 转成 numpy 格式 (H, W, 3) & (C, H, W)
+        # 注意这里的 squeeze/unsqueeze 只对单图有效
+        # 对 batch 处理时需要手动分离
+        img_np = img.cpu().numpy().transpose(1, 2, 0).astype(np.uint8)
+        prob_np = prob.cpu().numpy().astype(np.float32)
+
+        postprocessor = DenseCRF(
+            iter_max=config.CRF.ITER_MAX,
+            pos_xy_std=config.CRF.POS_XY_STD,
+            pos_w=config.CRF.POS_W,
+            bi_xy_std=config.CRF.BI_XY_STD,
+            bi_rgb_std=config.CRF.BI_RGB_STD,
+            bi_w=config.CRF.BI_W,
+        )
+        refined_prob_np = postprocessor(img_np, prob_np)  # shape: (C, H, W)
+
+        # 转回 torch 张量
+        refined_prob_t = torch.from_numpy(refined_prob_np).to(prob.device)
+        refined_list.append(refined_prob_t)
+
+    # stack 回成 batch
+    refined_prob_batch = torch.stack(refined_list, dim=0)  # (N, C, H, W)
+    return refined_prob_batch
+
+
+def convert_image_pred_gt(image, pred, gt):
+    """
+    将三者转换为适合 wandb.Image() 可视化的 numpy 形式:
+      - image (3,H,W) in [0,1] -> (H,W,3) in [0,255], dtype=uint8
+      - pred (H,W) in {0,1} -> (H,W) in {0,255}, dtype=uint8
+      - gt   (H,W) in {0,1} -> (H,W) in {0,255}, dtype=uint8
+    """
+    # image: (3, H, W)
+    image_np = (image.cpu().numpy().transpose(1, 2, 0) * 255).astype(np.uint8)
+    # pred & gt: (H, W)
+    pred_np = (pred.cpu().numpy() * 255).astype(np.uint8)
+    gt_np   = (gt.cpu().numpy()   * 255).astype(np.uint8)
+
+    return image_np, pred_np, gt_np
+
+
+def log_mask(image, pred, gt):
+    """
+    将图像及掩码通过 wandb.log() 进行可视化:
+       - image: (3,H,W) in [0,1], torch.float32
+       - pred:  (H,W) in {0,1},  torch.int64/float32
+       - gt:    (H,W) in {0,1},  torch.int64/float32
+    """
+    image_np, pred_np, gt_np = convert_image_pred_gt(image, pred, gt)
+
+    masked_image = wandb.Image(
+        image_np,
+        masks={
+            "prediction": {"mask_data": pred_np},
+            "ground_truth": {"mask_data": gt_np}
+        }
     )
-    # 3) Apply CRF
-    refined_prob_np = postprocessor(image, prob)  # shape: (C, H, W)
-
-    # 4) Convert back to torch.Tensor, restore the batch dimension
-    refined_prob = torch.from_numpy(refined_prob_np).unsqueeze(0).to(prob.device)  # (1, C, H, W)
-
-    return refined_prob
-
-def convert_image_mask(image, mask):
-    """
-    image 是一个(1,3,H,W)，值位于0到1之间的张量，类型为torch.float32
-    mask 是一个(H,W)，值位于0到1之间的张量，类型为torch.int64
-    
-    需要将image变成(H,W,3)的numpy数组，值位于0到255之间，类型为np.uint8
-    需要将mask变成(H,W)的numpy数组，值位于0到255之间，类型为np.uint8
-    """
-    # 检查
-    assert isinstance(image, torch.Tensor)
-    assert isinstance(mask, torch.Tensor)
-    assert image.dtype == torch.float32
-    assert mask.dtype == torch.int64
-    assert image.shape[0] == 3
-    assert len(mask.shape) == 2
-    assert image.shape[1] == mask.shape[0]
-    assert image.shape[2] == mask.shape[1]
-    assert image.min() >= 0
-    assert image.max() <= 1
-    assert mask.min() >= 0
-    assert mask.max() <= 1
-    
-    # Convert image to numpy and transpose
-    image = (image.squeeze(0).permute(1, 2, 0).numpy() * 255).astype(np.uint8)
-    # Convert mask to numpy
-    mask = (mask.numpy() * 255).astype(np.uint8)
-    return image, mask
+    wandb.log({"mask": masked_image})
 
 
-def test(model, task, config, distributed=False):
-    """
-    在验证逻辑中，进行如下步骤
-    1. 使用多进程同时对验证集进行性能度量
-    2. 使用`wandb`追踪并可视化这些指标, 可视化mask
-    3. 根据性能指标决定是否保存断点
-    
-    """
-    
-    device = next(model.parameters()).device
-    assert task in ["val", "test"], f"任务只能是'val'或者'test'，但是得到了{task}"
-    
-    dataset = get_vt_dataset(task, config)
-    data_loader = setup_vt_dataloader(dataset, config, distributed)
-    
-    model.eval()
-    mae = 0
-    sm = 0
-    num_visulize = config.DATASET.NUM_VISUALIZE if task == "test" else 0
-    if distributed and dist.get_rank()==0:
-        pabr = tqdm(data_loader, desc=f"{task}", total=len(data_loader))
-    else:
-        pabr = data_loader
-        
-    with torch.no_grad():
-        for images, labels in pabr:
-            images = images.to(device)
-            labels = labels.to(torch.float32)
-            
-            logits = model(images)
-            
-            _, H, W = labels.shape
-            logits = F.interpolate(
-                logits,
-                size = (H, W),
-                mode="bilinear",
-                align_corners=False
-            )
-            
-            prob = torch.softmax(logits, dim=1)
-            
-            if task == "test":
-                prob = crf_refine(images, prob)
-            
-            pred_labels = torch.argmax(prob, dim=1).to(torch.float32).cpu()
-
-            # Metric calculation and visualization
-            for pred_label, gt_label in zip(pred_labels, labels):
-                mae += SegmentationMetric.calculate_mae(pred_label, gt_label)
-                sm += SegmentationMetric.calculate_smeasure(pred_label, gt_label)
-                
-                if num_visulize > 0:
-                    log_mask(images.cpu(), pred_label, gt_label)
-                    num_visulize -= 1
-        
-        mae = mae.to(device)
-        sm = sm.to(device)  
-
-        if distributed:
-            dist.reduce(tensor=mae, dst=0, op=dist.ReduceOp.SUM)
-            dist.reduce(tensor=sm, dst=0, op=dist.ReduceOp.SUM)
-            
-            if dist.get_rank()==0:
-                num_samples = len(data_loader.dataset)
-                mae /= num_samples
-                sm /= num_samples
-            
-                wandb.log({f"{task}_mae": mae.item()})
-                wandb.log({f"{task}_smeasure": sm.item()})
-        else:
-            num_samples = len(data_loader.dataset)
-            mae /= num_samples
-            sm /= num_samples
-            wandb.log({f"{task}_mae": mae.item()})
-            wandb.log({f"{task}_smeasure": sm.item()})
-            
-            
 def get_vt_dataset(task, config):
-    
-    assert task in ["val", "test"], f"任务只能是'val'或者'test'，但是得到了{task}"
-    
-    dataset = get_dataset(config.DATASET.NAME)(
+    """
+    依据 task = "val" 或 "test" 构造 dataset。
+    这里按照 config.DATASET.<...> 的参数进行构造后，
+    再用 random_split 按照指定比例拆分出 val/test 数据集。
+    """
+    assert task in ["val", "test"], f"任务只能是'val'或者'test'，但是得到了 {task}"
+
+    dataset_all = get_dataset(config.DATASET.NAME)(
         root=config.DATASET.ROOT,
-        split=config.DATASET.SPLIT.TEST,
+        split=config.DATASET.SPLIT.TEST,  # 这里常见做法是只读 “test” 文件列表
         ignore_label=config.DATASET.IGNORE_LABEL,
         augment=False,
         base_size=config.IMAGE.SIZE.BASE,
         crop_size=config.IMAGE.SIZE.TEST,
         task=task
     )
-    
+
+    # 按一定比例拆分数据集
     split_ratio = config.DATASET.TEST_SIZE if task == "test" else config.DATASET.VAL_SIZE
 
-    dataset, _ = random_split(
-        dataset,
-        [split_ratio, 1-split_ratio],
+    dataset_subset, _ = random_split(
+        dataset_all,
+        [split_ratio, 1 - split_ratio],
         generator=torch.Generator().manual_seed(config.DATASET.SEED)
     )
-    
-    return dataset
+    # 这里给 dataset_subset 附个小标记，以便在 setup_vt_dataloader 中区分
+    dataset_subset.task = task
 
-def log_mask(image, pred, gt):
-    image, pred, gt = convert_image_mask(image, pred, gt)
-    masked_image = wandb.Image(
-        image,
-        mask={
-            "prediction": {"mask_data": pred},
-            "groud_truth": {"mask_data": gt}
-        }
-    )
-    wandb.log({"mask": masked_image})
+    return dataset_subset
+
+
+def test(model, task, config, distributed=False):
+    """
+    统一的验证/测试逻辑:
+      1. 根据 task 构造数据集 + DataLoader
+      2. 推断 (model forward)
+      3. (test 时) 使用 CRF 后处理
+      4. 计算并记录指标 (MAE / S-measure)
+      5. 可选地可视化若干张图
+      6. 如为分布式，多进程同步累加结果
+      7. 只在 rank=0 进程上进行 wandb.log
+    """
+    device = next(model.parameters()).device
+    assert task in ["val", "test"], f"任务只能是'val'或者'test'，但是得到了 {task}"
+
+    # 1) 准备数据集和 DataLoader
+    dataset = get_vt_dataset(task, config)
+    data_loader = setup_vt_dataloader(dataset, config, distributed)
+
+    # 2) 模型推理
+    model.eval()
+
+    # 用于累加所有样本的评估指标
+    mae = 0.0
+    sm  = 0.0
+
+    # 只在 test 时可视化若干张结果
+    num_visualize = config.DATASET.NUM_VISUALIZE if task == "test" else 0
+
+    # 构建进度条 (只在 rank=0 进程可见)
+    if distributed and dist.get_rank() == 0:
+        progress_bar = tqdm.tqdm(data_loader, desc=f"{task}", total=len(data_loader))
+    else:
+        progress_bar = data_loader
+
+    with torch.no_grad():
+        for batch in progress_bar:
+            images, labels = batch
+            images = images.to(device)
+            labels = labels.to(device, dtype=torch.float32)  # (N, H, W)
+
+            # ---- Forward ----
+            logits = model(images)  # (N, C, H', W')
+
+            # 调整大小到 (H, W) 以跟 labels 对齐
+            _, H, W = labels.shape
+            logits = F.interpolate(
+                logits,
+                size=(H, W),
+                mode="bilinear",
+                align_corners=False
+            )
+
+            # ---- 得到概率图 ----
+            prob = torch.softmax(logits, dim=1)  # (N, C, H, W)
+
+            # ---- 如果是 test, 进行 CRF 后处理 ----
+            if task == "test":
+                prob = crf_refine(images, prob, config)  # (N, C, H, W)
+
+            # ---- 得到预测分割 (N, H, W) ----
+            pred_labels = torch.argmax(prob, dim=1).float().cpu()
+
+            # ---- 计算指标 & 可选可视化 ----
+            for i in range(pred_labels.size(0)):
+                # 单张预测 & 标签
+                pred_label = pred_labels[i]
+                gt_label   = labels[i].cpu()
+
+                # 统计
+                mae += SegmentationMetric.calculate_mae(pred_label, gt_label)
+                sm  += SegmentationMetric.calculate_smeasure(pred_label, gt_label)
+
+                # 仅在 test 时可视化若干图像
+                if num_visualize > 0:
+                    # 注意: images[i] 是 (3,H,W), 在 [0,1] 范围
+                    log_mask(images[i], pred_label, gt_label)
+                    num_visualize -= 1
+
+    # 3) 分布式同步
+    mae = mae.to(device)
+    sm  = sm.to(device)
+
+    if distributed:
+        dist.reduce(mae, dst=0, op=dist.ReduceOp.SUM)
+        dist.reduce(sm,  dst=0, op=dist.ReduceOp.SUM)
+
+    # 4) rank=0 进程上统一记录
+    if (not distributed) or (dist.get_rank() == 0):
+        num_samples = len(data_loader.dataset)
+        mae = mae / num_samples
+        sm  = sm  / num_samples
+
+        wandb.log({f"{task}_mae": mae.item()})
+        wandb.log({f"{task}_smeasure": sm.item()})
+
+        print(f"[{task.upper()}] => MAE: {mae.item():.4f}, S-Measure: {sm.item():.4f}")
