@@ -381,6 +381,7 @@ def main():
         
         dist.barrier()
 
+    
 def setup_data_loaders(local_rank, world_size, CONFIG):
     
     train_dataset = get_dataset(CONFIG.DATASET.NAME)(
