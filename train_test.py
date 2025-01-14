@@ -23,6 +23,7 @@ from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data import DataLoader, SubsetRandomSampler, random_split
 
 from libs.utils.metric import SegmentationMetric
+from .test import get_vt_dataset
 
 def makedirs(dirs):
     if not os.path.exists(dirs):
@@ -216,25 +217,6 @@ def test(model, val_loader, task):
             print(f"{task} S-Measure: {sm:.4f}")
             print("=====================================")
 
-def get_val_test_dataset(config, seed=42):
-    test_dataset = get_dataset(config.DATASET.NAME)(
-        root=config.DATASET.ROOT,
-        split=config.DATASET.SPLIT.TEST,
-        ignore_label=config.DATASET.IGNORE_LABEL,
-        augment=False,
-        base_size=config.IMAGE.SIZE.BASE,
-        crop_size=config.IMAGE.SIZE.TEST
-    )
-    
-    # Split the test dataset into validation and test set
-    val_dataset, test_dataset = random_split(
-        test_dataset,
-        [config.DATASET.VAL_SIZE, 1-config.DATASET.VAL_SIZE],
-        generator=torch.Generator().manual_seed(seed)
-    )
-    
-    return val_dataset, test_dataset
-
 def main():
     
     local_rank = int(os.environ["LOCAL_RANK"])
@@ -382,6 +364,7 @@ def main():
         dist.barrier()
 
     
+    
 def setup_data_loaders(local_rank, world_size, CONFIG):
     
     train_dataset = get_dataset(CONFIG.DATASET.NAME)(
@@ -405,7 +388,7 @@ def setup_data_loaders(local_rank, world_size, CONFIG):
         sampler=train_ddp_sampler
     )
     
-    val_dataset, test_dataset = get_val_test_dataset(CONFIG)
+    val_dataset = get_vt_dataset("val", CONFIG)
     
     val_ddp_sampler = DistributedSampler(
         dataset=val_dataset,
@@ -419,7 +402,7 @@ def setup_data_loaders(local_rank, world_size, CONFIG):
         sampler=val_ddp_sampler
     )
     
-    return train_loader, val_loader, train_ddp_sampler, test_dataset
+    return train_loader, val_loader, train_ddp_sampler
 
 if __name__ == "__main__":
     main()

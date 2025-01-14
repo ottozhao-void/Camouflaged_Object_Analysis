@@ -30,6 +30,7 @@ class _BaseDataset(data.Dataset):
         crop_size=321,
         scales=(1.0),
         flip=True,
+        task = None
     ):
         self.root = root
         self.split = split
@@ -42,6 +43,7 @@ class _BaseDataset(data.Dataset):
         self.flip = flip
         self.files = []
         self._set_files()
+        self.task = task
 
         cv2.setNumThreads(0)
 
