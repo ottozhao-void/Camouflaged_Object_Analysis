@@ -193,7 +193,7 @@ def test(model, val_loader, metric, task):
             pred_labels = torch.argmax(prob, dim=1)
 
             for pred_label, gt_label in zip(pred_labels, labels):
-                metric.add(pred_label, gt_label)
+                metric.add(pred_label.to(torch.float32), gt_label.to(torch.float32))
 
 def get_val_test_loader(config):
     test_dataset = get_dataset(config.DATASET.NAME)(
@@ -344,7 +344,7 @@ def main():
                 # Resize labels for {100%, 75%, 50%, Max} logits
                 _, _, H, W = logit.shape
                 labels_ = resize_labels(labels, size=(H, W))
-                _loss += criterion(logit, labels_.to(dtype=torch.long, device=device))
+                _loss += criterion(logit, labels_.to(dtype=torch.long).to(device))
             
             epoch_loss += _loss
             
