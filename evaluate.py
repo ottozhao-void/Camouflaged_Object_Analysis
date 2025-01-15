@@ -16,8 +16,23 @@ from libs.datasets import get_dataset
 from libs.utils import DenseCRF
 from libs.models import DeepLabV2_ResNet101_MSC
 
+
 from omegaconf import OmegaConf
 
+def resize_labels(labels, size):
+    """
+    Resize label tensors to match the shape (H, W) of the logits at each scale.
+    Uses nearest neighbor interpolation.
+    """
+    from PIL import Image
+    import numpy as np
+
+    new_labels = []
+    for label in labels:
+        label_np = label.float().numpy()
+        label_img = Image.fromarray(label_np).resize(size, resample=Image.NEAREST)
+        new_labels.append(torch.from_numpy(np.array(label_img)))
+    return torch.stack(new_labels, dim=0)
 
 def setup_vt_dataloader(dataset, config, distributed=False):
     """
@@ -132,7 +147,7 @@ def get_vt_dataset(task, config):
 
     dataset_all = get_dataset(config.DATASET.NAME)(
         root=config.DATASET.ROOT,
-        split=config.DATASET.SPLIT.TEST,  # 这里常见做法是只读 “test” 文件列表
+        split=config.DATASET.SPLIT.TEST,
         ignore_label=config.DATASET.IGNORE_LABEL,
         augment=False,
         base_size=config.IMAGE.SIZE.BASE,
@@ -154,7 +169,7 @@ def get_vt_dataset(task, config):
     return dataset_subset
 
 
-def evaluate(model, task, config, distributed=False):
+def evaluate(model, data_loader, config, distributed=False, compute_loss=False):
     """
     统一的验证/测试逻辑:
       1. 根据 task 构造数据集 + DataLoader
@@ -166,14 +181,8 @@ def evaluate(model, task, config, distributed=False):
       7. 只在 rank=0 进程上进行 wandb.log
     """
     device = next(model.parameters()).device
+    task = data_loader.dataset.task
     assert task in ["val", "test"], f"任务只能是'val'或者'test'，但是得到了 {task}"
-
-    # 1) 准备数据集和 DataLoader
-    dataset = get_vt_dataset(task, config)
-    data_loader = setup_vt_dataloader(dataset, config, distributed)
-
-    # 2) 模型推理
-    model.eval()
 
     # 用于累加所有样本的评估指标
     mae = 0.0
@@ -188,6 +197,11 @@ def evaluate(model, task, config, distributed=False):
     else:
         progress_bar = data_loader
 
+    if compute_loss:
+        criterion = nn.CrossEntropyLoss(ignore_index=config.DATASET.IGNORE_LABEL).to(device)
+        val_loss = 0.0
+    
+    model.eval()
     with torch.no_grad():
         for batch in progress_bar:
             images, labels = batch
@@ -196,6 +210,12 @@ def evaluate(model, task, config, distributed=False):
 
             # ---- Forward ----
             logits = model(images)  # (N, C, H', W')
+            
+            if compute_loss:
+                H, W = logits.shape[-2:]
+                labels_resized = resize_labels(labels.cpu(), (W, H)).to(device, dtype=torch.long)
+
+                val_loss += criterion(logits, labels_resized)
 
             # 调整大小到 (H, W) 以跟 labels 对齐
             _, H, W = labels.shape
@@ -227,14 +247,14 @@ def evaluate(model, task, config, distributed=False):
                 sm  += SegmentationMetric.calculate_smeasure(pred_label, gt_label)
 
                 # 仅在 test 时可视化若干图像
-                if num_visualize > 0:
+                if num_visualize > 0 and wandb.run is not None:
                     # 注意: images[i] 是 (3,H,W), 在 [0,1] 范围
                     log_mask(images[i], pred_label, gt_label)
                     num_visualize -= 1
 
     # 3) 分布式同步
-    mae = mae.to(device)
-    sm  = sm.to(device)
+    mae = torch.tensor(mae, device=device)
+    sm  = torch.tensor(sm, device=device)
 
     if distributed:
         dist.reduce(mae, dst=0, op=dist.ReduceOp.SUM)
@@ -245,15 +265,20 @@ def evaluate(model, task, config, distributed=False):
         num_samples = len(data_loader.dataset)
         mae = mae / num_samples
         sm  = sm  / num_samples
-
-        wandb.log({f"{task}_mae": mae.item()})
-        wandb.log({f"{task}_smeasure": sm.item()})
+        
+        if wandb.run is not None:
+            wandb.log({f"{task}_mae": mae.item()})
+            wandb.log({f"{task}_smeasure": sm.item()})
 
         print(f"[{task.upper()}] => MAE: {mae.item():.4f}, S-Measure: {sm.item():.4f}")
+        
+        if compute_loss:
+            val_loss = val_loss / num_samples
+            print(f"[{task.upper()}] => Loss: {val_loss.item():.4f}")
 
 if __name__ == "__main__":
     
-    run = wandb.init(project="Camouflaged_Object_Analysis", tags=["test"])
+    # run = wandb.init(project="Camouflaged_Object_Analysis", tags=["test"])
     config = OmegaConf.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml")
     device = torch.device("cuda:7")
     # Load model
@@ -261,4 +286,7 @@ if __name__ == "__main__":
     state_dict = torch.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/checkpoint_20.pth")
     model.load_state_dict(state_dict)
     
-    evaluate(model, "test", config, distributed=False)
+    test_dataset = get_vt_dataset("test", config)
+    test_loader = setup_vt_dataloader(test_dataset, config, distributed=False)
+    
+    evaluate(model, test_loader, config, distributed=False, compute_loss=True)

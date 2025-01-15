@@ -18,8 +18,7 @@ from argparse import ArgumentParser
 from libs.datasets import get_dataset
 from libs.models import DeepLabV2_ResNet101_MSC
 from libs.utils import PolynomialLR
-from evaluate import evaluate, get_vt_dataset
-
+from evaluate import evaluate, get_vt_dataset, setup_vt_dataloader, resize_labels
 
 def parse_args():
     parser = ArgumentParser()
@@ -55,21 +54,6 @@ def get_params(model, key):
             if "aspp" in name and isinstance(module, nn.Conv2d):
                 yield module.bias
 
-def resize_labels(labels, size):
-    """
-    Resize label tensors to match the shape (H, W) of the logits at each scale.
-    Uses nearest neighbor interpolation.
-    """
-    from PIL import Image
-    import numpy as np
-
-    new_labels = []
-    for label in labels:
-        label_np = label.float().numpy()
-        label_img = Image.fromarray(label_np).resize(size, resample=Image.NEAREST)
-        new_labels.append(torch.from_numpy(np.array(label_img)))
-    return torch.stack(new_labels, dim=0)
-
 
 def main():
 
@@ -86,13 +70,13 @@ def main():
     model = DeepLabV2_ResNet101_MSC(n_classes=CONFIG.DATASET.N_CLASSES)
     
     # Initialize from pretrained if needed
-    # if CONFIG.MODEL.INIT_MODEL:
-    #     state_dict = torch.load(
-    #         CONFIG.MODEL.INIT_MODEL,
-    #         map_location={"cuda:0": f"cuda:{local_rank}"}
-    #     )
+    if CONFIG.MODEL.INIT_MODEL:
+        state_dict = torch.load(
+            CONFIG.MODEL.INIT_MODEL,
+            map_location={"cuda:0": f"cuda:{local_rank}"}
+        )
 
-    #     model.base.load_state_dict(state_dict, strict=False)
+        model.base.load_state_dict(state_dict, strict=False)
     
     model.to(device)
     model = DDP(model, device_ids=[local_rank])
@@ -161,6 +145,10 @@ def main():
         drop_last=True
     )
 
+    
+    val_dataset = get_vt_dataset("val", CONFIG)
+    val_loader = setup_vt_dataloader(val_dataset, CONFIG, True)
+
     # --------------------------------------------
     # 5) WandB init (only on rank=0)
     # --------------------------------------------
@@ -208,7 +196,7 @@ def main():
             for logits in logits_list:
                 # Adjust labels to match each logits scale
                 H, W = logits.shape[-2:]
-                labels_resized = resize_labels(labels, (H, W)).to(device, dtype=torch.long)
+                labels_resized = resize_labels(labels, (W, H)).to(device, dtype=torch.long)
 
                 loss_total += criterion(logits, labels_resized)
 
@@ -226,8 +214,7 @@ def main():
         epoch_loss = epoch_loss / world_size
 
         # Validate at the end of each epoch
-        #   We'll call evaluate(...) from evaluate.py
-        evaluate(model, task="val", config=CONFIG, distributed=True)
+        evaluate(model, val_loader, config=CONFIG, distributed=True)
 
         # Rank 0 logs
         if local_rank == 0:
