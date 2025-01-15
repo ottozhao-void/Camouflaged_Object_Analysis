@@ -26,9 +26,10 @@ class CamouflageDataset(_BaseDataset):
         image_dir = Path(os.path.join(self.split_dir, "image"))
         mask_dir = Path(os.path.join(self.split_dir, "GT"))
 
-        self.image_list = [img for img in image_dir.iterdir()]
-        self.mask_list = [mask for mask in mask_dir.iterdir()]
+        self.image_list = sorted([img for img in image_dir.iterdir()])
+        self.mask_list = sorted([mask for mask in mask_dir.iterdir()])
 
+        return
         
 
 # class CamouflageDataset(data.Dataset):

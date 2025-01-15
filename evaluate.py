@@ -14,6 +14,9 @@ import wandb
 from libs.utils.metric import SegmentationMetric
 from libs.datasets import get_dataset
 from libs.utils import DenseCRF
+from libs.models import DeepLabV2_ResNet101_MSC
+
+from omegaconf import OmegaConf
 
 
 def setup_vt_dataloader(dataset, config, distributed=False):
@@ -112,8 +115,8 @@ def log_mask(image, pred, gt):
     masked_image = wandb.Image(
         image_np,
         masks={
-            "prediction": {"mask_data": pred_np},
-            "ground_truth": {"mask_data": gt_np}
+            "prediction": {"mask_data": pred_np, "class_labels": {0: "background", 255: "camouflage"}},
+            "ground_truth": {"mask_data": gt_np, "class_labels": {0: "background", 255: "camouflage"}}
         }
     )
     wandb.log({"mask": masked_image})
@@ -151,7 +154,7 @@ def get_vt_dataset(task, config):
     return dataset_subset
 
 
-def test(model, task, config, distributed=False):
+def evaluate(model, task, config, distributed=False):
     """
     统一的验证/测试逻辑:
       1. 根据 task 构造数据集 + DataLoader
@@ -180,7 +183,7 @@ def test(model, task, config, distributed=False):
     num_visualize = config.DATASET.NUM_VISUALIZE if task == "test" else 0
 
     # 构建进度条 (只在 rank=0 进程可见)
-    if distributed and dist.get_rank() == 0:
+    if (distributed and dist.get_rank() == 0) or not distributed:
         progress_bar = tqdm.tqdm(data_loader, desc=f"{task}", total=len(data_loader))
     else:
         progress_bar = data_loader
@@ -247,3 +250,15 @@ def test(model, task, config, distributed=False):
         wandb.log({f"{task}_smeasure": sm.item()})
 
         print(f"[{task.upper()}] => MAE: {mae.item():.4f}, S-Measure: {sm.item():.4f}")
+
+if __name__ == "__main__":
+    
+    run = wandb.init(project="Camouflaged_Object_Analysis", tags=["test"])
+    config = OmegaConf.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml")
+    device = torch.device("cuda:7")
+    # Load model
+    model = DeepLabV2_ResNet101_MSC(n_classes=config.DATASET.N_CLASSES).to(device)
+    state_dict = torch.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/checkpoint_20.pth")
+    model.load_state_dict(state_dict)
+    
+    evaluate(model, "test", config, distributed=False)
