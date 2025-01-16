@@ -23,7 +23,6 @@ class _BaseDataset(data.Dataset):
         self,
         root,
         split,
-        ignore_label,
         mean_bgr=None,
         augment=True,
         base_size=None,
@@ -34,7 +33,6 @@ class _BaseDataset(data.Dataset):
     ):
         self.root = root
         self.split = split
-        self.ignore_label = ignore_label
         self.mean_bgr = np.array(mean_bgr) if isinstance(mean_bgr, tuple) else mean_bgr
         self.augment = augment
         self.base_size = base_size

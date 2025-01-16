@@ -123,7 +123,6 @@ def main():
     train_dataset = get_dataset(CONFIG.DATASET.NAME)(
         root=CONFIG.DATASET.ROOT,
         split=CONFIG.DATASET.SPLIT.TRAIN,
-        ignore_label=CONFIG.DATASET.IGNORE_LABEL,
         augment=True,
         base_size=CONFIG.IMAGE.SIZE.BASE,
         crop_size=CONFIG.IMAGE.SIZE.TRAIN,

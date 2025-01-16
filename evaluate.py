@@ -148,7 +148,6 @@ def get_vt_dataset(task, config):
     dataset_all = get_dataset(config.DATASET.NAME)(
         root=config.DATASET.ROOT,
         split=config.DATASET.SPLIT.TEST,
-        ignore_label=config.DATASET.IGNORE_LABEL,
         augment=False,
         base_size=config.IMAGE.SIZE.BASE,
         crop_size=config.IMAGE.SIZE.TEST,
@@ -198,7 +197,7 @@ def evaluate(model, data_loader, config, distributed=False, compute_loss=False):
         progress_bar = data_loader
 
     if compute_loss:
-        criterion = nn.CrossEntropyLoss(ignore_index=config.DATASET.IGNORE_LABEL).to(device)
+        criterion = nn.CrossEntropyLoss().to(device)
         val_loss = 0.0
     
     model.eval()
