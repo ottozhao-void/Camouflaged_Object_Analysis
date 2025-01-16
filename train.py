@@ -82,7 +82,9 @@ def main():
     model = DDP(model, device_ids=[local_rank])
 
     # Define loss
-    criterion = nn.CrossEntropyLoss(ignore_index=CONFIG.DATASET.IGNORE_LABEL).to(device)
+    criterion = nn.CrossEntropyLoss(
+        weight=torch.tensor([0.1, 0.9], device=device)
+        ).to(device)
 
     # Optimizer
     optimizer = SGD(
@@ -128,7 +130,7 @@ def main():
         scales=CONFIG.DATASET.SCALES,
         flip=True
     )
-
+    []
     train_sampler = DistributedSampler(
         train_dataset,
         num_replicas=world_size,
@@ -157,6 +159,7 @@ def main():
             project="Camouflaged_Object_Analysis",
             config=OmegaConf.to_container(CONFIG)
         )
+        wandb.watch(model, log="all", log_freq=5)
 
     # --------------------------------------------
     # 6) Training Loop
