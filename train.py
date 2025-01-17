@@ -69,14 +69,14 @@ def main():
 
     model = DeepLabV2_ResNet101_MSC(n_classes=CONFIG.DATASET.N_CLASSES)
     
-    # Initialize from pretrained if needed
+
     if CONFIG.MODEL.INIT_MODEL:
         state_dict = torch.load(
             CONFIG.MODEL.INIT_MODEL,
             map_location={"cuda:0": f"cuda:{local_rank}"}
         )
 
-        model.base.load_state_dict(state_dict, strict=False)
+        model.load_state_dict(state_dict)
     
     model.to(device)
     model = DDP(model, device_ids=[local_rank])
@@ -158,7 +158,7 @@ def main():
             project="Camouflaged_Object_Analysis",
             config=OmegaConf.to_container(CONFIG)
         )
-        wandb.watch(model, log="all", log_freq=5)
+        # wandb.watch(model, log="all", log_freq=5)
 
     # --------------------------------------------
     # 6) Training Loop

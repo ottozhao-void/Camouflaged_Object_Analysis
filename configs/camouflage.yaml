@@ -33,18 +33,18 @@ MODEL:
   NAME: DeepLabV2_ResNet101_MSC
   N_BLOCKS: [3, 4, 23, 3]
   ATROUS_RATES: [6, 12, 18, 24]
-  INIT_MODEL: data/models/coco/deeplabv1_resnet101/caffemodel/deeplabv1_resnet101-coco.pth
+  INIT_MODEL: /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/weights/checkpoint_100.pth
 
 SOLVER:
   BATCH_SIZE:
     TRAIN: 16
     VAL: 1
     TEST: 1
-  EPOCH: 100
+  EPOCH: 200
   ITER_SAVE: 500
   ITER_TB: 100
   LR_DECAY: 10
-  LR: 2.5e-4
+  LR: 2.5e-5
   MOMENTUM: 0.9
   OPTIMIZER: sgd
   POLY_POWER: 0.9
@@ -56,6 +56,6 @@ CRF:
   ITER_MAX: 10
   POS_W: 3
   POS_XY_STD: 1
-  BI_W: 4
+  BI_W: 10
   BI_XY_STD: 67
   BI_RGB_STD: 3

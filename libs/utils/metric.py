@@ -77,7 +77,8 @@ class SegmentationMetric:
             Q = alpha * SegmentationMetric._S_object(pred, gt) + (1-alpha) * SegmentationMetric._S_region(pred, gt)
             if Q.item() < 0:
                 Q = torch.FloatTensor([0.0])
-        
+        if isinstance(Q, float):
+            raise ValueError("Q is a float")
         return Q
 
     @staticmethod

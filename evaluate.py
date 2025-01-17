@@ -229,8 +229,8 @@ def evaluate(model, data_loader, config, distributed=False, compute_loss=False):
             prob = torch.softmax(logits, dim=1)  # (N, C, H, W)
 
             # # ---- 如果是 test, 进行 CRF 后处理 ----
-            # if task == "test":
-            #     prob = crf_refine(images, prob, config)  # (N, C, H, W)
+            if task == "test":
+                prob = crf_refine(images, prob, config)  # (N, C, H, W)
 
             # ---- 得到预测分割 (N, H, W) ----
             pred_labels = torch.argmax(prob, dim=1).float().cpu()
@@ -277,12 +277,12 @@ def evaluate(model, data_loader, config, distributed=False, compute_loss=False):
 
 if __name__ == "__main__":
     
-    run = wandb.init(project="Camouflaged_Object_Analysis", tags=["test"])
+    # run = wandb.init(project="Camouflaged_Object_Analysis", tags=["test"])
     config = OmegaConf.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml")
     device = torch.device("cuda:1")
     # Load model
     model = DeepLabV2_ResNet101_MSC(n_classes=config.DATASET.N_CLASSES).to(device)
-    state_dict = torch.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/checkpoint_20.pth")
+    state_dict = torch.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/weights/checkpoint_100.pth", map_location={"cuda:0": f"cuda:{1}"})
     model.load_state_dict(state_dict)
     
     test_dataset = get_vt_dataset("test", config)
