@@ -129,7 +129,7 @@ def main():
         scales=CONFIG.DATASET.SCALES,
         flip=True
     )
-    []
+
     train_sampler = DistributedSampler(
         train_dataset,
         num_replicas=world_size,
