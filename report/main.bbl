@@ -1,0 +1,71 @@
+\begin{thebibliography}{10}
+
+\bibitem{Arbelez2014MultiscaleCG}
+Pablo Arbel{\'a}ez, Jordi Pont-Tuset, Jonathan~T. Barron, Ferran Marqu{\'e}s,
+  and Jitendra Malik.
+\newblock Multiscale combinatorial grouping.
+\newblock {\em 2014 IEEE Conference on Computer Vision and Pattern
+  Recognition}, pages 328--335, 2014.
+
+\bibitem{Chen2016DeepLabSI}
+Liang-Chieh Chen, George Papandreou, Iasonas Kokkinos, Kevin~P. Murphy, and
+  Alan~Loddon Yuille.
+\newblock Deeplab: Semantic image segmentation with deep convolutional nets,
+  atrous convolution, and fully connected crfs.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  40:834--848, 2016.
+
+\bibitem{Dhanachandra2015ImageSU}
+Nameirakpam Dhanachandra, Khumanthem Manglem, and Yambem~Jina Chanu.
+\newblock Image segmentation using k -means clustering algorithm and
+  subtractive clustering algorithm.
+\newblock {\em Procedia Computer Science}, 54:764--771, 2015.
+
+\bibitem{Fan2020CamouflagedOD}
+Deng-Ping Fan, Ge-Peng Ji, Guolei Sun, Ming-Ming Cheng, Jianbing Shen, and Ling
+  Shao.
+\newblock Camouflaged object detection.
+\newblock {\em 2020 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 2774--2784, 2020.
+
+\bibitem{Le2019AnabranchNF}
+Trung-Nghia Le, Tam~V. Nguyen, Zhongliang Nie, Minh-Triet Tran, and Akihiro
+  Sugimoto.
+\newblock Anabranch network for camouflaged object segmentation.
+\newblock {\em Comput. Vis. Image Underst.}, 184:45--56, 2019.
+
+\bibitem{Mostajabi2014FeedforwardSS}
+Mohammadreza Mostajabi, Payman Yadollahpour, and Gregory Shakhnarovich.
+\newblock Feedforward semantic segmentation with zoom-out features.
+\newblock {\em 2015 IEEE Conference on Computer Vision and Pattern Recognition
+  (CVPR)}, pages 3376--3385, 2014.
+
+\bibitem{Najman1994WatershedOA}
+Laurent Najman and Michel Schmitt.
+\newblock Watershed of a continuous function.
+\newblock {\em Signal Process.}, 38:99--112, 1994.
+
+\bibitem{Nock2004StatisticalRM}
+Richard Nock and Frank Nielsen.
+\newblock Statistical region merging.
+\newblock {\em IEEE Transactions on Pattern Analysis and Machine Intelligence},
+  26:1452--1458, 2004.
+
+\bibitem{Otsu1979ATS}
+Nobuyuki Otsu.
+\newblock A threshold selection method from gray-level histograms.
+\newblock {\em IEEE Trans. Syst. Man Cybern.}, 9:62--66, 1979.
+
+\bibitem{Shelhamer2014FullyCN}
+Evan Shelhamer, Jonathan Long, and Trevor Darrell.
+\newblock Fully convolutional networks for semantic segmentation.
+\newblock {\em 2015 IEEE Conference on Computer Vision and Pattern Recognition
+  (CVPR)}, pages 3431--3440, 2014.
+
+\bibitem{Uijlings2013SelectiveSF}
+Jasper R.~R. Uijlings, Koen E.~A. van~de Sande, Theo Gevers, and Arnold W.~M.
+  Smeulders.
+\newblock Selective search for object recognition.
+\newblock {\em International Journal of Computer Vision}, 104:154 -- 171, 2013.
+
+\end{thebibliography}

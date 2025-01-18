@@ -1,7 +1,6 @@
 /dataset/
 __pycache__/
 *.pyc
-/report/
 /data/logs/
 /wandb/
 /weights/
