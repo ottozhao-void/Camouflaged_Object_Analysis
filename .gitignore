@@ -1,10 +1,11 @@
 /dataset/
 __pycache__/
 *.pyc
-/report/
 /data/logs/
 /wandb/
 /weights/
+/report/
+/report copy/
 
 *.pth
 *.pth.tar
