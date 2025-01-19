@@ -5,6 +5,7 @@ __pycache__/
 /wandb/
 /weights/
 /report/
+/report copy/
 
 *.pth
 *.pth.tar
