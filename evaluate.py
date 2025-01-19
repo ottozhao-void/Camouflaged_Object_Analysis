@@ -277,7 +277,7 @@ def get_args():
     from argparse import ArgumentParser
 
     parser = ArgumentParser()
-    parser.add_argument('--ITER_MAX', type=float, default=2)
+    parser.add_argument('--ITER_MAX', type=float, default=1)
     parser.add_argument('--POS_W', type=float, default=2)
     parser.add_argument('--POS_XY_STD', type=float, default=4)
     parser.add_argument('--BI_W', type=float, default=4)

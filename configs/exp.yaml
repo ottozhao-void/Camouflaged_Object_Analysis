@@ -5,7 +5,7 @@ parameters:
   dataset:
     values: ["CAMO", "COD10K"]
   model:
-    values: ["Deeplab", "DLabCRF"]
+    values: ["DeepLab", "DLabCRF"]
 
 
 command:

@@ -35,3 +35,4 @@ command:
   - --model
   - DLabCRF
   - --distributed
+  - ${args}
