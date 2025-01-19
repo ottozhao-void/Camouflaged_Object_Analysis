@@ -12,7 +12,7 @@ import tqdm
 import wandb
 
 from libs.utils.metric import SegmentationMetric
-from libs.datasets import get_dataset
+from libs.datasets.camouflage import CamouflageDataset
 from libs.utils import DenseCRF
 from libs.models import DeepLabV2_ResNet101_MSC
 
@@ -49,19 +49,14 @@ def setup_vt_dataloader(dataset, config, distributed=False):
     else:
         sampler = None
 
-    # 根据是 test 还是 val，使用不同的 batch size
-    if dataset.task == "test":
-        bsize = config.SOLVER.BATCH_SIZE.TEST
-    else:
-        bsize = config.SOLVER.BATCH_SIZE.VAL
-
     data_loader = DataLoader(
         dataset,
-        batch_size=bsize,
+        batch_size=config.SOLVER.BATCH_SIZE.TEST if dataset.task == "test" else config.SOLVER.BATCH_SIZE.VAL,
         sampler=sampler,
         num_workers=config.DATALOADER.NUM_WORKERS,
         pin_memory=True
     )
+    
     return data_loader
 
 
@@ -145,14 +140,16 @@ def get_vt_dataset(task, config):
     """
     assert task in ["val", "test"], f"任务只能是'val'或者'test'，但是得到了 {task}"
 
-    dataset_all = get_dataset(config.DATASET.NAME)(
-        root=config.DATASET.ROOT,
+    dataset_all = CamouflageDataset(
+        
+
         split=config.DATASET.SPLIT.TEST,
         augment=False,
         base_size=config.IMAGE.SIZE.BASE,
         crop_size=config.IMAGE.SIZE.TEST,
         task=task
     )
+    
 
     # 按一定比例拆分数据集
     split_ratio = config.DATASET.TEST_SIZE if task == "test" else config.DATASET.VAL_SIZE
@@ -168,7 +165,7 @@ def get_vt_dataset(task, config):
     return dataset_subset
 
 
-def evaluate(model, data_loader, config, distributed=False, compute_loss=False):
+def evaluate(model, data_loader, config, distributed=False, compute_loss=False, crf=False):
     """
     统一的验证/测试逻辑:
       1. 根据 task 构造数据集 + DataLoader
@@ -229,13 +226,13 @@ def evaluate(model, data_loader, config, distributed=False, compute_loss=False):
             prob = torch.softmax(logits, dim=1)  # (N, C, H, W)
 
             # # ---- 如果是 test, 进行 CRF 后处理 ----
-            if task == "test":
+            if crf:
                 prob = crf_refine(images, prob, config)  # (N, C, H, W)
 
             # ---- 得到预测分割 (N, H, W) ----
             pred_labels = torch.argmax(prob, dim=1).float().cpu()
 
-            # ---- 计算指标 & 可选可视化 ----
+            # ---- 计算指标 & 可视化 ----
             for i in range(pred_labels.size(0)):
                 # 单张预测 & 标签
                 pred_label = pred_labels[i]
@@ -246,10 +243,10 @@ def evaluate(model, data_loader, config, distributed=False, compute_loss=False):
                 sm  += SegmentationMetric.calculate_smeasure(pred_label, gt_label)
 
                 # 仅在 test 时可视化若干图像
-                if num_visualize > 0 and wandb.run is not None:
-                    # 注意: images[i] 是 (3,H,W), 在 [0,1] 范围
-                    log_mask(images[i], pred_label, gt_label)
-                    num_visualize -= 1
+                # if num_visualize > 0 and wandb.run is not None:
+                #     # 注意: images[i] 是 (3,H,W), 在 [0,1] 范围
+                #     log_mask(images[i], pred_label, gt_label)
+                #     num_visualize -= 1
 
     # 3) 分布式同步
     mae = mae.to(device)
@@ -274,18 +271,94 @@ def evaluate(model, data_loader, config, distributed=False, compute_loss=False):
         if compute_loss:
             val_loss = val_loss / num_samples
             print(f"[{task.upper()}] => Loss: {val_loss.item():.4f}")
+            
+def get_args():
+    
+    from argparse import ArgumentParser
+
+    parser = ArgumentParser()
+    parser.add_argument('--POS_W', type=float, default=2)
+    parser.add_argument('--POS_XY_STD', type=float, default=4)
+    parser.add_argument('--BI_W', type=float, default=4)
+    parser.add_argument('--BI_XY_STD', type=float, default=44)
+    parser.add_argument('--BI_RGB_STD', type=float, default=8)
+    parser.add_argument('--dataset', type=str, required=True)
+    parser.add_argument('--model', type=str, required=True)
+    parser.add_argument("--config", type=str, required=True)
+    
+    args = parser.parse_args()
+    return args
+
+def test(args):
+    
+    dataset, model = args.dataset, args.model
+    sweep_for_crf = dataset == "CAMO+COD10K" and model == "DLabCRF"
+    local_rank = args.local_rank
+    
+    config = OmegaConf.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml")
+    
+    # Update CRF parameters from wandb
+    if sweep_for_crf:
+        config.CRF.ITER_MAX = args.ITER_MAX
+        config.CRF.POS_W = args.POS_W
+        config.CRF.POS_XY_STD = args.POS_XY_STD
+        config.CRF.BI_W = args.BI_W
+        config.CRF.BI_XY_STD = args.BI_XY_STD
+        config.CRF.BI_RGB_STD = args.BI_RGB_STD
+    
+    if local_rank == 0:
+        wandb.init(
+            project="Camouflaged_Object_Analysis_Test",
+            tags=[args.dataset, args.model],
+            config=OmegaConf.to_container(config)
+        )
+    
+    device = torch.device(f"cuda:{local_rank}")
+    # Load model
+    model = DeepLabV2_ResNet101_MSC(n_classes=config.DATASET.N_CLASSES).to(device)
+    state_dict = torch.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/checkpoint_60.pth")
+    model.load_state_dict(state_dict)
+    model = DDP(model, device_ids=[device]) if args.distributed else model
+    
+    test_dataset = CamouflageDataset(
+        split_ratio=config.DATASET.TEST_SIZE,
+        dataset=args.dataset,
+        root=config.DATASET.ROOT,
+        split=config.DATASET.SPLIT.TEST,
+        augment=False,
+        base_size=config.IMAGE.SIZE.BASE,
+        crop_size=config.IMAGE.SIZE.TEST,
+        task="test"
+    )      
+    
+    test_loader = setup_vt_dataloader(
+        test_dataset,
+        config,
+        distributed=args.distributed
+    )
+       
+    evaluate(
+        model,
+        test_loader,
+        config,
+        distributed=args.distributed,
+        compute_loss=False,
+        crf = args.model == "DLabCRF"
+    )
 
 if __name__ == "__main__":
     
-    run = wandb.init(project="Camouflaged_Object_Analysis", tags=["test"])
-    config = OmegaConf.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml")
-    device = torch.device("cuda:1")
-    # Load model
-    model = DeepLabV2_ResNet101_MSC(n_classes=config.DATASET.N_CLASSES).to(device)
-    state_dict = torch.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/checkpoint_60.pth", map_location={"cuda:0": f"cuda:{1}"})
-    model.load_state_dict(state_dict)
+    args = get_args()
     
-    test_dataset = get_vt_dataset("test", config)
-    test_loader = setup_vt_dataloader(test_dataset, config, distributed=False)
+    if args.distributed:
+        
+        import torch.distributed as dist
+        import os
+        from torch.utils.data import DistributedSampler
+        
+        local_rank = int(os.environ.get("LOCAL_RANK", 0))
+        dist.init_process_group(backend="nccl", rank=local_rank)
+        args.local_rank = local_rank
     
-    evaluate(model, test_loader, config, distributed=False, compute_loss=True)
+    test(args)
+    

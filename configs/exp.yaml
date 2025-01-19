@@ -1,0 +1,17 @@
+program: /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/evaluate.py
+project: Camouflaged_Object_Analysis_Test
+method: grid
+parameters:
+  dataset:
+    values: ["CAMO", "COD10K"]
+  model:
+    values: ["Deeplab", "DLabCRF"]
+
+
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - --config
+  - /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml
+  - ${args}

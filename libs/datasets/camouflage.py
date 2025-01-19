@@ -6,82 +6,68 @@ import torchvision.transforms as t
 import torch
 import tqdm
 from torch.utils.data import DataLoader
-from libs.datasets.base import _BaseDataset
+from .base import _BaseDataset
 import numpy as np
+import random
 
 class CamouflageDataset(_BaseDataset):
-    def __init__(self, **kargs):
+    def __init__(self, split_ratio, dataset="none", **kargs):
+        self.split_ratio = split_ratio
+        
+        assert dataset in ["COD10K", "CAMO", "CAMO+COD10K","COD10K+CAMO"], "Dataset not found"
+        self.dataset = dataset
+        self.image_list = []
+        self.mask_list = []
         super().__init__(**kargs)
 
     def _load_data(self, index):
         # Image preprocessing:
         image = np.asarray(Image.open(self.image_list[index]))
         mask = np.asarray(Image.open(self.mask_list[index]))
-
+        
+        # print(f"Processing image: {self.image_list[index]}")
+        # print(f"Processing mask: {self.mask_list[index]}")
+        
         return image, mask
     
     def _set_files(self):
         self.split_dir = os.path.join(self.root, self.split)
         
-        image_dir = Path(os.path.join(self.split_dir, "image"))
-        mask_dir = Path(os.path.join(self.split_dir, "GT"))
-
-        self.image_list = sorted([img for img in image_dir.iterdir()])
-        self.mask_list = sorted([mask for mask in mask_dir.iterdir()])
+        imageP = Path(os.path.join(self.split_dir, "image"))
+        maskP = Path(os.path.join(self.split_dir, "GT"))
+        
+        if self.split == "test":
+            for d in self.dataset.split("+"):
+                selected_images, selected_masks = self.split_dataset(imageP, maskP, "camourflage" if d == "CAMO" else d)
+                self.image_list.extend(selected_images)
+                self.mask_list.extend(selected_masks)
+        else:
+            self.image_list = sorted([img for img in imageP.iterdir()])
+            self.mask_list = sorted([mask for mask in maskP.iterdir()])
 
         return
+    def split_dataset(self, imageP, maskP, dataset):
+        random.seed(42)
         
-
-# class CamouflageDataset(data.Dataset):
-#     def __init__(self, dataset_dir, split, img_size=(512,512), color_space = "RGB"):
-#         super().__init__()
-
-#         self.dataset_dir = dataset_dir
-
-#         self.imgsz = img_size
-#         self.color_space = color_space
-#         self.stats_mean, self.stats_std = datset_stats[f"{color_space.lower()}{img_size[0]}"]
-
-#         # Preprocessing
-#         self.mask_transform = t.Compose([
-#             t.Resize(img_size),
-#             t.ToTensor(),
-#         ])
-#         self.img_transform = t.Compose([
-#             t.Lambda(lambda img: img.convert(color_space)),
-#             t.Resize(img_size),
-#             t.ToTensor(),
-#             t.Normalize(self.stats_mean, self.stats_std)
-#         ])  # Optional: Denoising, histogram equalization
-
-#         assert split in ["train", "test"], "Only train and test split are available"
-#         self.split = split
-#         self.split_dir = os.path.join(self.dataset_dir, self.split)
-
-#         self._load()
+        assert self.split_ratio is not None, "Split ratio is not defined"
+        image_dir = imageP.resolve()
+        mask_dir = maskP.resolve()
         
+        image_list = []
+        mask_list = []
 
-#     def __getitem__(self, index):
+        for image in imageP.iterdir():
+            if image.name.startswith(dataset):
+                image_list.append(os.path.join(image_dir, image.name))
+                mask_list.append(os.path.join(mask_dir, image.name.replace("jpg", "png")))
+            
+        num_to_select = int(len(image_list) * self.split_ratio)
+        selcted_indexes = random.sample(range(len(image_list)), num_to_select)
+        selected_images = [image_list[i] for i in selcted_indexes]
+        selected_masks = [mask_list[i] for i in selcted_indexes]
         
-#         # Image preprocessing:
-#         image = Image.open(self.image_paths[index])
-#         image = self.img_transform(image)
+        return selected_images, selected_masks
 
-#         # Mask preprocessing
-#         mask = Image.open(self.mask_paths[index])
-#         mask = self.mask_transform(mask)
-
-#         return [image, mask]
-#     def __len__(self):
-#         return len(self.image_paths)
-#     def _load(self):
-#         image_dir = Path(os.path.join(self.split_dir, "image"))
-#         mask_dir = Path(os.path.join(self.split_dir, "GT"))
-
-#         self.image_paths = [img for img in image_dir.iterdir()]
-#         self.mask_paths = [mask for mask in mask_dir.iterdir()]
-        
-     
 datset_stats = {
     "rgb512": [[0.4562, 0.4361, 0.3434], [0.1963, 0.1894, 0.1788]]
 }

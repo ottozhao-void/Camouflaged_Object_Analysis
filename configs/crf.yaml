@@ -1,0 +1,30 @@
+program: /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/evaluate.py
+project: Camouflaged_Object_Analysis_Test
+method: bayes
+metric:
+  goal: maximize
+  name: test_smeasure
+parameters:
+  POS_W:
+    min: 1
+    max: 4
+  POS_XY_STD:
+    min: 1
+    max: 10
+  BI_W:
+    min: 1
+    max: 10
+  BI_XY_STD:
+    min: 60
+    max: 70
+  BI_RGB_STD:
+    min: 1
+    max: 10
+
+
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - --config
+  - /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml

@@ -1,0 +1,18 @@
+program: /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/evaluate.py
+project: Camouflaged_Object_Analysis_Test
+method: grid
+parameters:
+  ITER: 
+    values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+
+command:
+  - ${env}
+  - ${interpreter}
+  - ${program}
+  - --config
+  - /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml
+  - --dataset
+  - CAMO+COD10K
+  - --model
+  - DLabCRF
