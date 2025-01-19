@@ -15,16 +15,23 @@ parameters:
     min: 1
     max: 10
   BI_XY_STD:
-    min: 60
-    max: 70
+    min: 40
+    max: 60
   BI_RGB_STD:
     min: 1
-    max: 10
+    max: 5
 
 
 command:
   - ${env}
-  - ${interpreter}
+  - torchrun
+  - --nproc_per_node
+  - 6
   - ${program}
   - --config
   - /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml
+  - --dataset
+  - CAMO+COD10K
+  - --model
+  - DLabCRF
+  - --distributed
