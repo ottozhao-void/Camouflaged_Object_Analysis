@@ -13,8 +13,14 @@
 \usepackage{longtable}
 \usepackage{amsmath}
 \usepackage{array}
+\usepackage{amsfonts}
+
+
 \begin{document}
 
+\tableofcontents
+
+\newpage
 
 \section{引言}
 
@@ -24,20 +30,12 @@
 
 而与伪装目标分析相对则是显著目标分析(salient object detection)，
 显著目标分析所要分析的目标与周围环境在颜色、纹理等特征上存在较大的差异，能够被视觉系统快速、精准的捕捉。
-一个典型的例子如图\ref{fig:camouflagedVSSalient}所示。
 
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[height=0.5\textheight]{figures/camouflagedVSSalient.png}
-    \caption{伪装目标分析与显著目标分析}
-    \label{fig:camouflagedVSSalient}
-\end{figure}
-
-本报告将围绕伪装目标分割与检测展开，主要使用如下三种方法：
+本报告将围绕伪装目标分割与检测展开，主要使用如下三种方法\footnote{代码实现已经放在了 \href{https://github.com/ottozhao-void/Camouflaged_Object_Analysis}{github仓库}}：
 \begin{itemize}
-    \item 基于条件随机场(CRF)的伪装目标分割。
-    \item 
-    \item 
+    \item \textbf{基于条件随机场(CRF)的伪装目标分割}：条件随机场模型具有天然的对数据结构建模的能力，所以该方法结合深度全卷积网络来提取每个像素的一元势能，然后通过条件随机场模型对像素间的结构关系进行建模，从而提升分割结果的平滑性和连续性
+    \item \textbf{基于结构支持向量机 (SSVM) 的伪装目标分割}：结构支持向量机是一种用于解决结构化预测问题的机器学习方法。本任务使用结构支持向量机来进行伪装目标分割。具体来说，使用深度全卷积网络和结构支持向量机对相邻像素间的关系进行建模。随后通过优化结构化铰链损失函数来学习像素之间的关系，从而提高分割的准确性。
+    \item \textbf{基于 AdaBoost 的伪装目标检测}：AdaBoost 算法是一种集成学习方法，通过结合多个弱学习器来构建一个强学习器。在本任务中，伪装目标检测被分为定位器和分类器两个模块。定位器使用 Faster R-CNN 模型来生成区域特征向量以便后续训练AdaBoost分类器，从而实现对伪装目标的检测
 \end{itemize}
 
 \section{相关工作}
@@ -45,14 +43,29 @@
 \subsection{语义分割}
 \textbf{语义分割}是许多视觉理解系统中的核心组成部分，其目的是将图像划分为多个区域。一些早期的方法包括阈值分割\cite{Otsu1979ATS}、基于直方图的分组、区域增长\cite{Nock2004StatisticalRM}、k均值聚类\cite{Dhanachandra2015ImageSU}和分水岭算法\cite{Najman1994WatershedOA}等。这些方法为语义分割奠定了基础，但在复杂场景中往往存在性能限制。近年来，随着深度学习技术的快速发展，语义分割领域迎来了新的变革。深度学习模型通过学习高维特征表示和端到端的优化策略，大幅提升了分割模型的性能。在多个基准数据集上的实验表明，基于深度学习的语义分割方法通常能够取得最高的精度。
 
-\textbf{基于区域分类的语义分割方法} 这一类方法采用自下而上的图像分割方法，生成候选区域后，结合DCNN对分割区域进行分类。例如，在方法\cite{Arbelez2014MultiscaleCG}和\cite{Uijlings2013SelectiveSF}中利用候选边界框和分割区域，将其作为输入提供给DCNN，通过引入形状信息优化分类过程。类似地，\cite{Mostajabi2014FeedforwardSS}采用超像素表示进行区域分割。这些方法能够从高质量的初始分割中受益，但其性能容易受到初始分割的影响，难以实现后续的纠正。
+DeepLab\cite{Chen2016DeepLabSI}系列是深度学习与传统机器学习相结合用于语义分割的一个典型例子。
+DeepLab模型通过引入空洞卷积和空洞空间金字塔池化技术，有效地提升了分割模型的性能。
+此外，DeepLab还引入了条件随机场(CRF)模型，用于对分割结果进行后处理，提升分割结果的平滑性和连续性。
+在PASCAL VOC 2012数据集上，DeepLab模型取得了当时最好的分割性能。
 
-\subsection{伪装目标分割}
+\subsection{目标检测}
+候选区域生成（Region Proposal）是目标检测中的关键环节，其核心在于高效生成可能包含目标的区域，同时确保高召回率和低计算成本。传统方法如Selective Search和EdgeBoxes主要依赖低级特征，通过启发式策略生成候选区域，虽然具有一定的准确性，但在处理复杂场景时速度较慢，成为检测流程的瓶颈。随着深度学习的发展，候选区域生成逐渐与卷积神经网络（CNN）深度结合，为该领域带来了革命性变化。
+
+R-CNN系列是候选区域生成与深度学习结合的开端，其中R-CNN\cite{Girshick2013RichFH}通过传统算法生成候选区域，再利用CNN对区域进行分类和边界框回归。尽管这种方法显著提升了检测性能，但因缺乏共享特征导致计算效率低下。Fast R-CNN\cite{Girshick2015FastR}通过引入RoI池化层，从共享的卷积特征中提取候选区域特征，实现了检测流程的加速。然而，候选区域生成仍然依赖外部算法，限制了整体效率。
+
+Faster R-CNN\cite{Ren2015FasterRT}中的区域提议网络（Region Proposal Network, RPN）突破了这一限制，首次将候选区域生成与目标检测网络完全整合。RPN通过滑动窗口在共享特征图上生成候选区域，利用多尺度Anchor框设计，直接回归预测候选区域的坐标及其得分。这种方法不仅避免了传统多尺度图像金字塔的高计算开销，还能在保持高召回率的同时简化计算流程。RPN通过端到端的训练流程，与检测网络共享特征，在大幅提升效率的同时，显著提高了候选区域生成的质量，使Faster R-CNN成为准实时目标检测的典范。
+
+\subsection{伪装目标分析}
+伪装目标分析（Camouflaged Object Analysis, COA）的核心在于开发能够有效检测和分割高度隐藏于背景中的目标的算法，其挑战性主要来源于目标与背景之间的高相似性，以及伪装目标在形状、纹理、颜色等特征上的复杂性。
+
+在检测方法方面，SINet框架\cite{Fan2020CamouflagedOD}（Search and Identification Network）提出了一个两阶段的解决方案，其设计灵感来自捕食者的视觉行为。第一阶段的搜索模块通过多尺度特征提取机制识别可能的伪装区域，第二阶段的识别模块通过进一步细化处理来确定目标的边界和结构。SINet充分利用了低层特征的空间信息和高层特征的语义信息，通过特征融合和注意力机制实现了在复杂场景中的高效伪装目标检测。
+
+在分割方法上，Anabranch网络\cite{Le2019AnabranchNF}（ANet）通过双流设计将分类任务与分割任务有机结合，显著提高了分割精度。分类流的主要作用是检测图像中是否存在伪装目标，并生成全局语义信息；分割流则专注于生成像素级的伪装目标分割图。两条流的输出通过特定融合机制进行整合，从而有效提升了对伪装目标的定位和分割能力。值得注意的是，ANet通过采用卷积神经网络（CNN）进行特征提取，并结合全卷积网络（FCN）实现像素级预测，其整体架构设计既灵活又高效。此外，ANet通过显著性检测模型与分割模型的耦合，借鉴显著性目标检测的成功经验，进一步提升了对伪装目标边界的处理能力，特别是在背景复杂、目标边界模糊的情况下表现出色。
 \section{方法}
 
 \subsection{基于条件随机场(CRF)的伪装目标分割}
 
-对于任务一，我将采用如下的流程来完成伪装目标分割任务，简要介绍如下：
+对于任务一，我将采用如下的流程来完成伪装目标分割任务：
 
 \begin{enumerate}
     \item \textbf{深度全卷积网络来获取每个像素的初始一元势能(Unary Potential)：} 受到DeepLab\cite{Chen2016DeepLabSI}等相关工作的启发，可以利用深度全卷积网络(DCNN)本身对于视觉信息的强大处理能力，直接使用经过预处理的原始图像作为模型输入，来进行一元势能的提取，为后续条件随机场提供一个较好的迭代初始点，详细模型请见\ref{sec:unary}。
@@ -166,7 +179,7 @@ $$
     \textbf{参数}       & \textbf{定义}            \\ \midrule
     \texttt{ITER}        & 迭代数                  \\
     \texttt{POS\_W}      & 空间核函数权重          \\
-HH]标准差        \H
+    \texttt{POS\_XY\_STD} & 空间核函数标准差        \\
     \texttt{BI\_W}       & 双边核函数权重          \\
     \texttt{BI\_XY\_STD}  & 双边核函数位置标准差    \\
     \texttt{BI\_RGB\_STD} & 双边核函数颜色标准差    \\ \bottomrule
@@ -294,7 +307,62 @@ $$
 \text{obj} = \sum_{i=1}^3 Dot(Mask_{i},SMap_{i})
 $$
 
-\subsection{基于AdaBoost的伪装目标识别}
+
+\subsection{基于AdaBoost的伪装目标检测}
+
+AdaBoost算法是集成学习的一种，其主要思想是通过结合多个“好而不同”的弱学习器来实现一个强学习器。而”好而不同“这个特性的实现则是通过对数据集中的样本分配权重，使弱学习器的每一次迭代学习，所学习到的侧重点都不一样，从而弱学习器之间相互“取长补短”，达到强学习器的效果。
+
+在本次任务中，我将伪装目标检测任务分成两个相互联系的模块。
+\begin{enumerate}
+    \item \textbf{基于Faster R-CNN的定位器与样本生成器：} 该模块主要用来实现对伪装目标的定位，以及用于生成训练AdaBoost分类器的的正负样本特征。
+    \item \textbf{基于AdaBoost的分类器：} 该模块对Faster R-CNN提供的候选框特征进行分类。输出类别1对应着伪装目标，输出类别0对应着背景。
+\end{enumerate}
+为了方便起见，称该任务所使用的模型为\textbf{RegionBoost}。接下来将对各个部分进行介绍，模型流程图可见\textbf{图。。}
+
+\subsubsection{基于Faster R-CNN的定位器与样本生成器}
+首先在伪装目标数据集上对Faster R-CNN进行训练，使其能够较好的理解伪装数据集的分布。之后冻结Faster R-CNN的权重。
+Faster R-CNN在这里充当以下角色：
+\paragraph{定位器}
+在模型推理过程，Faster R-CNN接收图像作为输入，通过区域提议网络(RPN)产生候选框，然后通过RoI池化层提取特征用于之后的分类和边界框回归。经过训练的Faster R-CNN可以较好的对伪装目标进行边界框定位。
+
+\paragraph{正负样本生成器}
+在本任务所使用的数据集(COD10K+CAMO)中，存在以下问题：
+\begin{enumerate}
+    \item \textbf{缺少负样本：} 负样本指的是类别为背景的边界框。AdaBoost分类器的训练需要大量的正负样本来使模型能够在迭代学习中产生对背景和伪装目标的分辨能力，只具有正样本是不够的。
+    \item \textbf{正样本数量较少：} 大部分图片中只包含一个伪装目标，这会造成AdaBoost分类器无法充分学习到伪装目标的特征，从而导致分类性能较差
+\end{enumerate}
+为解决上述问题，RegionBoost使用Faster R-CNN作为正负样本生成器，具体算法如下：
+
+\begin{algorithm}[H]
+    \caption{生成正负样本的算法}
+    \label{alg:sample_generation}
+    \begin{algorithmic}[1]
+        \REQUIRE 原始图像及其对应的真值边界框，区域提议网络（RPN）输出的候选框集合 $\hat{B} = \{\hat{b}_{i}\}$
+        \STATE 从 RPN 中生成的候选框集合 $\hat{B}$ 中获取候选框，其坐标位于原始图像坐标系中。
+        \FOR{每个真值边界框$b$}
+            \STATE 计算 $b$ 与所有候选框 $\hat{b}_{i} \in \hat{B}$ 的 IoU。
+            \STATE 将 IoU 大于 $0.8$ 的候选框标记为潜在正样本，类别设为 $1$。
+            \STATE 将 IoU 小于 $0.5$ 的候选框标记为潜在负样本，类别设为 $0$。
+        \ENDFOR
+        \STATE 从潜在正样本和负样本中分别选取预设数量 $n_p$ 和 $n_n$ 个样本，保证正负样本数量比例均衡。
+        \FOR{每个选定的正样本和负样本}
+            \STATE 将样本的坐标从原始图像坐标系映射到候选区域坐标系。
+            \STATE 使用 RoI 池化操作提取样本的特征向量。
+        \ENDFOR
+        \STATE 将生成的样本特征向量及对应类别保存为“.npz”格式，以便后续用于AdaBoost分类器的训练
+    \end{algorithmic}
+\end{algorithm}
+
+\subsubsection{基于AdaBoost的分类器}
+
+AdaBoost的实现主要在于基学习器的设计。在RegionBoost中使用浅层全连接网络作为AdaBoost的基学习器，这种设计主要出于以下考虑：
+\begin{enumerate}
+    \item \textbf{高纬输入：} AdaBoost分类器的输入是从Faster R-CNN中提取的经过扁平化处理后的特征图，而特征图的尺寸通常在$1024\times7\times 7$，也就是说每个样本特征的维度是50176。传统弱学习器如决策树可能会面临计算复杂度过高或者过拟合于某些特征子空间而限制泛化能力的问题
+    \item \textbf{全连接网络强大的泛化能力：} 即使是浅层全连接网络依然可以产生对数据不错的拟合能力和泛化能力
+\end{enumerate}
+故综上考虑，使用浅层全连接网络作为基学习器。
+
+
 
 \section{实验}
 
@@ -320,7 +388,6 @@ $$
     \end{tabular}
     \caption{数据集划分}
 \end{table}
-\subsection{评价指标}
 
 \subsection{伪装目标分割实验结果分析}
 \subsubsection{模型训练分析}
@@ -435,7 +502,7 @@ $$
 \label{sec:visual}
 
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \begin{subfigure}{0.5\textwidth}
         \centering
@@ -474,7 +541,7 @@ $$
     \caption{CAMO 可视化 \label{fig:CAMO_demo1}}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \begin{subfigure}{0.4\textwidth}
         \centering
@@ -515,7 +582,7 @@ DeepLab模型与DLabSSVM模型在可视化上可以看出有明显的误分割�
 DLabSSVM模型的分割边界更加锯齿化, 且DLabSSVM的误分割区域更多。
 
 
-\subsection{伪装目标识别实验结果分析}
+\subsection{伪装目标检测实验结果分析}
 
 
 
