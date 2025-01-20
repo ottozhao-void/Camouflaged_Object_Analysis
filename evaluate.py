@@ -164,8 +164,15 @@ def get_vt_dataset(task, config):
 
     return dataset_subset
 
-
-def evaluate(model, data_loader, config, distributed=False, compute_loss=False, crf=False):
+def evaluate(
+    model,
+    data_loader,
+    config,
+    distributed=False,
+    compute_loss=False,
+    crf=False,
+    visualize=False
+):
     """
     统一的验证/测试逻辑:
       1. 根据 task 构造数据集 + DataLoader
@@ -243,10 +250,12 @@ def evaluate(model, data_loader, config, distributed=False, compute_loss=False, 
                 sm  += SegmentationMetric.calculate_smeasure(pred_label, gt_label)
 
                 # 仅在 test 时可视化若干图像
-                # if num_visualize > 0 and wandb.run is not None:
-                #     # 注意: images[i] 是 (3,H,W), 在 [0,1] 范围
-                #     log_mask(images[i], pred_label, gt_label)
-                #     num_visualize -= 1
+                if visualize and wandb.run is not None:
+                    # 注意: images[i] 是 (3,H,W), 在 [0,1] 范围
+                    log_mask(images[i], pred_label, gt_label)
+                    num_visualize -= 1
+                elif wandb.run is None and visualize:
+                    raise ValueError("wandb.run is None, 无法进行可视化")
 
     # 3) 分布式同步
     mae = mae.to(device)
@@ -278,15 +287,16 @@ def get_args():
 
     parser = ArgumentParser()
     parser.add_argument('--ITER_MAX', type=float, default=1)
-    parser.add_argument('--POS_W', type=float, default=2)
-    parser.add_argument('--POS_XY_STD', type=float, default=4)
-    parser.add_argument('--BI_W', type=float, default=4)
-    parser.add_argument('--BI_XY_STD', type=float, default=44)
-    parser.add_argument('--BI_RGB_STD', type=float, default=8)
+    parser.add_argument('--POS_W', type=float, default=4)
+    parser.add_argument('--POS_XY_STD', type=float, default=7)
+    parser.add_argument('--BI_W', type=float, default=3)
+    parser.add_argument('--BI_XY_STD', type=float, default=40)
+    parser.add_argument('--BI_RGB_STD', type=float, default=4)
     parser.add_argument('--dataset', type=str, required=True)
     parser.add_argument('--model', type=str, required=True)
     parser.add_argument("--config", type=str, required=True)
     parser.add_argument("--distributed", action="store_true")
+    parser.add_argument("--visualize", action="store_true")
     
     args = parser.parse_args()
     return args
@@ -311,7 +321,7 @@ def test(args):
     if local_rank == 0:
         wandb.init(
             project="Camouflaged_Object_Analysis_Test",
-            tags=[args.dataset, args.model],
+            tags=[args.dataset, args.model] + (["visualize"] if args.visualize else []),
             config=OmegaConf.to_container(config)
         )
     
@@ -345,7 +355,8 @@ def test(args):
         config,
         distributed=args.distributed,
         compute_loss=False,
-        crf = args.model == "DLabCRF"
+        crf = args.model == "DLabCRF",
+        visualize=args.visualize
     )
 
 if __name__ == "__main__":
