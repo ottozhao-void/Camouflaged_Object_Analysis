@@ -25,7 +25,8 @@ class CamouflageDataset(_BaseDataset):
         image = np.asarray(Image.open(self.image_list[index]))
         mask = np.asarray(Image.open(self.mask_list[index]))
         
-        # print(f"Processing image: {self.image_list[index]}")
+        print("====================================")
+        print(f"Processing image: {self.image_list[index]}")
         # print(f"Processing mask: {self.mask_list[index]}")
         
         return image, mask

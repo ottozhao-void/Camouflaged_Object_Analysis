@@ -54,8 +54,16 @@ SOLVER:
 
 CRF:
   ITER_MAX: 1
-  POS_W: 2
-  POS_XY_STD: 4
-  BI_W: 4
-  BI_XY_STD: 44
-  BI_RGB_STD: 8
+  POS_W: 4
+  POS_XY_STD: 7
+  BI_W: 3
+  BI_XY_STD: 40
+  BI_RGB_STD: 4
+
+# CRF:
+#   ITER_MAX: 1
+#   POS_W: 1
+#   POS_XY_STD: 1
+#   BI_W: 1
+#   BI_XY_STD: 40
+#   BI_RGB_STD: 1

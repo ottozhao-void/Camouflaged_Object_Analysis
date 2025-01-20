@@ -10,8 +10,11 @@ parameters:
 
 command:
   - ${env}
-  - ${interpreter}
+  - torchrun
+  - --nproc_per_node
+  - 6
   - ${program}
   - --config
   - /data/sinopec/xjtu/zfh/Advanced_ML_Coursework/configs/camouflage.yaml
+  - --distributed
   - ${args}
