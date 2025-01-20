@@ -1,38 +1,38 @@
-\contentsline {section}{\numberline {1}引言}{3}{section.1}
-\contentsline {section}{\numberline {2}相关工作}{4}{section.2}
-\contentsline {subsection}{\numberline {2.1}语义分割}{4}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}目标检测}{4}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}伪装目标分析}{5}{subsection.2.3}
-\contentsline {section}{\numberline {3}方法}{6}{section.3}
-\contentsline {subsection}{\numberline {3.1}基于条件随机场(CRF)的伪装目标分割}{6}{subsection.3.1}
-\contentsline {subsubsection}{\numberline {3.1.1}基于数据集的发现}{6}{subsubsection.3.1.1}
-\contentsline {subsubsection}{\numberline {3.1.2}一元势能提取}{7}{subsubsection.3.1.2}
-\contentsline {paragraph}{空洞卷积的使用：}{7}{paragraph*.4}
-\contentsline {paragraph}{多尺度分割的处理：}{8}{paragraph*.5}
-\contentsline {subsubsection}{\numberline {3.1.3}基于全连接条件随机场的后处理逻辑}{8}{subsubsection.3.1.3}
-\contentsline {paragraph}{能量函数定义}{8}{paragraph*.6}
-\contentsline {paragraph}{二元势能的建模}{9}{paragraph*.7}
-\contentsline {paragraph}{推理}{9}{paragraph*.8}
-\contentsline {paragraph}{基于贝叶斯优化的参数搜索}{10}{paragraph*.9}
-\contentsline {subsection}{\numberline {3.2}基于结构支持向量机(SSVM)的伪装目标分割}{11}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}模型}{11}{subsubsection.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2}训练}{13}{subsubsection.3.2.2}
-\contentsline {subsubsection}{\numberline {3.2.3}推理}{13}{subsubsection.3.2.3}
-\contentsline {subsubsection}{\numberline {3.2.4}整数线性规划}{14}{subsubsection.3.2.4}
-\contentsline {subsection}{\numberline {3.3}基于AdaBoost的伪装目标检测}{15}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}基于Faster R-CNN的定位器与样本生成器}{16}{subsubsection.3.3.1}
-\contentsline {paragraph}{定位器}{16}{paragraph*.16}
-\contentsline {paragraph}{正负样本生成器}{17}{paragraph*.17}
-\contentsline {subsubsection}{\numberline {3.3.2}基于AdaBoost的分类器}{18}{subsubsection.3.3.2}
-\contentsline {section}{\numberline {4}实验}{18}{section.4}
-\contentsline {subsection}{\numberline {4.1}数据集}{18}{subsection.4.1}
-\contentsline {paragraph}{CAMO\cite {Le2019AnabranchNF}：}{18}{paragraph*.18}
-\contentsline {paragraph}{COD10k\cite {Fan2020CamouflagedOD}: }{18}{paragraph*.19}
-\contentsline {subsection}{\numberline {4.2}伪装目标分割实验结果分析}{19}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}模型训练分析}{19}{subsubsection.4.2.1}
-\contentsline {paragraph}{训练损失}{19}{paragraph*.22}
-\contentsline {paragraph}{结构度量}{20}{paragraph*.23}
-\contentsline {subsubsection}{\numberline {4.2.2}模型性能对比}{20}{subsubsection.4.2.2}
-\contentsline {subsubsection}{\numberline {4.2.3}不同CRF参数下的性能指标对比}{21}{subsubsection.4.2.3}
-\contentsline {subsubsection}{\numberline {4.2.4}可视化分析}{22}{subsubsection.4.2.4}
-\contentsline {section}{\numberline {5}代码}{23}{section.5}
+\contentsline {section}{\numberline {1}引言}{2}{section.1}
+\contentsline {section}{\numberline {2}相关工作}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}语义分割}{3}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}目标检测}{3}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}伪装目标分析}{4}{subsection.2.3}
+\contentsline {section}{\numberline {3}方法}{5}{section.3}
+\contentsline {subsection}{\numberline {3.1}基于条件随机场(CRF)的伪装目标分割}{5}{subsection.3.1}
+\contentsline {subsubsection}{\numberline {3.1.1}基于数据集的发现}{5}{subsubsection.3.1.1}
+\contentsline {subsubsection}{\numberline {3.1.2}一元势能提取}{6}{subsubsection.3.1.2}
+\contentsline {paragraph}{空洞卷积的使用：}{6}{paragraph*.4}
+\contentsline {paragraph}{多尺度分割的处理：}{7}{paragraph*.5}
+\contentsline {subsubsection}{\numberline {3.1.3}基于全连接条件随机场的后处理逻辑}{7}{subsubsection.3.1.3}
+\contentsline {paragraph}{能量函数定义}{7}{paragraph*.6}
+\contentsline {paragraph}{二元势能的建模}{8}{paragraph*.7}
+\contentsline {paragraph}{推理}{8}{paragraph*.8}
+\contentsline {paragraph}{基于贝叶斯优化的参数搜索}{9}{paragraph*.9}
+\contentsline {subsection}{\numberline {3.2}基于结构支持向量机(SSVM)的伪装目标分割}{10}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}模型}{10}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}训练}{12}{subsubsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.3}推理}{12}{subsubsection.3.2.3}
+\contentsline {subsubsection}{\numberline {3.2.4}整数线性规划}{13}{subsubsection.3.2.4}
+\contentsline {subsection}{\numberline {3.3}基于AdaBoost的伪装目标检测}{14}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}基于Faster R-CNN的定位器与样本生成器}{15}{subsubsection.3.3.1}
+\contentsline {paragraph}{定位器}{15}{paragraph*.16}
+\contentsline {paragraph}{正负样本生成器}{16}{paragraph*.17}
+\contentsline {subsubsection}{\numberline {3.3.2}基于AdaBoost的分类器}{17}{subsubsection.3.3.2}
+\contentsline {section}{\numberline {4}实验}{17}{section.4}
+\contentsline {subsection}{\numberline {4.1}数据集}{17}{subsection.4.1}
+\contentsline {paragraph}{CAMO\cite {Le2019AnabranchNF}：}{17}{paragraph*.18}
+\contentsline {paragraph}{COD10k\cite {Fan2020CamouflagedOD}: }{17}{paragraph*.19}
+\contentsline {subsection}{\numberline {4.2}伪装目标分割实验结果分析}{18}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}模型训练分析}{18}{subsubsection.4.2.1}
+\contentsline {paragraph}{训练损失}{18}{paragraph*.22}
+\contentsline {paragraph}{结构度量}{19}{paragraph*.23}
+\contentsline {subsubsection}{\numberline {4.2.2}模型性能对比}{19}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}不同CRF参数下的性能指标对比}{20}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}可视化分析}{21}{subsubsection.4.2.4}
+\contentsline {section}{\numberline {5}代码}{22}{section.5}

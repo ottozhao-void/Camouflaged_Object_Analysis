@@ -14,6 +14,22 @@
 \usepackage{amsmath}
 \usepackage{array}
 \usepackage{amsfonts}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=Python,            % 设定语言为 Python
+    basicstyle=\ttfamily,       % 使用等宽字体
+    keywordstyle=\color{blue},  % 关键字颜色
+    stringstyle=\color{red},    % 字符串颜色
+    commentstyle=\color{green}, % 注释颜色
+    numbers=left,               % 显示行号
+    numberstyle=\tiny\color{gray}, % 行号格式
+    frame=single,               % 外框样式
+    breaklines=true,            % 自动换行
+    captionpos=b,               % 标题位置（b为底部）
+    tabsize=4,                  % Tab 键宽度
+}
 
 
 \begin{document}
@@ -588,7 +604,228 @@ DeepLab模型与DLabSSVM模型在可视化上可以看出有明显的误分割�
 DLabSSVM模型的分割边界更加锯齿化, 且DLabSSVM的误分割区域更多。
 
 \section{代码}
+以下展示部分关键代码，完整代码已经放在\href{https://github.com/ottozhao-void/Camouflaged_Object_Analysis}{github仓库}
 
+\begin{lstlisting}[language=Python]
+
+    class CamouflageDataset(_BaseDataset):
+    def __init__(self, split_ratio, dataset="none", **kargs):
+        self.split_ratio = split_ratio
+        
+        assert dataset in ["COD10K", "CAMO", "CAMO+COD10K","COD10K+CAMO"], "Dataset not found"
+        self.dataset = dataset
+        self.image_list = []
+        self.mask_list = []
+        super().__init__(**kargs)
+
+    def _load_data(self, index):
+        # Image preprocessing:
+        image = np.asarray(Image.open(self.image_list[index]))
+        mask = np.asarray(Image.open(self.mask_list[index]))
+        
+        print("====================================")
+        print(f"Processing image: {self.image_list[index]}")
+        # print(f"Processing mask: {self.mask_list[index]}")
+        
+        return image, mask
+    
+    def _set_files(self):
+        self.split_dir = os.path.join(self.root, self.split)
+        
+        imageP = Path(os.path.join(self.split_dir, "image"))
+        maskP = Path(os.path.join(self.split_dir, "GT"))
+        
+        if self.split == "test":
+            for d in self.dataset.split("+"):
+                selected_images, selected_masks = self.split_dataset(imageP, maskP, "camourflage" if d == "CAMO" else d)
+                self.image_list.extend(selected_images)
+                self.mask_list.extend(selected_masks)
+        else:
+            self.image_list = sorted([img for img in imageP.iterdir()])
+            self.mask_list = sorted([mask for mask in maskP.iterdir()])
+
+        return
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+
+    class DenseCRF(object):
+    def __init__(self, iter_max, pos_w, pos_xy_std, bi_w, bi_xy_std, bi_rgb_std):
+        self.iter_max = iter_max
+        self.pos_w = pos_w
+        self.pos_xy_std = pos_xy_std
+        self.bi_w = bi_w
+        self.bi_xy_std = bi_xy_std
+        self.bi_rgb_std = bi_rgb_std
+
+    def __call__(self, image, probmap):
+        C, H, W = probmap.shape
+
+        U = utils.unary_from_softmax(probmap)
+        U = np.ascontiguousarray(U)
+
+        image = np.ascontiguousarray(image)
+
+        d = dcrf.DenseCRF2D(W, H, C)
+        d.setUnaryEnergy(U)
+        d.addPairwiseGaussian(sxy=self.pos_xy_std, compat=self.pos_w)
+        d.addPairwiseBilateral(
+            sxy=self.bi_xy_std, srgb=self.bi_rgb_std, rgbim=image, compat=self.bi_w
+        )
+
+        Q = d.inference(self.iter_max)
+        Q = np.array(Q).reshape((C, H, W))
+
+        return Q
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+
+    class SegmentationMetric:
+    """
+    Metric类用来跟踪MAE与S-Measure指标
+    
+    要度量的性能指标如下:
+    1. S-Measure: "Structure-measure: A New Way to Evaluate Foreground Maps" 论文中提出
+    2. Mean Absolute Error(MAE)
+    """
+    
+    @staticmethod
+    def get_mae(mae_list, reduce="average"):
+        """
+        根据reduce返回平均绝对误差的均值、加和或者MAE列表
+        """
+        assert reduce in ["average", "sum", "none"], f"Got unexpected reduce method: {reduce}"
+        mae = torch.stack(mae_list, 0)
+
+        if reduce == "average":
+            return mae.mean()
+        elif reduce == "sum":
+            return mae.sum()
+        else:
+            return mae
+    
+    @staticmethod
+    def get_smeasure(smeasure_list, reduce="average"):
+        """
+        根据reduce返回结构度量的均值、加和或者S-Measure列表
+        """
+        assert reduce in ["average", "sum", "none"], f"Got unexpected reduce method: {reduce}"
+        sm = torch.stack(smeasure_list, 0)
+
+        if reduce == "average":
+            return sm.mean()
+        elif reduce == "sum":
+            return sm.sum()
+        else:
+            return sm
+    
+    @staticmethod
+    def calculate_mae(pred, gt):
+        if pred.ndim == 3:
+            assert pred.shape[0] == 1, "只能是单张图像"
+            pred = pred.squeeze(0)
+        if gt.ndim == 3:
+            assert gt.shape[0] == 1, "只能是单张图像"
+            gt = gt.squeeze(0)
+        assert gt.shape == pred.shape, "预测图像与真值图像的尺寸必须一致"
+        
+        return torch.abs(pred - gt).mean()
+        
+    @staticmethod
+    def calculate_smeasure(pred, gt, alpha=0.5):
+        assert gt.shape[1:] == pred.shape[1:], "预测图像与真值图像的尺寸必须一致"
+        
+        if pred.ndim == 3:
+            assert pred.shape[0] == 1, "只能是单张图像"
+            pred = pred.squeeze(0)
+        if gt.ndim == 3:
+            assert gt.shape[0] == 1, "只能是单张图像"
+            gt = gt.squeeze(0)
+            
+        y = gt.mean()
+        if y == 0:
+            x = pred.mean()
+            Q = 1.0 - x
+        elif y == 1:
+            x = pred.mean()
+            Q = x
+        else:
+            gt[gt>=0.5] = 1
+            gt[gt<0.5] = 0
+            Q = alpha * SegmentationMetric._S_object(pred, gt) + (1-alpha) * SegmentationMetric._S_region(pred, gt)
+            if Q.item() < 0:
+                Q = torch.FloatTensor([0.0])
+        if isinstance(Q, float):
+            raise ValueError("Q is a float")
+        return Q
+
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+
+    class DLabSSVM(nn.Module):
+    def __init__(self, num_classes, num_features, num_iterations=8):
+        super(DLabSSVM, self).__init__()
+        self.num_classes = num_classes
+        self.num_features = num_features
+        self.num_iterations = num_iterations
+
+        self.ssvm = SSVM(num_classes, num_features)
+
+    def forward(self, x, y):
+        """
+        Args:
+            x: torch.Tensor, shape=(N, C, H, W)
+            y: torch.Tensor, shape=(N, H, W)
+        """
+        N, C, H, W = x.shape
+        x = x.view(N, C, -1).permute(0, 2, 1).contiguous()
+        y = y.view(N, -1)
+
+        # 训练SSVM
+        self.ssvm.train(x, y, self.num_iterations)
+
+        # 推理
+        y_pred = self.ssvm.inference(x)
+
+        # CRF后处理
+        y_pred = y_pred.view(N, H, W)
+        x = x.permute(0, 2, 1).view(N, H, W, C).permute(0, 3, 1, 2)
+        y_pred = self.crf(x, y_pred)
+
+        return y_pred
+
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python]
+
+    class RGBandPOSFeature(nn.Module):
+    def __init__(self):
+        super().__init__()
+    
+    def forward(self, x):
+        """
+        Expect x to be an image of size (bs, 3, height, width)
+        Output should be the feature vector of image x
+        with size (bs, f, height, width)
+        """
+        feature_vector = None
+        cf = self.color_feature(x)
+        pf= self.position_feature(x).unsqueeze(0)
+        feature_vector = torch.concat([cf, pf], dim=1)
+
+        return feature_vector
+
+    def color_feature(self, x):
+        return x
+    def position_feature(self, img):
+        _, _, height, width = img.shape
+        xs = torch.arange(0,width)
+        ys = torch.arange(0,height)
+        return torch.stack(torch.meshgrid([ys, xs], indexing="ij"))
+
+\end{lstlisting}
 
 \bibliographystyle{plain}
 \bibliography{references}
