@@ -21,20 +21,18 @@
 \contentsline {subsubsection}{\numberline {3.2.4}整数线性规划}{14}{subsubsection.3.2.4}
 \contentsline {subsection}{\numberline {3.3}基于AdaBoost的伪装目标检测}{15}{subsection.3.3}
 \contentsline {subsubsection}{\numberline {3.3.1}基于Faster R-CNN的定位器与样本生成器}{16}{subsubsection.3.3.1}
-\contentsline {paragraph}{定位器}{16}{paragraph*.15}
-\contentsline {paragraph}{正负样本生成器}{16}{paragraph*.16}
-\contentsline {subsubsection}{\numberline {3.3.2}基于AdaBoost的分类器}{17}{subsubsection.3.3.2}
+\contentsline {paragraph}{定位器}{16}{paragraph*.16}
+\contentsline {paragraph}{正负样本生成器}{17}{paragraph*.17}
+\contentsline {subsubsection}{\numberline {3.3.2}基于AdaBoost的分类器}{18}{subsubsection.3.3.2}
 \contentsline {section}{\numberline {4}实验}{18}{section.4}
 \contentsline {subsection}{\numberline {4.1}数据集}{18}{subsection.4.1}
-\contentsline {paragraph}{CAMO\cite {Le2019AnabranchNF}：}{18}{paragraph*.17}
-\contentsline {paragraph}{COD10k\cite {Fan2020CamouflagedOD}: }{18}{paragraph*.18}
-\contentsline {subsection}{\numberline {4.2}伪装目标分割实验结果分析}{18}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}模型训练分析}{18}{subsubsection.4.2.1}
-\contentsline {paragraph}{训练损失}{19}{paragraph*.21}
-\contentsline {paragraph}{结构度量}{19}{paragraph*.22}
-\contentsline {subsubsection}{\numberline {4.2.2}模型性能对比}{19}{subsubsection.4.2.2}
-\contentsline {subsubsection}{\numberline {4.2.3}不同CRF参数下的性能指标对比}{20}{subsubsection.4.2.3}
-\contentsline {subsubsection}{\numberline {4.2.4}可视化分析}{21}{subsubsection.4.2.4}
-\contentsline {subsection}{\numberline {4.3}伪装目标检测实验结果分析}{23}{subsection.4.3}
-\contentsline {section}{\numberline {5}附录}{23}{section.5}
-\contentsline {subsection}{\numberline {5.1}代码}{23}{subsection.5.1}
+\contentsline {paragraph}{CAMO\cite {Le2019AnabranchNF}：}{18}{paragraph*.18}
+\contentsline {paragraph}{COD10k\cite {Fan2020CamouflagedOD}: }{18}{paragraph*.19}
+\contentsline {subsection}{\numberline {4.2}伪装目标分割实验结果分析}{19}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}模型训练分析}{19}{subsubsection.4.2.1}
+\contentsline {paragraph}{训练损失}{19}{paragraph*.22}
+\contentsline {paragraph}{结构度量}{20}{paragraph*.23}
+\contentsline {subsubsection}{\numberline {4.2.2}模型性能对比}{20}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}不同CRF参数下的性能指标对比}{21}{subsubsection.4.2.3}
+\contentsline {subsubsection}{\numberline {4.2.4}可视化分析}{22}{subsubsection.4.2.4}
+\contentsline {section}{\numberline {5}代码}{23}{section.5}

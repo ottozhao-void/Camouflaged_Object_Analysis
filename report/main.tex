@@ -317,7 +317,13 @@ AdaBoost算法是集成学习的一种，其主要思想是通过结合多个“
     \item \textbf{基于Faster R-CNN的定位器与样本生成器：} 该模块主要用来实现对伪装目标的定位，以及用于生成训练AdaBoost分类器的的正负样本特征。
     \item \textbf{基于AdaBoost的分类器：} 该模块对Faster R-CNN提供的候选框特征进行分类。输出类别1对应着伪装目标，输出类别0对应着背景。
 \end{enumerate}
-为了方便起见，称该任务所使用的模型为\textbf{RegionBoost}。接下来将对各个部分进行介绍，模型流程图可见\textbf{图。。}
+为了方便起见，称该任务所使用的模型为\textbf{RegionBoost}。接下来将对各个部分进行介绍，模型结构可见\ref{fig:RegionBoost}。
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\textwidth]{figures/RegionBoost.png}
+    \caption{RegionBoost模型结构\label{fig:RegionBoost}}
+\end{figure}
 
 \subsubsection{基于Faster R-CNN的定位器与样本生成器}
 首先在伪装目标数据集上对Faster R-CNN进行训练，使其能够较好的理解伪装数据集的分布。之后冻结Faster R-CNN的权重。
@@ -357,7 +363,7 @@ Faster R-CNN在这里充当以下角色：
 
 AdaBoost的实现主要在于基学习器的设计。在RegionBoost中使用浅层全连接网络作为AdaBoost的基学习器，这种设计主要出于以下考虑：
 \begin{enumerate}
-    \item \textbf{高纬输入：} AdaBoost分类器的输入是从Faster R-CNN中提取的经过扁平化处理后的特征图，而特征图的尺寸通常在$1024\times7\times 7$，也就是说每个样本特征的维度是50176。传统弱学习器如决策树可能会面临计算复杂度过高或者过拟合于某些特征子空间而限制泛化能力的问题
+    \item \textbf{高维输入：} AdaBoost分类器的输入是从Faster R-CNN中提取的经过扁平化处理后的特征图，而特征图的尺寸通常在$1024\times7\times 7$，也就是说每个样本特征的维度是50176。传统弱学习器如决策树可能会面临计算复杂度过高或者过拟合于某些特征子空间而限制泛化能力的问题
     \item \textbf{全连接网络强大的泛化能力：} 即使是浅层全连接网络依然可以产生对数据不错的拟合能力和泛化能力
 \end{enumerate}
 故综上考虑，使用浅层全连接网络作为基学习器。
@@ -460,7 +466,7 @@ AdaBoost的实现主要在于基学习器的设计。在RegionBoost中使用浅�
 \begin{enumerate}
     \item \textbf{SSVM结构过于简单：} SSVM结构设计采用深度较浅的全连接线性层，无法有效的捕捉到像素间的结构关系，存在结构信息丢失的问题
     \item \textbf{推理算法的选择：} 因为DLabSSVM使用整数线性规划(ILP)来进行推理，故为了保证训练过程的可行性与高效性，
-    即在训练时能够在有限时间内找到约束条件下的最具代表性的伪掩码进行指导训练，我通过将得分图的分辨率进行降低，并在最后使用插值的方式将分割掩码恢复到原始分辨率，
+    即在训练时能够在有限时间内找到约束条件下的最具代表性的伪掩码进行指导训练，我将得分图的分辨率进行降低，并在最后使用插值的方式将分割掩码恢复到原始分辨率，
     这样的处理方式可能会导致分割掩码的边界模糊，离散伪分割区域较多等问题，这一点在\ref{sec:visual}中也可以看出来。
     \item \textbf{像素间结构关系的建模过于简单：} 我只考虑了像素与其右侧和下侧的第一个像素间的关系，这种建模方式
     易于实现，但是对于像素间的结构关系捕捉不够充分，导致DLabSSVM模型的性能在DeepLab模型之下。
@@ -575,19 +581,13 @@ AdaBoost的实现主要在于基学习器的设计。在RegionBoost中使用浅�
     \caption{COD10K 可视化 \label{fig:COD10K_demo1}}
 \end{figure}
 
-我分别从CAMO Test和COD10K Test数据集中选取了一张图片进行可视化分析，从中可以看出分割效果最好的是DLabCRF模型，分割边界最平滑，分割区域集中，没有出现明显的误分类区域。
+分别从CAMO Test和COD10K Test数据集中选取了一张图片进行可视化分析，从中可以看出分割效果最好的是DLabCRF模型，分割边界最平滑，分割区域集中，没有出现明显的误分类区域。
 但其也没有完全能够恢复伪装目标的全部细节，比如图\ref{fig:COD10K_demo1}中的猫头鹰的耳朵部分就没有被分割出来。
 
 DeepLab模型与DLabSSVM模型在可视化上可以看出有明显的误分割区域，但DeepLab模型的分割边界更加平滑，
 DLabSSVM模型的分割边界更加锯齿化, 且DLabSSVM的误分割区域更多。
 
-
-\subsection{伪装目标检测实验结果分析}
-
-
-
-\section{附录}
-\subsection{代码}
+\section{代码}
 
 
 \bibliographystyle{plain}
