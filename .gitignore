@@ -5,8 +5,6 @@ __pycache__/
 /wandb/
 /weights/
 
-*.pth
-*.pth.tar
 *.caffemodel
 *.npy
 *.prototxt

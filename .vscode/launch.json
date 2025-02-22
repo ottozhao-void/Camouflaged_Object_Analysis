@@ -2,6 +2,15 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "CLIP similarity",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/data1/zhaofanghan/moment_detr/measure_sim.py",
+            "console": "integratedTerminal",
+            "cwd": "/data1/zhaofanghan/moment_detr",
+            "justMyCode": true,
+        },
+        {
             "name": "DDP Debug - One Process",
             "type": "debugpy",
             "request": "launch",

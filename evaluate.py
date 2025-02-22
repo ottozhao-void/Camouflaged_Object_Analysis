@@ -331,7 +331,7 @@ def test(args):
     state_dict = torch.load("/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/checkpoint_60.pth")
     model.load_state_dict(state_dict)
     model = DDP(model, device_ids=[device]) if args.distributed else model
-    
+     
     test_dataset = CamouflageDataset(
         split_ratio=config.DATASET.TEST_SIZE,
         dataset=args.dataset,

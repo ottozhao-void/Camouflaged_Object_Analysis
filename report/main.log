@@ -1,300 +1,156 @@
-This is LuaTeX, Version 1.0.4 (TeX Live 2017/Debian)  (format=lualatex 2023.5.31)  20 JAN 2025 23:49
+This is LuaHBTeX, Version 1.14.0 (TeX Live 2022/dev/Debian)  (format=lualatex 2025.1.29)  29 JAN 2025 04:03
  restricted system commands enabled.
  file:line:error style messages enabled.
-**/data1/zhaofanghan/Advanced_ML_Coursework/report/main -output-directory=./out
-(/data1/zhaofanghan/Advanced_ML_Coursework/report/main.tex
-LaTeX2e <2017-04-15>
-Lua module: luaotfload-main 2017/01/29 2.80001 OpenType layout system.
-Lua module: lualibs 2017-02-01 2.5 ConTeXt Lua standard libraries.
-Lua module: lualibs-extended 2017-02-01 2.5 ConTeXt Lua libraries -- extended collection.(using write cache: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic)(using read cache: /var/lib/texmf/luatex-cache/generic /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic)
-luaotfload | conf : Root cache directory is /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/names.
-luaotfload | init : Loading fontloader “fontloader-2017-02-11.lua” from kpse-resolved path “/usr/share/texlive/texmf-dist/tex/luatex/luaotfload/fontloader-2017-02-11.lua”.
-Lua-only attribute luaotfload@state = 1
-Lua-only attribute luaotfload@noligature = 2
-Lua-only attribute luaotfload@syllabe = 3
-luaotfload | init : Context OpenType loader version “3.027”
+**/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/report/main -output-directory=./out
+(/data/sinopec/xjtu/zfh/Advanced_ML_Coursework/report/main.tex
+LaTeX2e <2021-11-15> patch level 1
+Lua module: luaotfload 2021-05-21 3.18 Lua based OpenType font support
+Lua module: lualibs 2021-05-20 2.74 ConTeXt Lua standard libraries.
+Lua module: lualibs-extended 2021-05-20 2.74 ConTeXt Lua libraries -- extended collection.
+luaotfload | conf : Root cache directory is "/home/aipha/.texlive2021/texmf-var/luatex-cache/generic/names".
+luaotfload | init : Loading fontloader "fontloader-2021-05-20.lua" from kpse-resolved path "/usr/share/texlive/texmf-dist/tex/luatex/luaotfload/fontloader-2021-05-20.lua".
+Lua-only attribute luaotfload@noligature = 1
+Lua-only attribute luaotfload@syllabe = 2
+luaotfload | init : Context OpenType loader version 3.116
 Inserting `luaotfload.node_processor' at position 1 in `pre_linebreak_filter'.
 Inserting `luaotfload.node_processor' at position 1 in `hpack_filter'.
+Inserting `luaotfload.glyph_stream' at position 1 in `glyph_stream_provider'.
 Inserting `luaotfload.define_font' at position 1 in `define_font'.
-Lua-only attribute luaotfload_color_attribute = 4
-luaotfload | conf : Root cache directory is /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/names.
+Lua-only attribute luaotfload_color_attribute = 3
+luaotfload | conf : Root cache directory is "/home/aipha/.texlive2021/texmf-var/luatex-cache/generic/names".
+Inserting `luaotfload.harf.strip_prefix' at position 1 in `find_opentype_file'.
+Inserting `luaotfload.harf.strip_prefix' at position 1 in `find_truetype_file'.
+Inserting `luaotfload.harf.finalize_vlist' at position 1 in `post_linebreak_filter'.
+Inserting `luaotfload.harf.finalize_hlist' at position 2 in `hpack_filter'.
+Inserting `luaotfload.cleanup_files' at position 1 in `wrapup_run'.
+Inserting `luaotfload.harf.finalize_unicode' at position 1 in `finish_pdffile'.
+Inserting `luaotfload.glyphinfo' at position 1 in `glyph_info'.
+Lua-only attribute luaotfload.letterspace_done = 4
 Inserting `luaotfload.aux.set_sscale_dimens' at position 1 in `luaotfload.patch_font'.
-Inserting `luaotfload.aux.patch_cambria_domh' at position 2 in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_font_index' at position 2 in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.patch_cambria_domh' at position 3 in `luaotfload.patch_font'.
 Inserting `luaotfload.aux.fixup_fontdata' at position 1 in `luaotfload.patch_font_unsafe'.
-Inserting `luaotfload.aux.set_capheight' at position 3 in `luaotfload.patch_font'.
-Inserting `luaotfload.rewrite_fontname' at position 4 in `luaotfload.patch_font'.
-luaotfload | main : initialization completed in 0.089 seconds
-Babel <3.18> and hyphenation patterns for 1 language(s) loaded.
-(/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexart.cls (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2018/02/21 L3 programming layer (loader) 
- (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3-code.tex
-Package: expl3 2018/02/21 L3 programming layer (code)
-\ucharcat@table=\catcodetable5
-\c_max_int=\count79
-\l_tmpa_int=\count80
-\l_tmpb_int=\count81
-\g_tmpa_int=\count82
-\g_tmpb_int=\count83
-\g__intarray_font_int=\count84
-\g__prg_map_int=\count85
-\c_log_iow=\count86
-\l_iow_line_count_int=\count87
-\l__iow_line_target_int=\count88
-\l__iow_one_indent_int=\count89
-\l__iow_indent_int=\count90
-\c_zero_dim=\dimen102
-\c_max_dim=\dimen103
-\l_tmpa_dim=\dimen104
-\l_tmpb_dim=\dimen105
-\g_tmpa_dim=\dimen106
-\g_tmpb_dim=\dimen107
-\c_zero_skip=\skip41
-\c_max_skip=\skip42
-\l_tmpa_skip=\skip43
-\l_tmpb_skip=\skip44
-\g_tmpa_skip=\skip45
-\g_tmpb_skip=\skip46
-\c_zero_muskip=\muskip10
-\c_max_muskip=\muskip11
-\l_tmpa_muskip=\muskip12
-\l_tmpb_muskip=\muskip13
-\g_tmpa_muskip=\muskip14
-\g_tmpb_muskip=\muskip15
-\l_keys_choice_int=\count91
-\c__fp_leading_shift_int=\count92
-\c__fp_middle_shift_int=\count93
-\c__fp_trailing_shift_int=\count94
-\c__fp_big_leading_shift_int=\count95
-\c__fp_big_middle_shift_int=\count96
-\c__fp_big_trailing_shift_int=\count97
-\c__fp_Bigg_leading_shift_int=\count98
-\c__fp_Bigg_middle_shift_int=\count99
-\c__fp_Bigg_trailing_shift_int=\count100
-\c__fp_rand_size_int=\count101
-\c__fp_rand_four_int=\count102
-\c__fp_rand_eight_int=\count103
-\l__sort_length_int=\count104
-\l__sort_min_int=\count105
-\l__sort_top_int=\count106
-\l__sort_max_int=\count107
-\l__sort_true_max_int=\count108
-\l__sort_block_int=\count109
-\l__sort_begin_int=\count110
-\l__sort_end_int=\count111
-\l__sort_A_int=\count112
-\l__sort_B_int=\count113
-\l__sort_C_int=\count114
-\l__tl_build_start_index_int=\count115
-\l__tl_build_index_int=\count116
-\l__tl_analysis_normal_int=\count117
-\l__tl_analysis_index_int=\count118
-\l__tl_analysis_nesting_int=\count119
-\l__tl_analysis_type_int=\count120
-\l__regex_internal_a_int=\count121
-\l__regex_internal_b_int=\count122
-\l__regex_internal_c_int=\count123
-\l__regex_balance_int=\count124
-\l__regex_group_level_int=\count125
-\l__regex_mode_int=\count126
-\c__regex_cs_in_class_mode_int=\count127
-\c__regex_cs_mode_int=\count128
-\l__regex_catcodes_int=\count129
-\l__regex_default_catcodes_int=\count130
-\c__regex_catcode_L_int=\count131
-\c__regex_catcode_O_int=\count132
-\c__regex_catcode_A_int=\count133
-\c__regex_all_catcodes_int=\count134
-\l__regex_show_lines_int=\count135
-\l__regex_min_state_int=\count136
-\l__regex_max_state_int=\count137
-\l__regex_left_state_int=\count138
-\l__regex_right_state_int=\count139
-\l__regex_capturing_group_int=\count140
-\l__regex_min_pos_int=\count141
-\l__regex_max_pos_int=\count142
-\l__regex_curr_pos_int=\count143
-\l__regex_start_pos_int=\count144
-\l__regex_success_pos_int=\count145
-\l__regex_curr_char_int=\count146
-\l__regex_curr_catcode_int=\count147
-\l__regex_last_char_int=\count148
-\l__regex_case_changed_char_int=\count149
-\l__regex_curr_state_int=\count150
-\l__regex_step_int=\count151
-\l__regex_min_active_int=\count152
-\l__regex_max_active_int=\count153
-\l__regex_replacement_csnames_int=\count154
-\l__regex_match_count_int=\count155
-\l__regex_min_submatch_int=\count156
-\l__regex_submatch_int=\count157
-\l__regex_zeroth_submatch_int=\count158
-\g__regex_trace_regex_int=\count159
-\c_empty_box=\box26
-\l_tmpa_box=\box27
-\l_tmpb_box=\box28
-\g_tmpa_box=\box29
-\g_tmpb_box=\box30
-\l__box_top_dim=\dimen108
-\l__box_bottom_dim=\dimen109
-\l__box_left_dim=\dimen110
-\l__box_right_dim=\dimen111
-\l__box_top_new_dim=\dimen112
-\l__box_bottom_new_dim=\dimen113
-\l__box_left_new_dim=\dimen114
-\l__box_right_new_dim=\dimen115
-\l__box_internal_box=\box31
-\l__coffin_internal_box=\box32
-\l__coffin_internal_dim=\dimen116
-\l__coffin_offset_x_dim=\dimen117
-\l__coffin_offset_y_dim=\dimen118
-\l__coffin_x_dim=\dimen119
-\l__coffin_y_dim=\dimen120
-\l__coffin_x_prime_dim=\dimen121
-\l__coffin_y_prime_dim=\dimen122
-\c_empty_coffin=\box33
-\l__coffin_aligned_coffin=\box34
-\l__coffin_aligned_internal_coffin=\box35
-\l_tmpa_coffin=\box36
-\l_tmpb_coffin=\box37
-\l__coffin_display_coffin=\box38
-\l__coffin_display_coord_coffin=\box39
-\l__coffin_display_pole_coffin=\box40
-\l__coffin_display_offset_dim=\dimen123
-\l__coffin_display_x_dim=\dimen124
-\l__coffin_display_y_dim=\dimen125
-\l__coffin_bounding_shift_dim=\dimen126
-\l__coffin_left_corner_dim=\dimen127
-\l__coffin_right_corner_dim=\dimen128
-\l__coffin_bottom_corner_dim=\dimen129
-\l__coffin_top_corner_dim=\dimen130
-\l__coffin_scaled_total_height_dim=\dimen131
-\l__coffin_scaled_width_dim=\dimen132
-) (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/l3pdfmode.def
-File: l3pdfmode.def 2017/03/18 v L3 Experimental driver: PDF mode
-\l__driver_color_stack_int=\count160
-\l__driver_tmp_box=\box41
+Inserting `luaotfload.aux.set_capheight' at position 4 in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_xheight' at position 5 in `luaotfload.patch_font'.
+Inserting `luaotfload.rewrite_fontname' at position 6 in `luaotfload.patch_font'. L3 programming layer <2022-01-21>
+Inserting `tracingstacklevels' at position 1 in `input_level_string'. (/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexart.cls (/usr/share/texlive/texmf-dist/tex/latex/ctex/config/ctexbackend.cfg
+File: ctexbackend.cfg 2021/12/12 v2.5.8 Backend configuration file (CTEX)
+) (/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2022-01-21 L3 programming layer (loader) 
+ (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
+File: l3backend-luatex.def 2022-01-12 L3 backend support: PDF output (LuaTeX)
+\l__color_backend_stack_int=\count183
+\l__pdf_internal_box=\box50
 ))
-Document Class: ctexart 2018/01/28 v2.4.12 Chinese adapter for class article (CTEX)
+Document Class: ctexart 2021/12/12 v2.5.8 Chinese adapter for class article (CTEX)
 (/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
-Package: xparse 2018/02/21 L3 Experimental document command parser
-\l__xparse_current_arg_int=\count161
-\g__xparse_grabber_int=\count162
-\l__xparse_m_args_int=\count163
-\l__xparse_mandatory_args_int=\count164
-\l__xparse_v_nesting_int=\count165
+Package: xparse 2022-01-12 L3 Experimental document command parser
 ) (/usr/share/texlive/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
-Package: l3keys2e 2018/02/21 LaTeX2e option processing using LaTeX3 keys
-)
-\g__file_internal_ior=\read1
- (/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexhook.sty
-Package: ctexhook 2018/01/28 v2.4.12 Document and package hooks (CTEX)
+Package: l3keys2e 2022-01-12 LaTeX2e option processing using LaTeX3 keys
+) (/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexhook.sty
+Package: ctexhook 2021/12/12 v2.5.8 Document and package hooks (CTEX)
+\c__ctex_package_cctab=\catcodetable12
 ) (/usr/share/texlive/texmf-dist/tex/latex/ctex/ctexpatch.sty
-Package: ctexpatch 2018/01/28 v2.4.12 Patching commands (CTEX)
+Package: ctexpatch 2021/12/12 v2.5.8 Patching commands (CTEX)
 ) (/usr/share/texlive/texmf-dist/tex/latex/base/fix-cm.sty
-Package: fix-cm 2015/01/14 v1.1t fixes to LaTeX
+Package: fix-cm 2020/11/24 v1.1t fixes to LaTeX
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1enc.def
 File: ts1enc.def 2001/06/05 v3.0e (jk/car/fm) Standard LaTeX file
-)) (/usr/share/texlive/texmf-dist/tex/latex/ms/everysel.sty
-Package: everysel 2011/10/28 v1.2 EverySelectfont Package (MS)
-)
-\l__ctex_tmp_int=\count166
-\l__ctex_tmp_box=\box42
-\l__ctex_tmp_dim=\dimen133
-\g__ctex_font_size_flag=\count167
+LaTeX Font Info:    Redeclaring font encoding TS1 on input line 47.
+))
+\l__ctex_tmp_int=\count184
+\l__ctex_tmp_box=\box51
+\l__ctex_tmp_dim=\dimen137
+\g__ctex_section_depth_int=\count185
+\g__ctex_font_size_int=\count186
+\g__cctab_next_cctab=\catcodetable13
  (/usr/share/texlive/texmf-dist/tex/latex/ctex/config/ctexopts.cfg
-File: ctexopts.cfg 2018/01/28 v2.4.12 Option configuration file (CTEX)
+File: ctexopts.cfg 2021/12/12 v2.5.8 Option configuration file (CTEX)
 ) (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
+Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo
-File: size12.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
-luaotfload | db : Font names database loaded from /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/names/luaotfload-names.luc(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmroman12-regular.luc))
-\c@part=\count168
-\c@section=\count169
-\c@subsection=\count170
-\c@subsubsection=\count171
-\c@paragraph=\count172
-\c@subparagraph=\count173
-\c@figure=\count174
-\c@table=\count175
+File: size12.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
+luaotfload | db : Font names database loaded from /home/aipha/.texlive2021/texmf-var/luatex-cache/generic/names/luaotfload-names.luc)
+\c@part=\count187
+\c@section=\count188
+\c@subsection=\count189
+\c@subsubsection=\count190
+\c@paragraph=\count191
+\c@subparagraph=\count192
+\c@figure=\count193
+\c@table=\count194
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
-\bibindent=\dimen134
+\bibindent=\dimen138
 ) (/usr/share/texlive/texmf-dist/tex/latex/ctex/engine/ctex-engine-luatex.def
-File: ctex-engine-luatex.def 2018/01/28 v2.4.12 LuaLaTeX adapter (CTEX)
+File: ctex-engine-luatex.def 2021/12/12 v2.5.8 LuaLaTeX adapter (CTEX)
  (/usr/share/texlive/texmf-dist/tex/luatex/luatexja/luatexja.sty
-Package: luatexja 2018/01/21 Japanese Typesetting with Lua(La)TeX
+Package: luatexja 2022-01-03 Japanese Typesetting with Lua(La)TeX
  (/usr/share/texlive/texmf-dist/tex/luatex/luatexja/luatexja-core.sty
-Package: luatexja-core 2017/11/12 Core of LuaTeX-ja
+Package: luatexja-core 2021-05-21 Core of LuaTeX-ja
  (/usr/share/texlive/texmf-dist/tex/luatex/luatexbase/luatexbase.sty
 Package: luatexbase 2015/10/04 v1.3 luatexbase interface to LuaTeX 
  (/usr/share/texlive/texmf-dist/tex/luatex/ctablestack/ctablestack.sty
 Package: ctablestack 2015/10/01 v1.0 Catcode table stable support
-\@catcodetablestackcnt=\count176
+\@catcodetablestackcnt=\count195
 )
-\CatcodeTableOther=\catcodetable6
-\CatcodeTableExpl=\catcodetable7
-) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
-Package: ltxcmds 2016/05/16 v1.23 LaTeX kernel commands for general use (HO)
-) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-Package: pdftexcmds 2018/01/21 v0.26 Utility functions of pdfTeX for LuaTeX (HO)
- (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
-Package: infwarerr 2016/05/16 v1.4 Providing info/warning/error messages (HO)
-) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
-Package: ifluatex 2016/05/16 v1.4 Provides the ifluatex switch (HO)
-Package ifluatex Info: LuaTeX detected.
-) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
-Package: ifpdf 2017/03/15 v3.2 Provides the ifpdf switch
+\CatcodeTableOther=\catcodetable14
+\CatcodeTableExpl=\catcodetable15
+) (/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2020/03/06 v1.0d TeX engine tests
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-\pdftexcmds@toks=\toks14
+\pdftexcmds@toks=\toks16
 ) (/usr/share/texlive/texmf-dist/tex/latex/xkeyval/xkeyval.sty
-Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+Package: xkeyval 2020/11/20 v2.8 package option processing (HA)
  (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkeyval.tex (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks15
-\XKV@tempa@toks=\toks16
+\XKV@toks=\toks17
+\XKV@tempa@toks=\toks18
  (/usr/share/texlive/texmf-dist/tex/generic/xkeyval/keyval.tex))
-\XKV@depth=\count177
+\XKV@depth=\count196
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
-)) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/atbegshi.sty
-Package: atbegshi 2016/06/09 v1.18 At begin shipout hook (HO)
-) (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2018/02/11 v2.5e e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count178
-)
-\AtBeginShipoutBox=\box43
- (/usr/share/texlive/texmf-dist/tex/latex/everyhook/everyhook.sty (/usr/share/texlive/texmf-dist/tex/latex/svn-prov/svn-prov.sty
+)) (/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count197
+) (/usr/share/texlive/texmf-dist/tex/latex/everyhook/everyhook.sty (/usr/share/texlive/texmf-dist/tex/latex/svn-prov/svn-prov.sty
 Package: svn-prov 2010/04/24 v3.1862 Package Date/Version from SVN Keywords
 )
 Package: everyhook 2014/11/26 v1.2 (SVN Rev: 12)\ Hooks for low level TeX everyX primitives.
-\everypar=\toks17
-\frozen@everymath=\toks18
-\frozen@everydisplay=\toks19
-\everyhbox=\toks20
-\everyvbox=\toks21
-\everycr=\toks22
+\everypar=\toks19
+\frozen@everymath=\toks20
+\frozen@everydisplay=\toks21
+\everyhbox=\toks22
+\everyvbox=\toks23
+\everycr=\toks24
 )
-\ltjlineendcomment=\count179
-\ltj@zw=\dimen135
-\ltj@zh=\dimen136
-\jQ=\dimen137
+\ltjlineendcomment=\count198
+\ltj@dimen@zw=\dimen139
+\ltj@dimen@zh=\dimen140
+\ltj@dimen@jQ=\dimen141
 \ltj@icflag=\attribute5
 \ltj@curjfnt=\attribute6
 \ltj@curtfnt=\attribute7
-\ltj@origchar=\attribute8
-\ltj@charclass=\attribute9
-\ltj@charcode=\attribute10
-\ltj@autospc=\attribute11
-\ltj@autoxspc=\attribute12
-\ltj@yablshift=\attribute13
-\ltj@ykblshift=\attribute14
-\ltj@tablshift=\attribute15
-\ltj@tkblshift=\attribute16
-\jfam=\attribute17
+\ltj@charclass=\attribute8
+\ltj@charcode=\attribute9
+\ltj@autospc=\attribute10
+\ltj@autoxspc=\attribute11
+\ltj@yablshift=\attribute12
+\ltj@ykblshift=\attribute13
+\ltj@tablshift=\attribute14
+\ltj@tkblshift=\attribute15
+\jfam=\attribute16
+\ltj@vert@ori=\attribute17
 \ltj@dir=\attribute18
 \ltj@@japanese=\language2
-\ltj@tempcnta=\count180
+\ltj@tempcnta=\count199
 \ltj@kcat0=\attribute19
 \ltj@kcat1=\attribute20
 \ltj@kcat2=\attribute21
@@ -306,61 +162,71 @@ Custom whatsit inhibitglue = 1
 Custom whatsit stack_marker = 2
 Custom whatsit begin_par = 3
 Custom whatsit direction = 4
-Custom whatsit box_boundary = 5(load cache: /home/zhaofanghan/.texlive2017/texmf-var/luatexja/ltj-cid-auto-adobe-japan1.luc)
-Lua module: luatexja.charrange 2017/05/05 Handling the range of Japanese characters
-Lua module: luatexja.stack 2017/05/05 LuaTeX-ja stack system
-Inserting `ltj.create_dir_whatsit' at position 2 in `hpack_filter'.
-Inserting `ltj.create_dir_whatsit' at position 1 in `post_linebreak_filter'.
+Custom whatsit box_boundary = 5
+Custom whatsit ja_al_boundary = 6(load cache: ltj-cid-auto-adobe-japan1.luc)
+Lua module: luatexja.charrange 2020-07-30 Handling the range of Japanese characters
+Lua module: luatexja.stack 2020-07-30 LuaTeX-ja stack system
+Inserting `ltj.create_dir_whatsit' at position 3 in `hpack_filter'.
+Inserting `ltj.create_dir_whatsit' at position 2 in `post_linebreak_filter'.
 Inserting `ltj.direction' at position 1 in `vpack_filter'.
 Inserting `ltj.direction' at position 1 in `pre_output_filter'.
-Inserting `ltj.direction' at position 1 in `append_to_vlist_filter'.
-Lua module: luatexja.jfont 2017/09/04 Loader for Japanese fonts
+Inserting `ltj.lineskip' at position 3 in `post_linebreak_filter'.
+Inserting `ltj.lineskip' at position 1 in `append_to_vlist_filter'.
+Lua module: luatexja.jfont 2021-11-06 Loader for Japanese fonts
 Removing  `luaotfload.define_font' from `define_font'.
 Inserting `luatexja.font_callback' at position 1 in `define_font'.
 Removing  `luaotfload.aux.set_sscale_dimens' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_font_index' from `luaotfload.patch_font'.
 Removing  `luaotfload.aux.patch_cambria_domh' from `luaotfload.patch_font'.
 Removing  `luaotfload.aux.set_capheight' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_xheight' from `luaotfload.patch_font'.
 Removing  `luaotfload.rewrite_fontname' from `luaotfload.patch_font'.
 Inserting `ltj.prepare_extra_data' at position 1 in `luaotfload.patch_font'.
 Inserting `luaotfload.aux.set_sscale_dimens' at position 2 in `luaotfload.patch_font'.
-Inserting `luaotfload.aux.patch_cambria_domh' at position 3 in `luaotfload.patch_font'.
-Inserting `luaotfload.aux.set_capheight' at position 4 in `luaotfload.patch_font'.
-Inserting `luaotfload.rewrite_fontname' at position 5 in `luaotfload.patch_font'.
-Inserting `ltj.prepare_extra_data' at position 1 in `luatexja.define_font'.(load cache: /home/zhaofanghan/.texlive2017/texmf-var/luatexja/extra_lmroman12-regular.luc)
-Inserting `ltj.v_advance' at position 1 in `luatexja.define_jfont'.
-Removing  `ltj.v_advance' from `luatexja.define_jfont'.
+Inserting `luaotfload.aux.set_font_index' at position 3 in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.patch_cambria_domh' at position 4 in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_capheight' at position 5 in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_xheight' at position 6 in `luaotfload.patch_font'.
+Inserting `luaotfload.rewrite_fontname' at position 7 in `luaotfload.patch_font'.
+Inserting `ltj.prepare_extra_data' at position 1 in `luatexja.define_font'.(load cache: extra_lmroman12-regular.luc)
 Inserting `ltj.get_vert_form' at position 1 in `luatexja.define_jfont'.
-Inserting `ltj.v_advance' at position 2 in `luatexja.define_jfont'.
 Removing  `ltj.prepare_extra_data' from `luaotfload.patch_font'.
 Removing  `luaotfload.aux.set_sscale_dimens' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_font_index' from `luaotfload.patch_font'.
 Removing  `luaotfload.aux.patch_cambria_domh' from `luaotfload.patch_font'.
 Removing  `luaotfload.aux.set_capheight' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_xheight' from `luaotfload.patch_font'.
 Removing  `luaotfload.rewrite_fontname' from `luaotfload.patch_font'.
 Inserting `ltj.supply_tounicode' at position 1 in `luaotfload.patch_font'.
 Inserting `ltj.prepare_extra_data' at position 2 in `luaotfload.patch_font'.
 Inserting `luaotfload.aux.set_sscale_dimens' at position 3 in `luaotfload.patch_font'.
-Inserting `luaotfload.aux.patch_cambria_domh' at position 4 in `luaotfload.patch_font'.
-Inserting `luaotfload.aux.set_capheight' at position 5 in `luaotfload.patch_font'.
-Inserting `luaotfload.rewrite_fontname' at position 6 in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_font_index' at position 4 in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.patch_cambria_domh' at position 5 in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_capheight' at position 6 in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_xheight' at position 7 in `luaotfload.patch_font'.
+Inserting `luaotfload.rewrite_fontname' at position 8 in `luaotfload.patch_font'.
 Inserting `ltj.process_input_buffer' at position 1 in `process_input_buffer'.
 Inserting `ltj.hyphenate' at position 1 in `hyphenate'.
 Removing  `luaotfload.node_processor' from `hpack_filter'.
+Removing  `luaotfload.harf.finalize_hlist' from `hpack_filter'.
 Removing  `ltj.create_dir_whatsit' from `hpack_filter'.
 Inserting `ltj.set_stack_level' at position 1 in `hpack_filter'.
 Inserting `luaotfload.node_processor' at position 2 in `hpack_filter'.
-Inserting `ltj.create_dir_whatsit' at position 3 in `hpack_filter'.
+Inserting `luaotfload.harf.finalize_hlist' at position 3 in `hpack_filter'.
+Inserting `ltj.create_dir_whatsit' at position 4 in `hpack_filter'.
 Removing  `luaotfload.node_processor' from `pre_linebreak_filter'.
 Inserting `ltj.set_stack_level' at position 1 in `pre_linebreak_filter'.
 Inserting `luaotfload.node_processor' at position 2 in `pre_linebreak_filter'.
-Lua module: luatexja.jfmglue 2017/05/05 Insertion process of JFM glues and kanjiskip
+Lua module: luatexja.jfmglue 2022-01-02 Insertion process of JFM glues, [x]kanjiskip and others
 Inserting `luatexja.beginpar.np_info' at position 1 in `luatexja.jfmglue.whatsit_getinfo'.
 Inserting `luatexja.beginpar.np_info_after' at position 1 in `luatexja.jfmglue.whatsit_after'.
-Inserting `ltj.mlist_to_hlist' at position 1 in `mlist_to_hlist'.
-Lua module: luatexja.tangle 2011/05/14 
+Inserting `ltj.mlist_to_hlist_pre' at position 1 in `pre_mlist_to_hlist_filter'.
 Inserting `ltj.main' at position 3 in `pre_linebreak_filter'.
+Removing  `luaotfload.harf.finalize_hlist' from `hpack_filter'.
 Removing  `ltj.create_dir_whatsit' from `hpack_filter'.
 Inserting `ltj.main' at position 3 in `hpack_filter'.
-Inserting `ltj.create_dir_whatsit' at position 4 in `hpack_filter'.
+Inserting `luaotfload.harf.finalize_hlist' at position 4 in `hpack_filter'.
+Inserting `ltj.create_dir_whatsit' at position 5 in `hpack_filter'.
 Removing  `ltj.set_stack_level' from `pre_linebreak_filter'.
 Removing  `luaotfload.node_processor' from `pre_linebreak_filter'.
 Removing  `ltj.main' from `pre_linebreak_filter'.
@@ -371,877 +237,312 @@ Inserting `ltj.main' at position 4 in `pre_linebreak_filter'.
 Removing  `ltj.set_stack_level' from `hpack_filter'.
 Removing  `luaotfload.node_processor' from `hpack_filter'.
 Removing  `ltj.main' from `hpack_filter'.
+Removing  `luaotfload.harf.finalize_hlist' from `hpack_filter'.
 Removing  `ltj.create_dir_whatsit' from `hpack_filter'.
 Inserting `ltj.adjust_icflag' at position 1 in `hpack_filter'.
 Inserting `ltj.set_stack_level' at position 2 in `hpack_filter'.
 Inserting `luaotfload.node_processor' at position 3 in `hpack_filter'.
 Inserting `ltj.main' at position 4 in `hpack_filter'.
-Inserting `ltj.create_dir_whatsit' at position 5 in `hpack_filter'. (/usr/share/texlive/texmf-dist/tex/luatex/luatexja/ltj-base.sty
-Package: ltj-base 2017/05/05
-\ltj@tempcntb=\count181
-\ltj@tempcntc=\count182
-\ltj@tempdima=\dimen138
-\ltj@afbox=\box44
+Inserting `luaotfload.harf.finalize_hlist' at position 5 in `hpack_filter'.
+Inserting `ltj.create_dir_whatsit' at position 6 in `hpack_filter'. (/usr/share/texlive/texmf-dist/tex/luatex/luatexja/ltj-base.sty
+Package: ltj-base 2021-03-16
+\ltj@tempcntb=\count266
+\ltj@tempcntc=\count267
+\ltj@tempdima=\dimen142
+\ltj@afbox=\box52
 )
-\ltj@@italic@inner=\luafunction1
-\ltj@@jfont@inner=\luafunction2
-\ltj@zw@inner=\luafunction3
-\ltj@zh@inner=\luafunction4
-\ltj@reset@globaldefs@inner=\luafunction5
-\ltj@restore@globaldefs@inner=\luafunction6
-\ltj@@ihb@inner=\luafunction7
-\ltj@@fakeparbegin@inner=\luafunction8
-\ltj@@fakeboxbdd@inner=\luafunction9
-\ltj@@stack=\count183
-\ltj@@group@level=\count184
-\ltjsetkanjiskip@inner=\luafunction10
-\ltjsetxkanjiskip@inner=\luafunction11
-\ltj@@box@dirhook=\luafunction12
-\ltj@@reset@badness@inner=\luafunction13
-\ltj@temp@cctb=\catcodetable8
-) (/usr/share/texlive/texmf-dist/tex/luatex/luatexja/luatexja-compat.sty
-Package: luatexja-compat 2017/05/05 Compatibility with pTeX
-(load cache: /home/zhaofanghan/.texlive2017/texmf-var/luatexja/ltj-jisx0208.luc)
-\hour=\count185
-\minute=\count186
-)) (/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.sty
-Package: fontspec 2017/11/09 v2.6g Font selection for XeLaTeX and LuaLaTeX
-Lua module: fontspec 2017/11/09 2.6g Font selection for XeLaTeX and LuaLaTeX (/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec-luatex.sty
-Package: fontspec-luatex 2017/11/09 v2.6g Font selection for XeLaTeX and LuaLaTeX
-\l__fontspec_script_int=\count187
-\l__fontspec_language_int=\count188
-\l__fontspec_strnum_int=\count189
-\l__fontspec_tmp_int=\count190
-\l__fontspec_em_int=\count191
-\l__fontspec_emdef_int=\count192
-\l__fontspec_strong_int=\count193
-\l__fontspec_strongdef_int=\count194
-\l__fontspec_tmpa_dim=\dimen139
-\l__fontspec_tmpb_dim=\dimen140
-\l__fontspec_tmpc_dim=\dimen141
- (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
- (/usr/share/texlive/texmf-dist/tex/latex/base/tuenc.def
-File: tuenc.def 2017/04/05 v2.0i Standard LaTeX file
-LaTeX Font Info:    Redeclaring font encoding TU on input line 82.
-))
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \fontspec with sig. 'O{}mO{}' on line 545.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setmainfont with sig. 'O{}mO{}' on line 549.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setsansfont with sig. 'O{}mO{}' on line 553.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setmonofont with sig. 'O{}mO{}' on line 557.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setmathrm with sig. 'O{}mO{}' on line 561.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setboldmathrm with sig. 'O{}mO{}' on line 565.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setmathsf with sig. 'O{}mO{}' on line 569.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setmathtt with sig. 'O{}mO{}' on line 573.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setromanfont with sig. 'O{}mO{}' on line 577.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \newfontfamily with sig. 'mO{}mO{}' on line 581.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \newfontface with sig. 'mO{}mO{}' on line 585.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \defaultfontfeatures with sig. 't+om' on line 589.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \addfontfeatures with sig. 'm' on line 593.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \addfontfeature with sig. 'm' on line 597.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \newfontfeature with sig. 'mm' on line 601.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \newAATfeature with sig. 'mmmm' on line 605.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \newopentypefeature with sig. 'mmm' on line 609.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \newICUfeature with sig. 'mmm' on line 613.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \aliasfontfeature with sig. 'mm' on line 617.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \aliasfontfeatureoption with sig. 'mmm' on line 621.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \newfontscript with sig. 'mm' on line 625.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \newfontlanguage with sig. 'mm' on line 629.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareFontsExtensions with sig. 'm' on line 633.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \IfFontFeatureActiveTF with sig. 'mmm' on line 637.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \EncodingCommand with sig. 'mO{}m' on line 3366.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \EncodingAccent with sig. 'mm' on line 3372.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \EncodingSymbol with sig. 'mm' on line 3378.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \EncodingComposite with sig. 'mmm' on line 3384.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \EncodingCompositeCommand with sig. 'mmm' on line 3390.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUnicodeEncoding with sig. 'mm' on line 3415.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \UndeclareSymbol with sig. 'm' on line 3421.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \UndeclareAccent with sig. 'm' on line 3427.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \UndeclareCommand with sig. 'm' on line 3433.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \UndeclareComposite with sig. 'mm' on line 3440.
-.................................................
- (/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.cfg)
-LaTeX Info: Redefining \itshape on input line 3625.
-LaTeX Info: Redefining \slshape on input line 3630.
-LaTeX Info: Redefining \scshape on input line 3635.
-LaTeX Info: Redefining \upshape on input line 3640.
-LaTeX Info: Redefining \em on input line 3670.
-LaTeX Info: Redefining \emph on input line 3695.
-(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmroman12-bold.luc)(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmroman12-italic.luc)
-LaTeX Info: Redefining \- on input line 3749.
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \oldstylenums with sig. 'm' on line 3844.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \liningnums with sig. 'm' on line 3848.
-.................................................
-)) (/usr/share/texlive/texmf-dist/tex/xelatex/xecjk/xunicode-addon.sty
-Package: xunicode-addon 2018/02/27 v3.6.1 addon file for xunicode
- (/usr/share/texlive/texmf-dist/tex/xelatex/xunicode/xunicode.sty
-File: xunicode.sty 2011/09/09 v0.981 provides access to latin accents and many other characters in Unicode lower plane
- (/usr/share/texmf/tex/latex/tipa/t3enc.def
-File: t3enc.def 2001/12/31 T3 encoding
-(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmromanslant12-regular.luc)(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmsans12-regular.luc))
-\tipaTiiicode=\count195
-\tipasavetokens=\toks23
-\tipachecktokens=\toks24
- (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
-Package: graphicx 2017/06/01 v1.1a Enhanced LaTeX Graphics (DPC,SPQR)
- (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
-Package: graphics 2017/06/25 v1.2c Standard LaTeX Graphics (DPC,SPQR)
- (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
-Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
-) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
-File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
-)
-Package graphics Info: Driver file: luatex.def on input line 99.
- (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/luatex.def
-File: luatex.def 2018/01/08 v1.0l Graphics/color driver for luatex
-))
-\Gin@req@height=\dimen142
-\Gin@req@width=\dimen143
-))
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \ReloadXunicode with sig. 'm' on line 82.
-.................................................
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \DeclareUTFmathsymbols with sig. 'm' on line 127.
-.................................................
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \UseMathAsText with sig. '' on line 136.
-.................................................
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \UndeclareUTFcharacter with sig. 'O{\UTFencname }mm' on
-. line 171.
-.................................................
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \UndeclareUTFcomposite with sig. 'O{\UTFencname }mmm' on
-. line 178.
-.................................................
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \DeclareUTFcharacter with sig. 'O{\UTFencname }mm' on
-. line 209.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFSymbol with sig. 'mO{\UTFencname }m' on line
-. 235.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFCommand with sig. 'mO{\UTFencname }m' on line
-. 237.
-.................................................
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \DeclareUTFcomposite with sig. 'O{\UTFencname }mmm' on
-. line 282.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFCompositeCommand with sig. 'mO{\UTFencname }mm'
-. on line 295.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFCompositeSymbol with sig. 'mO{\UTFencname }mm'
-. on line 300.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFComposite with sig. 'mO{\UTFencname }' on line
-. 302.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFEncodedAccent with sig. 'mO{\UTFencname }mm' on
-. line 304.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFEncodedAccents with sig. 'mO{\UTFencname }mm' on
-. line 306.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFEncodedSymbol with sig. 'mO{\UTFencname }mm' on
-. line 308.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFEncodedCircle with sig. 'mO{\UTFencname }mm' on
-. line 310.
-.................................................
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \DeclareEncodedCompositeCharacter with sig. 'mmmm' on
-. line 312.
-.................................................
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \DeclareEncodedCompositeAccents with sig. 'mmmm' on line
-. 314.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFDoubleEncodedAccent with sig. 'mO{\UTFencname
-. }mm' on line 316.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFDoubleEncodedSymbol with sig. 'mO{\UTFencname
-. }mm' on line 318.
-.................................................
-\l__xunadd_tmp_coffin=\box45
-\l__xunadd_circle_coffin=\box46
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \settextcircledratio with sig. 'm' on line 467.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \AtBeginUTFCommand with sig. 'sO{}+m' on line 536.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \AtEndUTFCommand with sig. 'sO{}+m' on line 546.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \DeclareUTFTIPACommand with sig. 'O{\UTFencname }m' on line
-. 578.
-.................................................
-) (/usr/share/texlive/texmf-dist/tex/xelatex/xunicode/xunicode.sty
-File: xunicode.sty 2011/09/09 v0.981 provides access to latin accents and many other characters in Unicode lower plane
+\ltj@@italic@inner=\luafunction25
+\ltj@@start@time@measure@inner=\luafunction26
+\ltj@@stop@time@measure@inner=\luafunction27
+\ltj@@jfont@inner=\luafunction28
+\ltj@zw@inner=\luafunction29
+\ltj@zh@inner=\luafunction30
+\ltj@reset@globaldefs@inner=\luafunction31
+\ltj@restore@globaldefs@inner=\luafunction32
+\ltj@@disihb@inner=\luafunction33
+\ltj@@ihb@inner=\luafunction34
+\ltj@@fakeparbegin@inner=\luafunction35
+\ltj@@fakeboxbdd@inner=\luafunction36
+\ltj@@ins@xk@inner=\luafunction37
+\ltj@@ins@k@inner=\luafunction38
+\ltj@@stack=\count268
+\ltj@@group@level=\count269
+\ltjsetkanjiskip@inner=\luafunction39
+\ltjsetxkanjiskip@inner=\luafunction40
+\ltj@@getparam@one@inner=\luafunction41
+\ltj@alljachar@inner=\luafunction42
+\ltj@@lua@populate@insertwhatsit@inner=\luafunction43
+\ltj@@vadjust@dirhook@inner=\luafunction44
+\ltj@@vadjust@check@dir@inner=\luafunction45
+\ltj@@box@dirhook@inner=\luafunction46
+\ltj@@reset@badness@inner=\luafunction47
+\ltj@@lua@raisebox@inner=\luafunction48
+\ltj@@lua@unboxcheckdir@inner=\luafunction49
+(load cache: ltj-kinsoku_default.luc)
 
-*** Reloading Xunicode for encoding 'TU' ***
-) (/usr/share/texlive/texmf-dist/tex/xelatex/xecjk/xunicode-extra.def
-File: xunicode-extra.def 2018/02/27 v3.6.1 extra definition for xunicode
+Package ctex Info: Package `ltj-latex' can not be loaded with `ctexart'.
+
+\ltj@temp@cctb=\catcodetable16
+) (/usr/share/texlive/texmf-dist/tex/luatex/luatexja/luatexja-compat.sty
+Package: luatexja-compat 2020-08-08 Compatibility with pTeX
+(load cache: ltj-jisx0208.luc)
+\hour=\count270
+\minute=\count271
+)) (/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.sty
+Package: fontspec 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTeX
+Lua module: fontspec 2022/01/15 2.8a Font selection for XeLaTeX and LuaLaTeX (/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec-luatex.sty
+Package: fontspec-luatex 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTeX
+\l__fontspec_script_int=\count272
+\l__fontspec_language_int=\count273
+\l__fontspec_strnum_int=\count274
+\l__fontspec_tmp_int=\count275
+\l__fontspec_tmpa_int=\count276
+\l__fontspec_tmpb_int=\count277
+\l__fontspec_tmpc_int=\count278
+\l__fontspec_em_int=\count279
+\l__fontspec_emdef_int=\count280
+\l__fontspec_strong_int=\count281
+\l__fontspec_strongdef_int=\count282
+\l__fontspec_tmpa_dim=\dimen143
+\l__fontspec_tmpb_dim=\dimen144
+\l__fontspec_tmpc_dim=\dimen145
+ (/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+) (/usr/share/texlive/texmf-dist/tex/latex/fontspec/fontspec.cfg)(load cache: extra_lmroman12-bold.luc)))
+\g__cctab_next_cctab=\catcodetable17
+ (/usr/share/texlive/texmf-dist/tex/latex/base/tuenc.def
+File: tuenc.def 2021/04/29 v2.0v Standard LaTeX file
+\@remove@tlig@@@@=\luafunction50
+LaTeX Font Info:    Redeclaring font encoding TU on input line 106.
 )
+Lua function ctex_ltj_add_kyenc:n = 51
+Lua function ctex_ltj_is_kenc:n = 52
+Lua function ctex_ltj_patch_external_font:n = 53
+Lua function ctex_ltj_use_jfont: = 54
+Lua function ctex_ltj_set_alt_font:nnnn = 55
+Lua function ctex_ltj_clear_alt_font:n = 56
+Lua function ctex_ltj_pickup_alt_font:nn = 57
+Lua function __ctex_ltj_pickup_alt_font:Nn = 58
+Lua function __ctex_ltj_if_alt_set:nT = 59
+Lua function ctex_ltj_zero_globaldefs: = 60
 \symCJKmath=\mathgroup4
 LaTeX Font Info:    Overwriting symbol font `CJKmath' in version `bold'
-(Font)                  LTJY3/song/m/n --> LTJY3/song/bx/n on input line 330.
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \CJKfamily with sig. 'm' on line 420.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \__ctex_ltj_post_arg:w with sig. 'mmmO{}' on line 558.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setCJKfamilyfont with sig. 'mom' on line 564.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \newCJKfontfamily with sig. 'omom' on line 574.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \CJKfontspec with sig. 'om' on line 580.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \addCJKfontfeatures with sig. 'm' on line 585.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setCJKmainfont with sig. 'om' on line 592.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setCJKsansfont with sig. 'om' on line 599.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setCJKmonofont with sig. 'om' on line 605.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \setCJKmathfont with sig. 'om' on line 611.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \defaultCJKfontfeatures with sig. 'm' on line 613.
-.................................................
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \fontfamily with sig. 'm' on line 630.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \ctex_ltj_save_alternate_seq:Nnnwnw with sig.
-. 'mmm+O{}mu{\q_stop }' on line 764.
-.................................................
-\g__ctex_ltj_family_int=\count196
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \ctex_ltj_set_alternate_shape:nnn with sig.
-. 'mm>{\SplitArgument {\c_one }{->}}m' on line 839.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \ctex_ltj_save_char_range:n with sig. '>{\SplitArgument
-. {\c_one }{->}}m' on line 944.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \__ctex_ltj_char_range_parse_feature:w with sig.
-. '+oou{\q_stop }' on line 990.
-.................................................
-
-*************************************************
-* ctex warning: "fntef-not-available"
-* 
-* Functions of `CJKfntef' is not available in LuaLaTeX.
-*************************************************
-\ccwd=\dimen144
+(Font)                  LTJY3/song/m/n --> LTJY3/song/b/n on input line 460.
+\g__ctex_ltj_family_int=\count283
+\ccwd=\dimen146
 \l__ctex_ccglue_skip=\skip49
-(load cache: /home/zhaofanghan/.texlive2017/texmf-var/luatexja/ltj-cid-auto-adobe-gb1.luc)
+(load cache: ltj-cid-auto-adobe-gb1.luc)
 (/usr/share/texlive/texmf-dist/tex/luatex/luatexja/jfm-quanjiao.lua)
 \l__ctex_xkanjiskip_skip=\skip50
-\cht=\dimen145
-\cdp=\dimen146
-\cwd=\dimen147
-\g__ctex_kanjisize_func=\luafunction14
-)
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \ctexset with sig. '' on line 388.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \CTEXsetup with sig. '+o>{\TrimSpaces }m' on line 394.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \CTEXoptions with sig. '+o' on line 400.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \CTEXsetfont with sig. '' on line 418.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \ziju with sig. 'm' on line 490.
-.................................................
-\l__ctex_ziju_dim=\dimen148
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \CTEXindent with sig. '' on line 531.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \CTEXnoindent with sig. '' on line 537.
-.................................................
+\cht=\dimen147
+\cdp=\dimen148
+\cwd=\dimen149
+Lua function ctex_update_kanjisize: = 61)
+\l__ctex_ziju_dim=\dimen150
  (/usr/share/texlive/texmf-dist/tex/latex/zhnumber/zhnumber.sty
-Package: zhnumber 2018/01/28 v2.6 Typesetting numbers with Chinese glyphs
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhnumber with sig. '+o+m' on line 50.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhnumberwithoptions with sig. '+m+m' on line 57.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhnum with sig. '+o+m' on line 111.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhnumwithoptions with sig. '+m+m' on line 118.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhdig with sig. '+o+m' on line 295.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhdigwithoptions with sig. '+m+m' on line 302.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhdigits with sig. '+s+o+m' on line 316.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhdigitswithoptions with sig. '+m+m+m' on line 323.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhdate with sig. '+s+m' on line 382.
-.................................................
-\l__zhnum_scale_int=\count197
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhnumExtendScaleMap with sig. '>{\TrimSpaces }+o+m' on
-. line 504.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zhnumsetup with sig. '+m' on line 934.
-.................................................
+Package: zhnumber 2020/05/01 v2.8 Typesetting numbers with Chinese glyphs
+\l__zhnum_scale_int=\count284
  (/usr/share/texlive/texmf-dist/tex/latex/zhnumber/zhnumber-utf8.cfg
-File: zhnumber-utf8.cfg 2018/01/28 v2.6 Chinese numerals with UTF8 encoding
+File: zhnumber-utf8.cfg 2020/05/01 v2.8 Chinese numerals with UTF8 encoding
 ))
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \CTEXnumber with sig. 'mm' on line 554.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \CTEXdigits with sig. 'mm' on line 556.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \ctex_assign_heading_name:nn with sig. 'm>{\SplitArgument
-. {\c_one }{,}}+m' on line 680.
-.................................................
 \l__ctex_heading_skip=\skip51
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \partmark with sig. 'm' on line 711.
-.................................................
-.................................................
-. LaTeX info: "xparse/redefine-command"
-. 
-. Redefining command \refstepcounter with sig. 'm' on line 1201.
-.................................................
  (/usr/share/texlive/texmf-dist/tex/latex/ctex/scheme/ctex-scheme-chinese-article.def
-File: ctex-scheme-chinese-article.def 2018/01/28 v2.4.12 Chinese scheme for article (CTEX)
+File: ctex-scheme-chinese-article.def 2021/12/12 v2.5.8 Chinese scheme for article (CTEX)
  (/usr/share/texlive/texmf-dist/tex/latex/ctex/config/ctex-name-utf8.cfg
-File: ctex-name-utf8.cfg 2018/01/28 v2.4.12 Caption with encoding UTF8 (CTEX)
-))
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \zihao with sig. 'm' on line 1204.
-.................................................
-(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmroman10-regular.luc)
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \CTeX with sig. '' on line 1308.
-.................................................
- (/usr/share/texlive/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-fandol.def
-File: ctex-fontset-fandol.def 2018/01/28 v2.4.12 Fandol fonts definition (CTEX)
-(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/fandolsong-regular.luc)
-\g__fontspec_family_FandolSong-Regular_int=\count198
-luaotfload | aux : font no 30 (nil) does not define feature smcp for script latn with language dflt
-luaotfload | aux : no font with id 30(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/fandolsong-bold.luc)
-luaotfload | aux : font no 31 (nil) does not define feature smcp for script latn with language dflt
-luaotfload | aux : no font with id 31(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/fandolkai-regular.luc)
-luaotfload | aux : font no 32 (nil) does not define feature smcp for script latn with language dflt
-luaotfload | aux : no font with id 32
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'FandolSong-Regular(0)' created for font 'FandolSong-Regular'
-. with options
-. [JFM=quanjiao,Extension={.otf},BoldFont={FandolSong-Bold},ItalicFont={FandolKai-Regular},LTJFONTUID=1].
-.  
-.  This font family consists of the following NFSS series/shapes:
-.  
-. - 'normal' (m/n) with NFSS spec.:
-. <->"[FandolSong-Regular.otf]:mode=node;script=latn;language=DFLT;jfm=quanjiao;"
-. - 'small caps'  (m/sc) with NFSS spec.: 
-. - 'bold' (bx/n) with NFSS spec.:
-. <->"[FandolSong-Bold.otf]:mode=node;script=latn;language=DFLT;jfm=quanjiao;"
-. - 'bold small caps'  (bx/sc) with NFSS spec.: 
-. - 'italic' (m/it) with NFSS spec.:
-. <->"[FandolKai-Regular.otf]:mode=node;script=latn;language=DFLT;jfm=quanjiao;"
-. - 'italic small caps'  (m/itsc) with NFSS spec.: 
-.................................................
-(load cache: /home/zhaofanghan/.texlive2017/texmf-var/luatexja/extra_fandolsong-regular.luc)
-luaotfload | aux : font no 33 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 33
-luaotfload | aux : font no 33 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 33
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \songti with sig. '' on line 114.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \heiti with sig. '' on line 115.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \fangsong with sig. '' on line 116.
-.................................................
-.................................................
-. LaTeX info: "xparse/define-command"
-. 
-. Defining command \kaishu with sig. '' on line 117.
-.................................................
-)) (/usr/share/texlive/texmf-dist/tex/latex/ctex/config/ctex.cfg
-File: ctex.cfg 2018/01/28 v2.4.12 Configuration file (CTEX)
+File: ctex-name-utf8.cfg 2021/12/12 v2.5.8 Caption with encoding UTF-8 (CTEX)
+))(load cache: extra_lmroman10-regular.luc) (/usr/share/texlive/texmf-dist/tex/latex/ctex/fontset/ctex-fontset-fandol.def
+File: ctex-fontset-fandol.def 2021/12/12 v2.5.8 Fandol fonts definition (CTEX)
+(load cache: extra_fandolsong-regular.luc)
+luaotfload | aux : font no 21 (nil) does not define feature smcp for script latn with language dflt(load cache: extra_fandolsong-bold.luc)
+luaotfload | aux : font no 22 (nil) does not define feature smcp for script latn with language dflt(load cache: extra_fandolkai-regular.luc)
+luaotfload | aux : font no 23 (nil) does not define feature smcp for script latn with language dflt
+
+Package fontspec Info: Font family 'FandolSong-Regular(0)' created for font
+(fontspec)             'FandolSong-Regular' with options
+(fontspec)             [NFSSEncoding=LTJY3,JFM=quanjiao,Extension={.otf},BoldFont={FandolSong-Bold},ItalicFont={FandolKai-Regular},LTJFONTUID=1].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"[FandolSong-Regular.otf]:mode=node;script=latn;language=dflt;jfm=quanjiao;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->"[FandolSong-Bold.otf]:mode=node;script=latn;language=dflt;jfm=quanjiao;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
+(fontspec)             - 'italic' (m/it) with NFSS spec.:
+(fontspec)             <->"[FandolKai-Regular.otf]:mode=node;script=latn;language=dflt;jfm=quanjiao;"
+(fontspec)             - 'italic small caps'  (m/scit) with NFSS spec.: 
+
+luaotfload | aux : font no 24 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 24 (nil) does not define feature vrt2 for script latn with language dflt)) (/usr/share/texlive/texmf-dist/tex/latex/ctex/config/ctex.cfg
+File: ctex.cfg 2021/12/12 v2.5.8 Configuration file (CTEX)
 ) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2017/09/02 v2.17a AMS math features
+Package: amsmath 2021/10/15 v2.17l AMS math features
 \@mathmargin=\skip52
 
 For additional information on amsmath, use the `?' option.
 (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
-Package: amstext 2000/06/29 v2.01 AMS text
+Package: amstext 2021/08/26 v2.01 AMS text
  (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks25
-\ex@=\dimen149
+\ex@=\dimen151
 )) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen150
+\pmbraise@=\dimen152
 ) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
-Package: amsopn 2016/03/08 v2.02 operator names
+Package: amsopn 2021/08/26 v2.02 operator names
 )
-\inf@bad=\count199
-LaTeX Info: Redefining \frac on input line 213.
-\uproot@=\count266
-\leftroot@=\count267
-LaTeX Info: Redefining \overline on input line 375.
-\classnum@=\count268
-\DOTSCASE@=\count269
-LaTeX Info: Redefining \ldots on input line 472.
-LaTeX Info: Redefining \dots on input line 475.
-LaTeX Info: Redefining \cdots on input line 596.
-\Mathstrutbox@=\box47
-\strutbox@=\box48
-\big@size=\dimen151
-LaTeX Font Info:    Redeclaring font encoding OML on input line 712.
-LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
-\macc@depth=\count270
-\c@MaxMatrixCols=\count271
+\inf@bad=\count285
+LaTeX Info: Redefining \frac on input line 236.
+\uproot@=\count286
+\leftroot@=\count287
+LaTeX Info: Redefining \overline on input line 399.
+\classnum@=\count288
+\DOTSCASE@=\count289
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+\big@size=\dimen153
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count290
+\c@MaxMatrixCols=\count291
 \dotsspace@=\muskip16
-\c@parentequation=\count272
-\dspbrk@lvl=\count273
+\c@parentequation=\count292
+\dspbrk@lvl=\count293
 \tag@help=\toks26
-\row@=\count274
-\column@=\count275
-\maxfields@=\count276
+\row@=\count294
+\column@=\count295
+\maxfields@=\count296
 \andhelp@=\toks27
-\eqnshift@=\dimen152
-\alignsep@=\dimen153
-\tagshift@=\dimen154
-\tagwidth@=\dimen155
-\totwidth@=\dimen156
-\lineht@=\dimen157
+\eqnshift@=\dimen154
+\alignsep@=\dimen155
+\tagshift@=\dimen156
+\tagwidth@=\dimen157
+\totwidth@=\dimen158
+\lineht@=\dimen159
 \@envbody=\toks28
 \multlinegap=\skip53
 \multlinetaggap=\skip54
 \mathdisplay@stack=\toks29
-LaTeX Info: Redefining \[ on input line 2817.
-LaTeX Info: Redefining \] on input line 2818.
+LaTeX Info: Redefining \[ on input line 2938.
+LaTeX Info: Redefining \] on input line 2939.
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: luatex.def on input line 107.
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/luatex.def
+File: luatex.def 2021/06/01 v1.2c Graphics/color driver for luatex
+))
+\Gin@req@height=\dimen160
+\Gin@req@width=\dimen161
 ) (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count277
+\c@float@type=\count297
 \float@exts=\toks30
-\float@box=\box49
+\float@box=\box55
 \@float@everytoks=\toks31
-\@floatcapt=\box50
+\@floatcapt=\box56
 ) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2018/02/06 v6.86b Hypertext links for LaTeX
- (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
-Package: hobsub-hyperref 2016/05/16 v1.14 Bundle oberdiek, subset hyperref (HO)
- (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
-Package: hobsub-generic 2016/05/16 v1.14 Bundle oberdiek, subset generic (HO)
-Package: hobsub 2016/05/16 v1.14 Construct package bundles (HO)
-Package hobsub Info: Skipping package `infwarerr' (already loaded).
-Package hobsub Info: Skipping package `ltxcmds' (already loaded).
-Package hobsub Info: Skipping package `ifluatex' (already loaded).
-Package: ifvtex 2016/05/16 v1.6 Detect VTeX and its facilities (HO)
-Package ifvtex Info: VTeX not detected.
-Package: intcalc 2016/05/16 v1.2 Expandable calculations with integers (HO)
-Package hobsub Info: Skipping package `ifpdf' (already loaded).
-Package: etexcmds 2016/05/16 v1.6 Avoid name clashes with e-TeX commands (HO)
-Package: kvsetkeys 2016/05/16 v1.17 Key value parser (HO)
-Package: kvdefinekeys 2016/05/16 v1.4 Define keys (HO)
-Package: luatex-loader 2016/05/16 v0.6 Lua module loader (HO)
-
-(/usr/share/texlive/texmf-dist/scripts/oberdiek/oberdiek.luatex.lua)
-Package hobsub Info: Skipping package `pdftexcmds' (already loaded).
-Package: pdfescape 2016/05/16 v1.14 Implements pdfTeX's escape features (HO)
-Package: bigintcalc 2016/05/16 v1.4 Expandable calculations on big integers (HO)
-Package: bitset 2016/05/16 v1.2 Handle bit-vector datatype (HO)
-Package: uniquecounter 2016/05/16 v1.3 Provide unlimited unique counter (HO)
+Package: hyperref 2021-06-07 v7.00m Hypertext links for LaTeX
+ (/usr/share/texlive/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty
+Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
 )
-Package hobsub Info: Skipping package `hobsub' (already loaded).
-Package: letltxmacro 2016/05/16 v1.5 Let assignment for LaTeX macros (HO)
-Package: hopatch 2016/05/16 v1.3 Wrapper for package hooks (HO)
-Package: xcolor-patch 2016/05/16 xcolor patch
-Package: atveryend 2016/05/16 v1.9 Hooks at the very end of document (HO)
-Package hobsub Info: Skipping package `atbegshi' (already loaded).
-Package: refcount 2016/05/16 v3.5 Data extraction from label references (HO)
-Package: hycolor 2016/05/16 v1.8 Color options for hyperref/bookmark (HO)
-) (/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
-Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
-) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/auxhook.sty
-Package: auxhook 2016/05/16 v1.4 Hooks for auxiliary files (HO)
-) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2016/05/16 v3.12 Key value format for package options (HO)
-)
-\@linkdim=\dimen158
-\Hy@linkcounter=\count278
-\Hy@pagecounter=\count279
+\@linkdim=\dimen162
+\Hy@linkcounter=\count298
+\Hy@pagecounter=\count299
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2018/02/06 v6.86b Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
+File: hyperref-langpatches.def 2021-06-07 v7.00m Hyperref: patches for babel languages
+) (/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count280
- (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/hyperref.cfg
-File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
-)
-Package hyperref Info: Option `unicode' set `true' on input line 4383.
+\Hy@SavedSpaceFactor=\count300
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2018/02/06 v6.86b Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
 )
-Package hyperref Info: Hyper figures OFF on input line 4509.
-Package hyperref Info: Link nesting OFF on input line 4514.
-Package hyperref Info: Hyper index ON on input line 4517.
-Package hyperref Info: Plain pages OFF on input line 4524.
-Package hyperref Info: Backreferencing OFF on input line 4529.
+Package hyperref Info: Option `unicode' set `true' on input line 4073.
+Package hyperref Info: Hyper figures OFF on input line 4192.
+Package hyperref Info: Link nesting OFF on input line 4197.
+Package hyperref Info: Hyper index ON on input line 4200.
+Package hyperref Info: Plain pages OFF on input line 4207.
+Package hyperref Info: Backreferencing OFF on input line 4212.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4762.
-\c@Hy@tempcnt=\count281
+Package hyperref Info: Bookmarks ON on input line 4445.
+\c@Hy@tempcnt=\count301
  (/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 5115.
-\XeTeXLinkMargin=\dimen159
-\Fld@menulength=\count282
-\Field@Width=\dimen160
-\Fld@charsize=\dimen161
-Package hyperref Info: Hyper figures OFF on input line 6369.
-Package hyperref Info: Link nesting OFF on input line 6374.
-Package hyperref Info: Hyper index ON on input line 6377.
-Package hyperref Info: backreferencing OFF on input line 6384.
-Package hyperref Info: Link coloring OFF on input line 6389.
-Package hyperref Info: Link coloring with OCG OFF on input line 6394.
-Package hyperref Info: PDF/A mode OFF on input line 6399.
-LaTeX Info: Redefining \ref on input line 6439.
-LaTeX Info: Redefining \pageref on input line 6443.
-\Hy@abspage=\count283
-\c@Item=\count284
-\c@Hfootnote=\count285
+LaTeX Info: Redefining \url on input line 4804.
+\XeTeXLinkMargin=\dimen163
+ (/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+))
+\Fld@menulength=\count302
+\Field@Width=\dimen164
+\Fld@charsize=\dimen165
+Package hyperref Info: Hyper figures OFF on input line 6076.
+Package hyperref Info: Link nesting OFF on input line 6081.
+Package hyperref Info: Hyper index ON on input line 6084.
+Package hyperref Info: backreferencing OFF on input line 6091.
+Package hyperref Info: Link coloring OFF on input line 6096.
+Package hyperref Info: Link coloring with OCG OFF on input line 6101.
+Package hyperref Info: PDF/A mode OFF on input line 6106.
+LaTeX Info: Redefining \ref on input line 6146.
+LaTeX Info: Redefining \pageref on input line 6150.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count303
+\c@Item=\count304
+\c@Hfootnote=\count305
 )
 Package hyperref Info: Driver (autodetected): hluatex.
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/hluatex.def
-File: hluatex.def 2018/02/06 v6.86b Hyperref driver for luaTeX
-\Fld@listcount=\count286
-\c@bookmark@seq@number=\count287
- (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
-Package: rerunfilecheck 2016/05/16 v1.8 Rerun checks for auxiliary files (HO)
-Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 282.
+File: hluatex.def 2021-06-07 v7.00m Hyperref driver for luaTeX
+ (/usr/share/texlive/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
+) (/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
+with kernel methods
+)
+\Fld@listcount=\count306
+\c@bookmark@seq@number=\count307
+ (/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2019/12/05 v1.9 Rerun checks for auxiliary files (HO)
+ (/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 286.
 )
 \Hy@SectionHShift=\skip55
 ) (/usr/share/texlive/texmf-dist/tex/latex/cite/cite.sty
@@ -1251,156 +552,162 @@ Package: cite 2015/02/27  v 5.5
 ) (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
  (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
-Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \@float@every@algorithm=\toks32
-\c@algorithm=\count288
+\c@algorithm=\count308
 ) (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithmic.sty
 Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
-\c@ALC@unique=\count289
-\c@ALC@line=\count290
-\c@ALC@rem=\count291
-\c@ALC@depth=\count292
+\c@ALC@unique=\count309
+\c@ALC@line=\count310
+\c@ALC@rem=\count311
+\c@ALC@depth=\count312
 \ALC@tlm=\skip56
 \algorithmicindent=\skip57
 ) (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
-Package: booktabs 2016/04/27 v1.618033 publication quality tables
-\heavyrulewidth=\dimen162
-\lightrulewidth=\dimen163
-\cmidrulewidth=\dimen164
-\belowrulesep=\dimen165
-\belowbottomsep=\dimen166
-\aboverulesep=\dimen167
-\abovetopsep=\dimen168
-\cmidrulesep=\dimen169
-\cmidrulekern=\dimen170
-\defaultaddspace=\dimen171
-\@cmidla=\count293
-\@cmidlb=\count294
-\@aboverulesep=\dimen172
-\@belowrulesep=\dimen173
-\@thisruleclass=\count295
-\@lastruleclass=\count296
-\@thisrulewidth=\dimen174
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen166
+\lightrulewidth=\dimen167
+\cmidrulewidth=\dimen168
+\belowrulesep=\dimen169
+\belowbottomsep=\dimen170
+\aboverulesep=\dimen171
+\abovetopsep=\dimen172
+\cmidrulesep=\dimen173
+\cmidrulekern=\dimen174
+\defaultaddspace=\dimen175
+\@cmidla=\count313
+\@cmidlb=\count314
+\@aboverulesep=\dimen176
+\@belowrulesep=\dimen177
+\@thisruleclass=\count315
+\@lastruleclass=\count316
+\@thisrulewidth=\dimen178
 ) (/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
-Package: subcaption 2016/05/22 v1.1-161 Sub-captions (AR)
+Package: subcaption 2020/10/07 v1.3j Sub-captions (AR)
  (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+Package: caption 2020/10/26 v3.5g Customizing captions (AR)
  (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
-Package caption3 Info: TeX engine: e-TeX on input line 67.
-\captionmargin=\dimen175
-\captionmargin@=\dimen176
-\captionwidth=\dimen177
-\caption@tempdima=\dimen178
-\caption@indent=\dimen179
-\caption@parindent=\dimen180
-\caption@hangindent=\dimen181
+Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
+\captionmargin=\dimen179
+\captionmargin@=\dimen180
+\captionwidth=\dimen181
+\caption@tempdima=\dimen182
+\caption@indent=\dimen183
+\caption@parindent=\dimen184
+\caption@hangindent=\dimen185
+Package caption Info: Standard document class detected.
 )
-\c@ContinuedFloat=\count297
+\c@caption@flags=\count317
+\c@continuedfloat=\count318
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 )
-\c@subfigure=\count298
-\c@subtable=\count299
+\c@subfigure=\count319
+\c@subtable=\count320
 ) (/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
-Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
+Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
 \LTleft=\skip58
 \LTright=\skip59
 \LTpre=\skip60
 \LTpost=\skip61
-\LTchunksize=\count300
-\LTcapwidth=\dimen182
-\LT@head=\box51
-\LT@firsthead=\box52
-\LT@foot=\box53
-\LT@lastfoot=\box54
-\LT@cols=\count301
-\LT@rows=\count302
-\c@LT@tables=\count303
-\c@LT@chunks=\count304
+\LTchunksize=\count321
+\LTcapwidth=\dimen186
+\LT@head=\box57
+\LT@firsthead=\box58
+\LT@foot=\box59
+\LT@lastfoot=\box60
+\LT@gbox=\box61
+\LT@cols=\count322
+\LT@rows=\count323
+\c@LT@tables=\count324
+\c@LT@chunks=\count325
 \LT@p@ftn=\toks33
 ) (/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
-Package: array 2016/10/06 v2.4d Tabular extension package (FMi)
-\col@sep=\dimen183
-\extrarowheight=\dimen184
+Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
+\col@sep=\dimen187
+\ar@mcellbox=\box62
+\extrarowheight=\dimen188
 \NC@list=\toks34
 \extratabsurround=\skip62
 \backup@length=\skip63
+\ar@cellbox=\box63
 ) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSa=\mathgroup5
 \symAMSb=\mathgroup6
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 ) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count305
-\lst@gtempboxa=\box55
+\lst@mode=\count326
+\lst@gtempboxa=\box64
 \lst@token=\toks35
-\lst@length=\count306
-\lst@currlwidth=\dimen185
-\lst@column=\count307
-\lst@pos=\count308
-\lst@lostspace=\dimen186
-\lst@width=\dimen187
-\lst@newlines=\count309
-\lst@lineno=\count310
-\lst@maxwidth=\dimen188
+\lst@length=\count327
+\lst@currlwidth=\dimen189
+\lst@column=\count328
+\lst@pos=\count329
+\lst@lostspace=\dimen190
+\lst@width=\dimen191
+\lst@newlines=\count330
+\lst@lineno=\count331
+\lst@maxwidth=\dimen192
  (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
-\c@lstnumber=\count311
-\lst@skipnumbers=\count312
-\lst@framebox=\box56
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+\c@lstnumber=\count332
+\lst@skipnumbers=\count333
+\lst@framebox=\box65
 ) (/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg
-File: listings.cfg 2015/06/04 1.6 listings configuration
+File: listings.cfg 2020/03/24 1.8d listings configuration
 ))
-Package: listings 2015/06/04 1.6 (Carsten Heinz)
- (/usr/share/texlive/texmf-dist/tex/luatex/luatexja/patches/lltjp-listings.sty
-Package: lltjp-listings 2017/05/05 Patch to listings for LuaTeX-ja
- (/usr/share/texlive/texmf-dist/tex/luatex/luatexbase/luatexbase-cctb.sty
+Package: listings 2020/03/24 1.8d (Carsten Heinz)
+ (/usr/share/texlive/texmf-dist/tex/luatex/luatexja/patches/lltjp-listings.sty (/usr/share/texlive/texmf-dist/tex/luatex/luatexbase/luatexbase-cctb.sty
 Package: luatexbase-cctb 2015/10/04 v1.3 luatexbase interface to LuaTeX (legacy subpackage) 
 )
-\CatcodeTableLTJlistings=\catcodetable9
-\ltj@lst@frame@lslimit=\dimen189
+\CatcodeTableLTJlistings=\catcodetable18
+\ltj@lst@frame@lslimit=\dimen193
  (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
-File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
 \lst@WFtoken=\toks36
 \lst@WF=\write3
 )) (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+Package: xcolor 2021/10/31 v2.13 LaTeX color extensions (UK)
  (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
-Package xcolor Info: Driver file: luatex.def on input line 225.
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
-Package xcolor Info: Model `RGB' extended on input line 1364.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
+Package xcolor Info: Driver file: luatex.def on input line 227.
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1352.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1356.
+Package xcolor Info: Model `RGB' extended on input line 1368.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1370.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1371.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1374.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1375.
 ) (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2015/06/04 1.6 listings language file
+File: lstlang1.sty 2020/03/24 1.8d listings language file
 )
 LaTeX Font Info:    Redeclaring symbol font `CJKmath' on input line 35.
 LaTeX Font Info:    Overwriting symbol font `CJKmath' in version `normal'
 (Font)                  LTJY3/song/m/n --> LTJY3/FandolSong-Regular(0)/m/n on input line 35.
 LaTeX Font Info:    Overwriting symbol font `CJKmath' in version `bold'
-(Font)                  LTJY3/song/bx/n --> LTJY3/FandolSong-Regular(0)/m/n on input line 35.
+(Font)                  LTJY3/song/b/n --> LTJY3/FandolSong-Regular(0)/m/n on input line 35.
 LaTeX Font Info:    Overwriting symbol font `CJKmath' in version `bold'
-(Font)                  LTJY3/FandolSong-Regular(0)/m/n --> LTJY3/FandolSong-Regular(0)/bx/n on input line 35.
- (./main.aux)
-\openout1 = main.aux
+(Font)                  LTJY3/FandolSong-Regular(0)/m/n --> LTJY3/FandolSong-Regular(0)/b/n on input line 35.
 
+No file main.aux.
+
+\openout1 = main.aux
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
 LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 35.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
+LaTeX Font Info:    ... okay on input line 35.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
 LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
@@ -1408,27 +715,16 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 35.
-LaTeX Font Info:    ... okay on input line 35.
-LaTeX Font Info:    Checking defaults for T3/cmr/m/n on input line 35.
-LaTeX Font Info:    Try loading font information for T3+cmr on input line 35.
- (/usr/share/texmf/tex/latex/tipa/t3cmr.fd
-File: t3cmr.fd 2001/12/31 TIPA font definitions
-)
-LaTeX Font Info:    ... okay on input line 35.
 LaTeX Font Info:    Checking defaults for LTJY3/song/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
- ABD: EverySelectfont initializing macros
-LaTeX Info: Redefining \selectfont on input line 35.
-.................................................
-. fontspec info: "setup-math"
-. 
-. Adjusting the maths setup (use [no-math] to avoid this).
-.................................................
+
+Package fontspec Info: Adjusting the maths setup (use [no-math] to avoid
+(fontspec)             this).
+
 \symlegacymaths=\mathgroup7
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
 (Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 35.
@@ -1468,56 +764,51 @@ LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
 (Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/lmr/bx/n on input line 35.
+(Font)                  OT1/cmr/bx/n --> TU/lmr/b/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
 (Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
 (Font)                  OT1/cmtt/m/n --> TU/lmtt/m/n on input line 35.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  TU/lmr/m/n --> TU/lmr/bx/n on input line 35.
+(Font)                  TU/lmr/m/n --> TU/lmr/b/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/lmr/bx/it on input line 35.
+(Font)                  OT1/cmr/bx/it --> TU/lmr/b/it on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/bx/n on input line 35.
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 35.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/lmtt/bx/n on input line 35.
- (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+(Font)                  OT1/cmtt/m/n --> TU/lmtt/b/n on input line 35.
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count313
-\scratchdimen=\dimen190
-\scratchbox=\box57
-\nofMPsegments=\count314
-\nofMParguments=\count315
+\scratchcounter=\count334
+\scratchdimen=\dimen194
+\scratchbox=\box66
+\nofMPsegments=\count335
+\nofMParguments=\count336
 \everyMPshowfont=\toks37
-\MPscratchCnt=\count316
-\MPscratchDim=\dimen191
-\MPnumerator=\count317
-\makeMPintoPDFobject=\count318
+\MPscratchCnt=\count337
+\MPscratchDim=\dimen195
+\MPnumerator=\count338
+\makeMPintoPDFobject=\count339
 \everyMPtoPDFconversion=\toks38
-) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
- (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
-)
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 438.
-Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 456.
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package hyperref Info: Link coloring OFF on input line 35.
  (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
- (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
-Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
+Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
+ (/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+) (/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count319
+\c@section@level=\count340
 )
 LaTeX Info: Redefining \ref on input line 35.
 LaTeX Info: Redefining \pageref on input line 35.
 LaTeX Info: Redefining \nameref on input line 35.
- (./main.out) (./main.out)
 \@outlinefile=\write4
 
 \openout4 = main.out
@@ -1525,119 +816,161 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
 Package caption Info: longtable package is loaded.
  (/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty
-Package: ltcaption 2013/06/09 v1.4-94 longtable captions (AR)
+Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
 )
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count320
-(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmroman17-regular.luc)
-luaotfload | aux : font no 35 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 35
-luaotfload | aux : font no 35 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 35(load cache: /home/zhaofanghan/.texlive2017/texmf-var/luatexja/extra_fandolsong-bold.luc)
-luaotfload | aux : font no 37 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 37
-luaotfload | aux : font no 37 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 37 (./main.toc
-luaotfload | aux : font no 38 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 38
-luaotfload | aux : font no 38 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 38(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmroman8-regular.luc)(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmroman6-regular.luc)
-luaotfload | aux : font no 50 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 50
-luaotfload | aux : font no 50 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 50
-luaotfload | aux : font no 51 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 51
-luaotfload | aux : font no 51 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 51
-LaTeX Font Info:    Try loading font information for U+msa on input line 3.
- (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 3.
- (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-))
+\c@lstlisting=\count341
+(load cache: extra_lmroman17-regular.luc)
+luaotfload | aux : font no 26 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 26 (nil) does not define feature vrt2 for script latn with language dflt
+LaTeX Font Info:    Font shape `LTJY3/FandolSong-Regular(0)/bx/n' in size <17.28> not available
+(Font)              Font shape `LTJY3/FandolSong-Regular(0)/b/n' tried instead on input line 37.
+luaotfload | aux : font no 28 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 28 (nil) does not define feature vrt2 for script latn with language dflt
 \tf@toc=\write5
 
 \openout5 = main.toc
+(load cache: extra_lmromanslant12-regular.luc)
 LaTeX Font Info:    Font shape `LTJY3/FandolSong-Regular(0)/m/sl' in size <12> not available
 (Font)              Font shape `LTJY3/FandolSong-Regular(0)/m/it' tried instead on input line 39.
-(load cache: /home/zhaofanghan/.texlive2017/texmf-var/luatexja/extra_fandolkai-regular.luc)
-luaotfload | aux : font no 61 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 61
-luaotfload | aux : font no 61 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 61 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+luaotfload | aux : font no 30 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 30 (nil) does not define feature vrt2 for script latn with language dflt [1
 
-]
-luaotfload | aux : font no 62 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 62
-luaotfload | aux : font no 62 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 62(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmroman7-regular.luc)(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmroman5-regular.luc)
-luaotfload | aux : font no 74 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 74
-luaotfload | aux : font no 74 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 74
-luaotfload | aux : font no 75 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 75
-luaotfload | aux : font no 75 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 75
-luaotfload | aux : font no 86 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 86
-luaotfload | aux : font no 86 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 86
-luaotfload | aux : font no 88 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 88
-luaotfload | aux : font no 88 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 88 [2] [3] [4] [5]
-<figures/small_dist.png, id=204, 349.305pt x 205.36725pt>
+](load cache: extra_lmroman8-regular.luc)(load cache: extra_lmroman6-regular.luc)
+luaotfload | aux : font no 42 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 42 (nil) does not define feature vrt2 for script latn with language dflt
+luaotfload | aux : font no 43 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 43 (nil) does not define feature vrt2 for script latn with language dflt
+LaTeX Font Info:    Trying to load font information for U+msa on input line 50.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 50.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+luaotfload | aux : font no 53 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 53 (nil) does not define feature vrt2 for script latn with language dflt(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
+luaotfload | aux : font no 65 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 65 (nil) does not define feature vrt2 for script latn with language dflt
+luaotfload | aux : font no 66 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 66 (nil) does not define feature vrt2 for script latn with language dflt
+LaTeX Font Info:    Font shape `LTJY3/FandolSong-Regular(0)/bx/n' in size <12> not available
+(Font)              Font shape `LTJY3/FandolSong-Regular(0)/b/n' tried instead on input line 52.
+luaotfload | aux : font no 76 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 76 (nil) does not define feature vrt2 for script latn with language dflt
+luaotfload | aux : font no 78 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 78 (nil) does not define feature vrt2 for script latn with language dflt
+LaTeX Font Info:    Font shape `LTJY3/FandolSong-Regular(0)/bx/n' in size <14.4> not available
+(Font)              Font shape `LTJY3/FandolSong-Regular(0)/b/n' tried instead on input line 59.
+luaotfload | aux : font no 80 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 80 (nil) does not define feature vrt2 for script latn with language dflt
+
+LaTeX Warning: Citation `Otsu1979ATS' on page 2 undefined on input line 60.
+
+
+LaTeX Warning: Citation `Nock2004StatisticalRM' on page 2 undefined on input line 60.
+
+
+LaTeX Warning: Citation `Dhanachandra2015ImageSU' on page 2 undefined on input line 60.
+
+
+LaTeX Warning: Citation `Najman1994WatershedOA' on page 2 undefined on input line 60.
+
+[2]
+
+LaTeX Warning: Citation `Chen2016DeepLabSI' on page 3 undefined on input line 62.
+
+
+LaTeX Warning: Citation `Girshick2013RichFH' on page 3 undefined on input line 70.
+
+
+LaTeX Warning: Citation `Girshick2015FastR' on page 3 undefined on input line 70.
+
+[3]
+
+LaTeX Warning: Citation `Ren2015FasterRT' on page 4 undefined on input line 72.
+
+
+LaTeX Warning: Citation `Fan2020CamouflagedOD' on page 4 undefined on input line 77.
+
+
+LaTeX Warning: Citation `Le2019AnabranchNF' on page 4 undefined on input line 79.
+
+[4]
+
+LaTeX Warning: Citation `Chen2016DeepLabSI' on page 5 undefined on input line 87.
+
+
+LaTeX Warning: Reference `sec:unary' on page 5 undefined on input line 87.
+
+
+LaTeX Warning: Reference `sec:crf' on page 5 undefined on input line 88.
+
+
+LaTeX Warning: Reference `fig:small_dist' on page 5 undefined on input line 94.
+
+
+LaTeX Warning: Reference `fig:small' on page 5 undefined on input line 96.
+
+[5]
+<figures/small_dist.png, id=50, 349.305pt x 205.36725pt>
 File: figures/small_dist.png Graphic file (type png)
 <use figures/small_dist.png>
 Package luatex.def Info: figures/small_dist.png  used on input line 103.
 (luatex.def)             Requested size: 195.0pt x 114.64763pt.
-<figures/small_1_resized.png, id=205, 1027.84pt x 685.56125pt>
+<figures/small_1_resized.png, id=51, 1027.84pt x 685.56125pt>
 File: figures/small_1_resized.png Graphic file (type png)
 <use figures/small_1_resized.png>
 Package luatex.def Info: figures/small_1_resized.png  used on input line 112.
 (luatex.def)             Requested size: 124.80286pt x 83.23665pt.
-<figures/small_2_resized.png, id=206, 1027.84pt x 685.56125pt>
+<figures/small_2_resized.png, id=52, 1027.84pt x 685.56125pt>
 File: figures/small_2_resized.png Graphic file (type png)
 <use figures/small_2_resized.png>
 Package luatex.def Info: figures/small_2_resized.png  used on input line 117.
 (luatex.def)             Requested size: 124.80286pt x 83.23665pt.
-<figures/small_3_resized.png, id=207, 1027.84pt x 685.56125pt>
+<figures/small_3_resized.png, id=53, 1027.84pt x 685.56125pt>
 File: figures/small_3_resized.png Graphic file (type png)
 <use figures/small_3_resized.png>
 Package luatex.def Info: figures/small_3_resized.png  used on input line 122.
 (luatex.def)             Requested size: 124.80286pt x 83.23665pt.
- [6<./figures/small_dist.png><./figures/small_1_resized.png><./figures/small_2_resized.png><./figures/small_3_resized.png>] [7]
+
+
+LaTeX Warning: Citation `Chen2016DeepLabSI' on page 6 undefined on input line 130.
+
+
+LaTeX Warning: Citation `Shelhamer2014FullyCN' on page 6 undefined on input line 132.
+
+[6<./figures/small_dist.png><./figures/small_1_resized.png><./figures/small_2_resized.png><./figures/small_3_resized.png>] [7]
 Overfull \hbox (46.1969pt too wide) detected at line 161
 \OML/cmm/m/it/12 []\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x[]; x[]\OT1/cmr/m/n/12 ) = \OML/cmm/m/it/12 \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 x[]; x[]\OT1/cmr/m/n/12 ) []
  []
 
+
+LaTeX Warning: Reference `alg:meanfield' on page 8 undefined on input line 169.
+
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 174.
-[8](load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/fandolfang-regular.luc)
-\g__fontspec_family_FandolFang-Regular_int=\count321
-luaotfload | aux : font no 89 (nil) does not define feature smcp for script latn with language dflt
-luaotfload | aux : no font with id 89(load luc: /home/zhaofanghan/.texlive2017/texmf-var/luatex-cache/generic/fonts/otl/lmmono12-regular.luc)
-.................................................
-. fontspec info: "defining-font"
-. 
-. Font family 'FandolFang-Regular(0)' created for font 'FandolFang-Regular'
-. with options [JFM=quanjiao,Extension={.otf},LTJFONTUID=3].
-.  
-.  This font family consists of the following NFSS series/shapes:
-.  
-. - 'normal' (m/n) with NFSS spec.:
-. <->"[FandolFang-Regular.otf]:mode=node;script=latn;language=DFLT;jfm=quanjiao;"
-. - 'small caps'  (m/sc) with NFSS spec.: 
-.................................................
-(load cache: /home/zhaofanghan/.texlive2017/texmf-var/luatexja/extra_fandolfang-regular.luc)
-luaotfload | aux : font no 91 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 91
-luaotfload | aux : font no 91 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 91 [9]
-<figures/DLabSSVM/DLabSSVM_training.png, id=266, 744.98325pt x 500.46976pt>
+[8](load cache: extra_fandolfang-regular.luc)
+luaotfload | aux : font no 83 (nil) does not define feature smcp for script latn with language dflt(load cache: extra_lmmono12-regular.luc)
+
+Package fontspec Info: Font family 'FandolFang-Regular(0)' created for font
+(fontspec)             'FandolFang-Regular' with options
+(fontspec)             [NFSSEncoding=LTJY3,JFM=quanjiao,Extension={.otf},LTJFONTUID=3].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"[FandolFang-Regular.otf]:mode=node;script=latn;language=dflt;jfm=quanjiao;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.: 
+
+luaotfload | aux : font no 85 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 85 (nil) does not define feature vrt2 for script latn with language dflt
+
+LaTeX Warning: Reference `sec:crfparam' on page 9 undefined on input line 226.
+
+[9]
+<figures/DLabSSVM/DLabSSVM_training.png, id=108, 744.98325pt x 500.46976pt>
 File: figures/DLabSSVM/DLabSSVM_training.png Graphic file (type png)
 <use figures/DLabSSVM/DLabSSVM_training.png>
 Package luatex.def Info: figures/DLabSSVM/DLabSSVM_training.png  used on input line 241.
@@ -1646,7 +979,7 @@ Package luatex.def Info: figures/DLabSSVM/DLabSSVM_training.png  used on input l
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<figures/DLabSSVM/DLabSSVM_ssvm.png, id=267, 538.4115pt x 260.77425pt>
+<figures/DLabSSVM/DLabSSVM_ssvm.png, id=109, 538.4115pt x 260.77425pt>
 File: figures/DLabSSVM/DLabSSVM_ssvm.png Graphic file (type png)
 <use figures/DLabSSVM/DLabSSVM_ssvm.png>
 Package luatex.def Info: figures/DLabSSVM/DLabSSVM_ssvm.png  used on input line 247.
@@ -1654,49 +987,84 @@ Package luatex.def Info: figures/DLabSSVM/DLabSSVM_ssvm.png  used on input line 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+
+LaTeX Warning: Reference `fig:DLabSSVM' on page 10 undefined on input line 251.
+
+
+LaTeX Warning: Reference `fig:SSVM' on page 10 undefined on input line 260.
+
 [10] [11<./figures/DLabSSVM/DLabSSVM_training.png><./figures/DLabSSVM/DLabSSVM_ssvm.png>]
-<figures/DLabSSVM/DLabSSVM_inference.png, id=286, 583.58025pt x 499.8675pt>
+
+LaTeX Warning: Reference `sec:ILP' on page 12 undefined on input line 271.
+
+<figures/DLabSSVM/DLabSSVM_inference.png, id=126, 583.58025pt x 499.8675pt>
 File: figures/DLabSSVM/DLabSSVM_inference.png Graphic file (type png)
 <use figures/DLabSSVM/DLabSSVM_inference.png>
 Package luatex.def Info: figures/DLabSSVM/DLabSSVM_inference.png  used on input line 288.
 (luatex.def)             Requested size: 390.0pt x 334.06284pt.
 
-
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+
+LaTeX Warning: Reference `fig:inference' on page 12 undefined on input line 292.
+
 [12] [13<./figures/DLabSSVM/DLabSSVM_inference.png>] [14]
-<figures/RegionBoost.png, id=309, 762.4485pt x 455.90324pt>
+
+LaTeX Warning: Reference `fig:RegionBoost' on page 15 undefined on input line 336.
+
+<figures/RegionBoost.png, id=150, 762.4485pt x 455.90324pt>
 File: figures/RegionBoost.png Graphic file (type png)
 <use figures/RegionBoost.png>
 Package luatex.def Info: figures/RegionBoost.png  used on input line 340.
 (luatex.def)             Requested size: 390.0pt x 233.19626pt.
- [15<./figures/RegionBoost.png>] [16]
-<figures/deeplab_train_loss.png, id=340, 609.2361pt x 342.19846pt>
+[15<./figures/RegionBoost.png>] [16]
+
+LaTeX Warning: Citation `Le2019AnabranchNF' on page 17 undefined on input line 392.
+
+
+LaTeX Warning: Citation `Fan2020CamouflagedOD' on page 17 undefined on input line 394.
+
+<figures/deeplab_train_loss.png, id=179, 609.2361pt x 342.19846pt>
 File: figures/deeplab_train_loss.png Graphic file (type png)
 <use figures/deeplab_train_loss.png>
 Package luatex.def Info: figures/deeplab_train_loss.png  used on input line 421.
 (luatex.def)             Requested size: 155.99762pt x 87.61713pt.
-luaotfload | aux : font no 93 (nil) does not define feature vert for script latn with language dflt
-luaotfload | aux : no font with id 93
-luaotfload | aux : font no 93 (nil) does not define feature vrt2 for script latn with language dflt
-luaotfload | aux : no font with id 93
-<figures/ssvm_train_loss.png, id=341, 620.7993pt x 342.19846pt>
+luaotfload | aux : font no 87 (nil) does not define feature vert for script latn with language dflt
+luaotfload | aux : font no 87 (nil) does not define feature vrt2 for script latn with language dflt
+<figures/ssvm_train_loss.png, id=180, 620.7993pt x 342.19846pt>
 File: figures/ssvm_train_loss.png Graphic file (type png)
 <use figures/ssvm_train_loss.png>
 Package luatex.def Info: figures/ssvm_train_loss.png  used on input line 428.
 (luatex.def)             Requested size: 155.99762pt x 85.988pt.
-<figures/deeplab_smeasure.png, id=342, 620.7993pt x 342.19846pt>
+<figures/deeplab_smeasure.png, id=181, 620.7993pt x 342.19846pt>
 File: figures/deeplab_smeasure.png Graphic file (type png)
 <use figures/deeplab_smeasure.png>
 Package luatex.def Info: figures/deeplab_smeasure.png  used on input line 435.
 (luatex.def)             Requested size: 155.99762pt x 85.988pt.
-<figures/ssvm_smeasure.png, id=343, 613.21095pt x 342.19846pt>
+<figures/ssvm_smeasure.png, id=182, 613.21095pt x 342.19846pt>
 File: figures/ssvm_smeasure.png Graphic file (type png)
 <use figures/ssvm_smeasure.png>
 Package luatex.def Info: figures/ssvm_smeasure.png  used on input line 442.
 (luatex.def)             Requested size: 155.99762pt x 87.05319pt.
- [17] [18<./figures/deeplab_train_loss.png><./figures/ssvm_train_loss.png><./figures/deeplab_smeasure.png><./figures/ssvm_smeasure.png>] [19]
-Overfull \hbox (8.52846pt too wide) detected at line 501
+[17]
+
+LaTeX Warning: Reference `fig:dlabloss' on page 18 undefined on input line 450.
+
+
+LaTeX Warning: Reference `fig:dssvmloss' on page 18 undefined on input line 450.
+
+
+LaTeX Warning: Reference `fig:dlabsm' on page 18 undefined on input line 452.
+
+
+LaTeX Warning: Reference `fig:dssvmsm' on page 18 undefined on input line 452.
+
+[18<./figures/deeplab_train_loss.png><./figures/ssvm_train_loss.png><./figures/deeplab_smeasure.png><./figures/ssvm_smeasure.png>]
+
+LaTeX Warning: Reference `sec:visual' on page 19 undefined on input line 486.
+
+[19]
+Overfull \hbox (8.52861pt too wide) detected at line 501
 []
  []
 
@@ -1705,63 +1073,66 @@ Overfull \hbox (12.06001pt too wide) in paragraph at lines 503--504
 [][] |\LTJY3/FandolSong-Regular(0)/m/n/12 上 [] [] [] [] [] [] \TU/lmr/m/n/12 CRF [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] S-Measure
  []
 
-<figures/crfparam_search.png, id=379, 3171.85pt x 1666.225pt>
+<figures/crfparam_search.png, id=216, 3171.85pt x 1666.225pt>
 File: figures/crfparam_search.png Graphic file (type png)
 <use figures/crfparam_search.png>
 Package luatex.def Info: figures/crfparam_search.png  used on input line 507.
 (luatex.def)             Requested size: 390.0pt x 204.87073pt.
 
-Overfull \hbox (4.04788pt too wide) detected at line 521
+LaTeX Warning: Reference `fig:crfps' on page 20 undefined on input line 512.
+
+
+Overfull \hbox (4.04797pt too wide) detected at line 521
 []
  []
 
 [20<./figures/crfparam_search.png>]
-<figures/CAMO_demo1/CAMO_demo1_ori.png, id=389, 979.66pt x 551.05875pt>
+<figures/CAMO_demo1/CAMO_demo1_ori.png, id=225, 979.66pt x 551.05875pt>
 File: figures/CAMO_demo1/CAMO_demo1_ori.png Graphic file (type png)
 <use figures/CAMO_demo1/CAMO_demo1_ori.png>
 Package luatex.def Info: figures/CAMO_demo1/CAMO_demo1_ori.png  used on input line 531.
 (luatex.def)             Requested size: 195.0pt x 109.68005pt.
-<figures/CAMO_demo1/CAMO_demo1_gt.png, id=390, 979.66pt x 551.05875pt>
+<figures/CAMO_demo1/CAMO_demo1_gt.png, id=226, 979.66pt x 551.05875pt>
 File: figures/CAMO_demo1/CAMO_demo1_gt.png Graphic file (type png)
 <use figures/CAMO_demo1/CAMO_demo1_gt.png>
 Package luatex.def Info: figures/CAMO_demo1/CAMO_demo1_gt.png  used on input line 537.
 (luatex.def)             Requested size: 97.5pt x 54.84003pt.
-<figures/CAMO_demo1/CAMO_demo1_pred_ssvm.png, id=391, 979.66pt x 551.05875pt>
+<figures/CAMO_demo1/CAMO_demo1_pred_ssvm.png, id=227, 979.66pt x 551.05875pt>
 File: figures/CAMO_demo1/CAMO_demo1_pred_ssvm.png Graphic file (type png)
 <use figures/CAMO_demo1/CAMO_demo1_pred_ssvm.png>
 Package luatex.def Info: figures/CAMO_demo1/CAMO_demo1_pred_ssvm.png  used on input line 544.
 (luatex.def)             Requested size: 97.5pt x 54.84003pt.
-<figures/CAMO_demo1/CAMO_demo1_pred_crf.png, id=392, 979.66pt x 551.05875pt>
+<figures/CAMO_demo1/CAMO_demo1_pred_crf.png, id=228, 979.66pt x 551.05875pt>
 File: figures/CAMO_demo1/CAMO_demo1_pred_crf.png Graphic file (type png)
 <use figures/CAMO_demo1/CAMO_demo1_pred_crf.png>
 Package luatex.def Info: figures/CAMO_demo1/CAMO_demo1_pred_crf.png  used on input line 551.
 (luatex.def)             Requested size: 97.5pt x 54.84003pt.
-<figures/CAMO_demo1/CAMO_demo1_pred_dlap.png, id=393, 979.66pt x 551.05875pt>
+<figures/CAMO_demo1/CAMO_demo1_pred_dlap.png, id=229, 979.66pt x 551.05875pt>
 File: figures/CAMO_demo1/CAMO_demo1_pred_dlap.png Graphic file (type png)
 <use figures/CAMO_demo1/CAMO_demo1_pred_dlap.png>
 Package luatex.def Info: figures/CAMO_demo1/CAMO_demo1_pred_dlap.png  used on input line 558.
 (luatex.def)             Requested size: 97.5pt x 54.84003pt.
-<figures/COD10K_demo1/COD10K_demo1_ori.png, id=394, 1027.84pt x 687.56876pt>
+<figures/COD10K_demo1/COD10K_demo1_ori.png, id=230, 1027.84pt x 687.56876pt>
 File: figures/COD10K_demo1/COD10K_demo1_ori.png Graphic file (type png)
 <use figures/COD10K_demo1/COD10K_demo1_ori.png>
 Package luatex.def Info: figures/COD10K_demo1/COD10K_demo1_ori.png  used on input line 570.
 (luatex.def)             Requested size: 155.99762pt x 104.34787pt.
-<figures/COD10K_demo1/COD10K_demo1_gt.png, id=395, 1027.84pt x 687.56876pt>
+<figures/COD10K_demo1/COD10K_demo1_gt.png, id=231, 1027.84pt x 687.56876pt>
 File: figures/COD10K_demo1/COD10K_demo1_gt.png Graphic file (type png)
 <use figures/COD10K_demo1/COD10K_demo1_gt.png>
 Package luatex.def Info: figures/COD10K_demo1/COD10K_demo1_gt.png  used on input line 575.
 (luatex.def)             Requested size: 97.5pt x 65.21478pt.
-<figures/COD10K_demo1/COD10K_demo1_pred_ssvm.png, id=396, 1027.84pt x 687.56876pt>
+<figures/COD10K_demo1/COD10K_demo1_pred_ssvm.png, id=232, 1027.84pt x 687.56876pt>
 File: figures/COD10K_demo1/COD10K_demo1_pred_ssvm.png Graphic file (type png)
 <use figures/COD10K_demo1/COD10K_demo1_pred_ssvm.png>
 Package luatex.def Info: figures/COD10K_demo1/COD10K_demo1_pred_ssvm.png  used on input line 581.
 (luatex.def)             Requested size: 97.5pt x 65.21478pt.
-<figures/COD10K_demo1/COD10K_demo1_pred_crf.png, id=397, 1027.84pt x 687.56876pt>
+<figures/COD10K_demo1/COD10K_demo1_pred_crf.png, id=233, 1027.84pt x 687.56876pt>
 File: figures/COD10K_demo1/COD10K_demo1_pred_crf.png Graphic file (type png)
 <use figures/COD10K_demo1/COD10K_demo1_pred_crf.png>
 Package luatex.def Info: figures/COD10K_demo1/COD10K_demo1_pred_crf.png  used on input line 587.
 (luatex.def)             Requested size: 97.5pt x 65.21478pt.
-<figures/COD10K_demo1/COD10K_demo1_pred_dlap.png, id=398, 1027.84pt x 687.56876pt>
+<figures/COD10K_demo1/COD10K_demo1_pred_dlap.png, id=234, 1027.84pt x 687.56876pt>
 File: figures/COD10K_demo1/COD10K_demo1_pred_dlap.png Graphic file (type png)
 <use figures/COD10K_demo1/COD10K_demo1_pred_dlap.png>
 Package luatex.def Info: figures/COD10K_demo1/COD10K_demo1_pred_dlap.png  used on input line 593.
@@ -1769,6 +1140,9 @@ Package luatex.def Info: figures/COD10K_demo1/COD10K_demo1_pred_dlap.png  used o
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+LaTeX Warning: Reference `fig:COD10K_demo1' on page 21 undefined on input line 601.
 
 [21<./figures/CAMO_demo1/CAMO_demo1_ori.png><./figures/CAMO_demo1/CAMO_demo1_gt.png><./figures/CAMO_demo1/CAMO_demo1_pred_ssvm.png><./figures/CAMO_demo1/CAMO_demo1_pred_crf.png><./figures/CAMO_demo1/CAMO_demo1_pred_dlap.png>]
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
@@ -1790,31 +1164,37 @@ Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' at position 1 in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' at position 2 in `process_input_buffer'. [29]
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./main.bbl [30])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 833.
- [31]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 833.
- (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 833.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 833.
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D135F4702CAF5E984033750F4DCF3C22;3136.
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./main.bbl(load cache: extra_lmroman12-italic.luc) [30]) [31] (./main.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  D135F4702CAF5E984033750F4DCF3C22;3136.
 )
 
 Here is how much of LuaTeX's memory you used:
- 31893 strings out of 494480
- 596918,794899 words of node,token memory allocated
- 12454 words of node memory still in use:
-   7 hlist, 2 vlist, 2 rule, 3 glue, 46 kern, 1651 attribute, 1703 glue_spec, 91 attribute_list, 1 write, 10 user_defined nodes
-   avail lists: 1:9,2:106337,3:376,4:9785,5:8499,6:2700,7:7111,8:5289,9:9514,10:25,11:524,12:1
- 34700 multiletter control sequences out of 65536+600000
- 93 fonts using 45171263 bytes
- 59i,10n,94p,991b,1043s stack positions out of 5000i,500n,10000p,200000b,100000s
-</usr/share/texmf/fonts/opentype/public/lm/lmroman12-italic.otf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolFang-Regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman6-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmmono12-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman10-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman7-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman8-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmromanslant12-regular.otf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolSong-Regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman12-bold.otf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolSong-Bold.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman12-regular.otf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolKai-Regular.otf></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on main.pdf (31 pages, 8784624 bytes).
+ 20707 strings out of 477805
+ 745146,953878 words of node,token memory allocated
+ 26087 words of node memory still in use:
+   7 hlist, 2 vlist, 2 rule, 3 glue, 49 kern, 1 glyph, 5726 attribute, 2514 glue_spec, 324 attribute_list, 1 write, 244 user_defined nodes
+   avail lists: 1:6,2:168894,3:354,4:12211,5:8401,6:69,7:8615,8:66,9:17014,10:25,11:524
+ 40130 multiletter control sequences out of 65536+600000
+ 88 fonts using 47161175 bytes
+ 88i,10n,128p,986b,1070s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texmf/fonts/opentype/public/lm/lmroman12-italic.otf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolFang-Regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman6-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmmono12-regular.otf><</home/aipha/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi6.600pk>><</home/aipha/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmsy8.600pk>><</home/aipha/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmsy6.600pk>><</usr/share/texlive/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr8.pk>><</home/aipha/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi8.600pk>><</home/aipha/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmex10.720pk>><</home/aipha/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmsy10.720pk>><</usr/share/texlive/texmf-dist/fonts/pk/ljfour/public/cm/dpi600/cmr12.pk>><</home/aipha/.texlive2021/texmf-var/fonts/pk/ljfour/public/cm/cmmi12.600pk>></usr/share/texmf/fonts/opentype/public/lm/lmroman10-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman7-regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman8-regular.otf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolSong-Regular.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman12-bold.otf></usr/share/texmf/fonts/opentype/public/lm/lmromanslant12-regular.otf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolSong-Bold.otf></usr/share/texmf/fonts/opentype/public/lm/lmroman12-regular.otf></usr/share/texlive/texmf-dist/fonts/opentype/public/fandol/FandolKai-Regular.otf>
+Output written on main.pdf (31 pages, 8731888 bytes).
 
-PDF statistics: 797 PDF objects out of 1000 (max. 8388607)
- 670 compressed objects within 7 object streams
+PDF statistics: 757 PDF objects out of 1000 (max. 8388607)
+ 526 compressed objects within 6 object streams
  351 named destinations out of 1000 (max. 131072)
- 209 words of extra memory for PDF output out of 10000 (max. 100000000)
+ 1 words of extra memory for PDF output out of 10000 (max. 100000000)
 
